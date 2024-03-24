@@ -55,7 +55,7 @@ export async function fetchConversationDialogsForCreatingAudio({
     },
   });
 
-  for (const [index, dialog] of Array.from(conversation.dialog.entries())) {
+  for (const dialog of conversation.dialog) {
     pubsub.topic("create-dialog-audio").publishMessage({
       json: {
         dialogId: dialog.id,

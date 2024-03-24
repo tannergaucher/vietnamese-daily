@@ -70,9 +70,9 @@ functions.cloudEvent("fetchConversationDialogsForCreatingAudio", function (cloud
 function fetchConversationDialogsForCreatingAudio(_a) {
     var conversationId = _a.conversationId, prisma = _a.prisma, pubsub = _a.pubsub;
     return __awaiter(this, void 0, void 0, function () {
-        var conversation, _i, _b, _c, index, dialog;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var conversation, _i, _b, dialog;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0: return [4 /*yield*/, prisma.conversation.findUniqueOrThrow({
                         where: {
                             id: conversationId,
@@ -82,13 +82,12 @@ function fetchConversationDialogsForCreatingAudio(_a) {
                         },
                     })];
                 case 1:
-                    conversation = _d.sent();
-                    for (_i = 0, _b = Array.from(conversation.dialog.entries()); _i < _b.length; _i++) {
-                        _c = _b[_i], index = _c[0], dialog = _c[1];
+                    conversation = _c.sent();
+                    for (_i = 0, _b = conversation.dialog; _i < _b.length; _i++) {
+                        dialog = _b[_i];
                         pubsub.topic("create-dialog-audio").publishMessage({
                             json: {
                                 dialogId: dialog.id,
-                                speaker: index % 2 === 0 ? "male" : "female",
                             },
                         });
                     }
