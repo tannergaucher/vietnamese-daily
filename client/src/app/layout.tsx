@@ -3,7 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Functional Vietnamese",
+  title: "Daily Vietnamese",
   description:
     "Learn Vietnamese with conversations delivered to your inbox every day.",
 };
@@ -27,7 +27,7 @@ export default function RootLayout({
         <footer className="bg-vietnam-red text-white p-4">
           <form className="flex flex-col items-center justify-center">
             <label htmlFor="email" className="my-4 text-xl">
-              Subscribe to daily Vietnamese conversations.
+              Subscribe for daily Vietnamese conversations.
             </label>
             <div className="flex justify-evenly items-center">
               <input
