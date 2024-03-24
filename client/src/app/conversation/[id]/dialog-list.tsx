@@ -45,7 +45,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
     <section className="mb-8">
       <button
         onClick={startConversation}
-        className="mx-4 px-6 py-4 mb-10 bg-vietnam-red text-white rounded shadow hover:bg-white hover:text-black focus:outline-none text-xl"
+        className="mx-4 px-6 py-4 mt-6 mb-10 bg-vietnam-red text-white rounded shadow hover:bg-white hover:text-black focus:outline-none text-xl"
       >
         Start Conversation
       </button>
