@@ -8,6 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "be-vietnam-pro": ['"Be Vietnam Pro"', "sans-serif"],
+      },
+      colors: {
+        "vietnam-red": "#d90000",
+        "vietnam-yellow": "#ffcc00",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

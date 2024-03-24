@@ -43,10 +43,10 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
   };
 
   return (
-    <section>
+    <section className="mb-8">
       <button
         onClick={startConversation}
-        className="mx-4 px-6 py-4 mb-8 bg-green-500 text-white rounded shadow hover:bg-green-600 active:bg-green-700 focus:outline-none"
+        className="mx-4 px-6 py-4 mb-10 bg-vietnam-red text-white rounded shadow hover:bg-white hover:text-black focus:outline-none text-xl"
       >
         Start Conversation
       </button>
@@ -64,26 +64,33 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
           }`}
             key={dialog.id}
             onClick={() => {
-              setCurrentPlayingIndex(index);
-              // Pause and reset all other audios
-              audioRefs.current.forEach((audio, audioIndex) => {
-                if (audio && audioIndex !== index) {
-                  audio.pause();
-                  audio.currentTime = 0;
+              if (currentPlayingIndex === index) {
+                const audio = audioRefs.current[index];
+                if (audio) {
+                  audio.paused ? audio.play() : audio.pause();
                 }
-              });
+              } else {
+                setCurrentPlayingIndex(index);
+                // Pause and reset all other audios
+                audioRefs.current.forEach((audio, audioIndex) => {
+                  if (audio && audioIndex !== index) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                  }
+                });
 
-              // Play the clicked audio
-              const audio = audioRefs.current[index];
-              if (audio) {
-                audio.play();
+                // Play the clicked audio
+                const audio = audioRefs.current[index];
+                if (audio) {
+                  audio.play();
+                }
               }
             }}
           >
-            <small>
+            <small className="text-slate-500">
               <em>{dialog.speaker}</em>
             </small>{" "}
-            <p className="text-xl">{dialog.vietnamese}</p>
+            <p className="text-2xl">{dialog.vietnamese}</p>
             <audio
               ref={(audio) => {
                 audioRefs.current[index] = audio;
