@@ -6,7 +6,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vietnamese Daily",
+  title: "Functional Vietnamese",
   description:
     "Learn Vietnamese with conversations delivered to your inbox every day.",
 };
@@ -19,8 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          <Link href="/">
+        <header className="bg-gray-800 text-white p-4">
+          <Link href="/" className="text-2xl font-bold hover:text-gray-300">
             <h1>{metadata.title?.toString()}</h1>
           </Link>
         </header>

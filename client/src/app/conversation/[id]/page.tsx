@@ -34,8 +34,9 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main>
-      <h2>{conversation.title}</h2>
-      <hr />
+      <h2 className="px-4 py-12 text-2xl font-semibold">
+        {conversation.title}
+      </h2>
       <DialogList dialog={sortedDialog} />
     </main>
   );
