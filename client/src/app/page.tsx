@@ -12,6 +12,7 @@ export default async function Home() {
             key={conversation.id}
             className="cursor-pointer hover:bg-gray-700 hover:rounded-lg"
           >
+            <small>{conversation.createdAt.toDateString()}</small>
             <Link
               href={`conversation/${conversation.id}`}
               className="block p-4 transition-colors duration-200 hover:text-white text-3xl"
