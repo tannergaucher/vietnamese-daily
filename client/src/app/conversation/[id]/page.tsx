@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { prisma } from "../../../prisma";
-import { storage, audioBucket } from "../../../storage";
+import { prisma } from "@/prisma";
+import { audioBucket } from "@/storage";
 
 import DialogList from "./dialog-list";
 
