@@ -20,23 +20,22 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
   }, [dialog]);
 
   const startConversation = () => {
-    setCurrentPlayingIndex(0);
-
     const audio = audioRefs.current[0];
     if (audio) {
+      setCurrentPlayingIndex(0);
       audio.play();
     }
   };
 
   const playNext = (index: number) => {
-    setCurrentPlayingIndex(index + 1);
-
     const nextAudio = audioRefs.current[index + 1];
     if (nextAudio) {
+      setCurrentPlayingIndex(index + 1);
       nextAudio.play();
     }
 
     const nextLi = liRefs.current[index + 1];
+
     if (nextLi) {
       nextLi.scrollIntoView({ behavior: "smooth" });
     }
@@ -66,11 +65,11 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
             onClick={() => {
               if (currentPlayingIndex === index) {
                 const audio = audioRefs.current[index];
+
                 if (audio) {
                   audio.paused ? audio.play() : audio.pause();
                 }
               } else {
-                setCurrentPlayingIndex(index);
                 // Pause and reset all other audios
                 audioRefs.current.forEach((audio, audioIndex) => {
                   if (audio && audioIndex !== index) {
@@ -82,6 +81,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
                 // Play the clicked audio
                 const audio = audioRefs.current[index];
                 if (audio) {
+                  setCurrentPlayingIndex(index);
                   audio.play();
                 }
               }

@@ -13,7 +13,8 @@
         "--trigger-http",
         "--runtime=nodejs18",
         "--allow-unauthenticated",
-        "--entry-point=createDialog"
+        "--entry-point=createDialog",
+        "--env-vars-file=.env.yaml"
       ]
     }
   ],

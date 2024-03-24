@@ -10,5 +10,6 @@ gcloud functions deploy createDialog \
   --source="." \
   --entry-point="createDialog" \
   --allow-unauthenticated \
-  --trigger-http
+  --trigger-http \
+  --env-vars-file=".env.yaml"
 ```
