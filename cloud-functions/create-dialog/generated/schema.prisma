@@ -1,0 +1,44 @@
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../client/src/generated"
+}
+
+generator createDialog {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-dialog/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createDialogAudio {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-dialog-audio/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator fetchConversationDialogsForCreatingAudio {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/fetch-conversation-dialogs-for-creating-audio/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+model Conversation {
+  id     String   @id @default(uuid())
+  title  String
+  dialog Dialog[]
+}
+
+model Dialog {
+  id             String       @id @default(uuid())
+  index          Int
+  speaker        String
+  scene          String?
+  vietnamese     String
+  audioSrc       String?
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+}
