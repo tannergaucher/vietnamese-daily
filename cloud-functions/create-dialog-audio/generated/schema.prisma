@@ -26,6 +26,11 @@ generator fetchConversationDialogsForCreatingAudio {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+enum Gender {
+  male
+  female
+}
+
 model Conversation {
   id        String   @id @default(uuid())
   title     String
@@ -38,6 +43,7 @@ model Dialog {
   id             String       @id @default(uuid())
   index          Int
   speaker        String
+  gender         Gender
   scene          String?
   vietnamese     String
   audioSrc       String?

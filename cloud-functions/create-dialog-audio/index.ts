@@ -5,7 +5,7 @@ import * as TextToSpeech from "@google-cloud/text-to-speech";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import { Storage } from "@google-cloud/storage";
 
-import { PrismaClient } from "./generated";
+import { Gender, PrismaClient } from "./generated";
 
 interface CloudEventData {
   message: {
@@ -41,7 +41,6 @@ functions.cloudEvent(
 
     await createDialogAudio({
       dialogId: parsedData.dialogId,
-      speaker: parsedData.speaker,
       textToSpeech,
       prisma,
       storage,
@@ -51,13 +50,11 @@ functions.cloudEvent(
 
 export async function createDialogAudio({
   dialogId,
-  speaker,
   textToSpeech,
   prisma,
   storage,
 }: {
   dialogId: string;
-  speaker: "male" | "female";
   textToSpeech: TextToSpeechClient;
   prisma: PrismaClient;
   storage: Storage;
@@ -73,7 +70,7 @@ export async function createDialogAudio({
     voice: {
       languageCode: "vi-VN",
       ssmlGender:
-        speaker === "male"
+        dialog.gender === Gender.male
           ? TextToSpeech.protos.google.cloud.texttospeech.v1.SsmlVoiceGender
               .MALE
           : TextToSpeech.protos.google.cloud.texttospeech.v1.SsmlVoiceGender

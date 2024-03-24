@@ -25,6 +25,23 @@ export type Conversation = $Result.DefaultSelection<Prisma.$ConversationPayload>
 export type Dialog = $Result.DefaultSelection<Prisma.$DialogPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const Gender: {
+  male: 'male',
+  female: 'female'
+};
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
+
+}
+
+export type Gender = $Enums.Gender
+
+export const Gender: typeof $Enums.Gender
+
+/**
  * ##  Prisma Client ʲˢ
  * 
  * Type-safe database client for TypeScript & Node.js
@@ -1935,6 +1952,7 @@ export namespace Prisma {
     id: string | null
     index: number | null
     speaker: string | null
+    gender: $Enums.Gender | null
     scene: string | null
     vietnamese: string | null
     audioSrc: string | null
@@ -1945,6 +1963,7 @@ export namespace Prisma {
     id: string | null
     index: number | null
     speaker: string | null
+    gender: $Enums.Gender | null
     scene: string | null
     vietnamese: string | null
     audioSrc: string | null
@@ -1955,6 +1974,7 @@ export namespace Prisma {
     id: number
     index: number
     speaker: number
+    gender: number
     scene: number
     vietnamese: number
     audioSrc: number
@@ -1975,6 +1995,7 @@ export namespace Prisma {
     id?: true
     index?: true
     speaker?: true
+    gender?: true
     scene?: true
     vietnamese?: true
     audioSrc?: true
@@ -1985,6 +2006,7 @@ export namespace Prisma {
     id?: true
     index?: true
     speaker?: true
+    gender?: true
     scene?: true
     vietnamese?: true
     audioSrc?: true
@@ -1995,6 +2017,7 @@ export namespace Prisma {
     id?: true
     index?: true
     speaker?: true
+    gender?: true
     scene?: true
     vietnamese?: true
     audioSrc?: true
@@ -2092,6 +2115,7 @@ export namespace Prisma {
     id: string
     index: number
     speaker: string
+    gender: $Enums.Gender
     scene: string | null
     vietnamese: string
     audioSrc: string | null
@@ -2121,6 +2145,7 @@ export namespace Prisma {
     id?: boolean
     index?: boolean
     speaker?: boolean
+    gender?: boolean
     scene?: boolean
     vietnamese?: boolean
     audioSrc?: boolean
@@ -2132,6 +2157,7 @@ export namespace Prisma {
     id?: boolean
     index?: boolean
     speaker?: boolean
+    gender?: boolean
     scene?: boolean
     vietnamese?: boolean
     audioSrc?: boolean
@@ -2152,6 +2178,7 @@ export namespace Prisma {
       id: string
       index: number
       speaker: string
+      gender: $Enums.Gender
       scene: string | null
       vietnamese: string
       audioSrc: string | null
@@ -2554,6 +2581,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Dialog", 'String'>
     readonly index: FieldRef<"Dialog", 'Int'>
     readonly speaker: FieldRef<"Dialog", 'String'>
+    readonly gender: FieldRef<"Dialog", 'Gender'>
     readonly scene: FieldRef<"Dialog", 'String'>
     readonly vietnamese: FieldRef<"Dialog", 'String'>
     readonly audioSrc: FieldRef<"Dialog", 'String'>
@@ -2910,6 +2938,7 @@ export namespace Prisma {
     id: 'id',
     index: 'index',
     speaker: 'speaker',
+    gender: 'gender',
     scene: 'scene',
     vietnamese: 'vietnamese',
     audioSrc: 'audioSrc',
@@ -2991,6 +3020,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Gender'
+   */
+  export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender'>
+    
+
+
+  /**
+   * Reference to a field of type 'Gender[]'
+   */
+  export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -3064,6 +3107,7 @@ export namespace Prisma {
     id?: StringFilter<"Dialog"> | string
     index?: IntFilter<"Dialog"> | number
     speaker?: StringFilter<"Dialog"> | string
+    gender?: EnumGenderFilter<"Dialog"> | $Enums.Gender
     scene?: StringNullableFilter<"Dialog"> | string | null
     vietnamese?: StringFilter<"Dialog"> | string
     audioSrc?: StringNullableFilter<"Dialog"> | string | null
@@ -3075,6 +3119,7 @@ export namespace Prisma {
     id?: SortOrder
     index?: SortOrder
     speaker?: SortOrder
+    gender?: SortOrder
     scene?: SortOrderInput | SortOrder
     vietnamese?: SortOrder
     audioSrc?: SortOrderInput | SortOrder
@@ -3089,6 +3134,7 @@ export namespace Prisma {
     NOT?: DialogWhereInput | DialogWhereInput[]
     index?: IntFilter<"Dialog"> | number
     speaker?: StringFilter<"Dialog"> | string
+    gender?: EnumGenderFilter<"Dialog"> | $Enums.Gender
     scene?: StringNullableFilter<"Dialog"> | string | null
     vietnamese?: StringFilter<"Dialog"> | string
     audioSrc?: StringNullableFilter<"Dialog"> | string | null
@@ -3100,6 +3146,7 @@ export namespace Prisma {
     id?: SortOrder
     index?: SortOrder
     speaker?: SortOrder
+    gender?: SortOrder
     scene?: SortOrderInput | SortOrder
     vietnamese?: SortOrder
     audioSrc?: SortOrderInput | SortOrder
@@ -3118,6 +3165,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Dialog"> | string
     index?: IntWithAggregatesFilter<"Dialog"> | number
     speaker?: StringWithAggregatesFilter<"Dialog"> | string
+    gender?: EnumGenderWithAggregatesFilter<"Dialog"> | $Enums.Gender
     scene?: StringNullableWithAggregatesFilter<"Dialog"> | string | null
     vietnamese?: StringWithAggregatesFilter<"Dialog"> | string
     audioSrc?: StringNullableWithAggregatesFilter<"Dialog"> | string | null
@@ -3181,6 +3229,7 @@ export namespace Prisma {
     id?: string
     index: number
     speaker: string
+    gender: $Enums.Gender
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
@@ -3191,6 +3240,7 @@ export namespace Prisma {
     id?: string
     index: number
     speaker: string
+    gender: $Enums.Gender
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
@@ -3201,6 +3251,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     index?: IntFieldUpdateOperationsInput | number
     speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3211,6 +3262,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     index?: IntFieldUpdateOperationsInput | number
     speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3221,6 +3273,7 @@ export namespace Prisma {
     id?: string
     index: number
     speaker: string
+    gender: $Enums.Gender
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
@@ -3231,6 +3284,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     index?: IntFieldUpdateOperationsInput | number
     speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3240,6 +3294,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     index?: IntFieldUpdateOperationsInput | number
     speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3346,6 +3401,13 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type EnumGenderFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3375,6 +3437,7 @@ export namespace Prisma {
     id?: SortOrder
     index?: SortOrder
     speaker?: SortOrder
+    gender?: SortOrder
     scene?: SortOrder
     vietnamese?: SortOrder
     audioSrc?: SortOrder
@@ -3389,6 +3452,7 @@ export namespace Prisma {
     id?: SortOrder
     index?: SortOrder
     speaker?: SortOrder
+    gender?: SortOrder
     scene?: SortOrder
     vietnamese?: SortOrder
     audioSrc?: SortOrder
@@ -3399,6 +3463,7 @@ export namespace Prisma {
     id?: SortOrder
     index?: SortOrder
     speaker?: SortOrder
+    gender?: SortOrder
     scene?: SortOrder
     vietnamese?: SortOrder
     audioSrc?: SortOrder
@@ -3423,6 +3488,16 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumGenderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderWithAggregatesFilter<$PrismaModel> | $Enums.Gender
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGenderFilter<$PrismaModel>
+    _max?: NestedEnumGenderFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -3507,6 +3582,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type EnumGenderFieldUpdateOperationsInput = {
+    set?: $Enums.Gender
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -3586,6 +3665,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumGenderFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3627,6 +3713,16 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumGenderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderWithAggregatesFilter<$PrismaModel> | $Enums.Gender
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGenderFilter<$PrismaModel>
+    _max?: NestedEnumGenderFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3659,6 +3755,7 @@ export namespace Prisma {
     id?: string
     index: number
     speaker: string
+    gender: $Enums.Gender
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
@@ -3668,6 +3765,7 @@ export namespace Prisma {
     id?: string
     index: number
     speaker: string
+    gender: $Enums.Gender
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
@@ -3706,6 +3804,7 @@ export namespace Prisma {
     id?: StringFilter<"Dialog"> | string
     index?: IntFilter<"Dialog"> | number
     speaker?: StringFilter<"Dialog"> | string
+    gender?: EnumGenderFilter<"Dialog"> | $Enums.Gender
     scene?: StringNullableFilter<"Dialog"> | string | null
     vietnamese?: StringFilter<"Dialog"> | string
     audioSrc?: StringNullableFilter<"Dialog"> | string | null
@@ -3760,6 +3859,7 @@ export namespace Prisma {
     id?: string
     index: number
     speaker: string
+    gender: $Enums.Gender
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
@@ -3769,6 +3869,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     index?: IntFieldUpdateOperationsInput | number
     speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3778,6 +3879,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     index?: IntFieldUpdateOperationsInput | number
     speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3787,6 +3889,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     index?: IntFieldUpdateOperationsInput | number
     speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
