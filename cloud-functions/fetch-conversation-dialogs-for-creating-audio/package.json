@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc ./index.ts --skipLibCheck"
+    "build": "tsc ./index.ts --skipLibCheck",
+    "deploy": "gcloud builds submit --config cloudbuild.json"
   },
   "author": "",
   "license": "ISC",

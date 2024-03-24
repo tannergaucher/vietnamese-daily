@@ -27,9 +27,11 @@ generator fetchConversationDialogsForCreatingAudio {
 }
 
 model Conversation {
-  id     String   @id @default(uuid())
-  title  String
-  dialog Dialog[]
+  id        String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  dialog    Dialog[]
 }
 
 model Dialog {

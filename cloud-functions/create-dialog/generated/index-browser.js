@@ -118,7 +118,9 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
-  title: 'title'
+  title: 'title',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.DialogScalarFieldEnum = {
