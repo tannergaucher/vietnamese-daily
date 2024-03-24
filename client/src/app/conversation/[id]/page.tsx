@@ -34,9 +34,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main>
-      <h2 className="px-4 py-12 text-3xl font-semibold">
-        {conversation.title}
-      </h2>
+      <h5 className="p-4">{new Date(conversation.createdAt).toDateString()}</h5>
+      <h2 className="px-4 py-8 text-3xl font-semibold">{conversation.title}</h2>
       <DialogList dialog={sortedDialog} />
     </main>
   );
