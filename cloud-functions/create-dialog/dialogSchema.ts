@@ -4,6 +4,7 @@ export interface CreateDialogResponse {
     dialog: {
       index: number;
       speaker: string;
+      gender: "male" | "female";
       scene: string | null;
       vietnamese: string;
       audioSrc: null;
@@ -19,6 +20,7 @@ export const example: CreateDialogResponse = {
       {
         index: 1,
         speaker: "Bạn",
+        gender: "male",
         scene:
           "Đứng trước cửa quán phở nhỏ trên phố cổ Hà Nội, nhìn vào thực đơn",
         vietnamese: "Xin chào cho em một bát phở bò tái chín.",
@@ -27,6 +29,7 @@ export const example: CreateDialogResponse = {
       {
         index: 2,
         speaker: "Người bán",
+        gender: "female",
         scene: "Mỉm cười chào bạn từ trong quán",
         vietnamese: "Chào bạn! Phở tái chín hay tái thôi ạ?",
         audioSrc: null,
@@ -34,6 +37,7 @@ export const example: CreateDialogResponse = {
       {
         index: 3,
         speaker: "Bạn",
+        gender: "male",
         scene: "Ngồi vào bàn, nhìn quanh quán",
         vietnamese: "Em xin phở tái chín ạ. Phở có rau kèm không ạ?",
         audioSrc: null,
@@ -41,6 +45,7 @@ export const example: CreateDialogResponse = {
       {
         index: 4,
         speaker: "Người bán",
+        gender: "female",
         scene: "เดิน đến bàn bạn, tay cầm giấy và bút để ghi chú",
         vietnamese:
           "Có rau sống, ngò gai, giá đi kèm ạ. Bạn có muốn thêm bánh phở không?",
@@ -49,6 +54,7 @@ export const example: CreateDialogResponse = {
       {
         index: 5,
         speaker: "Bạn",
+        gender: "male",
         scene: "Cười nhẹ",
         vietnamese:
           "Vâng, em xin thêm bánh phở ạ. Cho em thêm nước mắm và tương đen nữa ạ.",
@@ -57,6 +63,7 @@ export const example: CreateDialogResponse = {
       {
         index: 6,
         speaker: "Người bán",
+        gender: "female",
         scene: "Xác nhận lại với bạn",
         vietnamese:
           "Được rồi! Một phở tái chín, bánh phở, rau và gia vị. Bạn ngồi đây chờ phở nhé!",
@@ -65,6 +72,7 @@ export const example: CreateDialogResponse = {
       {
         index: 7,
         speaker: "Bạn",
+        gender: "male",
         scene: "Mỉm cười cảm ơn",
         vietnamese: "Cảm ơn ạ!",
         audioSrc: null,

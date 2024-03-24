@@ -59,7 +59,6 @@ export async function fetchConversationDialogsForCreatingAudio({
     pubsub.topic("create-dialog-audio").publishMessage({
       json: {
         dialogId: dialog.id,
-        speaker: index % 2 === 0 ? "male" : "female",
       },
     });
   }
