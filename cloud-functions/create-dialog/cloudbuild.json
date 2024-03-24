@@ -16,5 +16,8 @@
         "--entry-point=createDialog"
       ]
     }
-  ]
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
 }

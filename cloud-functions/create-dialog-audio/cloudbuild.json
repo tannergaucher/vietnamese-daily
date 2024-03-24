@@ -15,5 +15,8 @@
         "--trigger-topic=create-dialog-audio"
       ]
     }
-  ]
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
 }

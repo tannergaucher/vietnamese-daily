@@ -15,5 +15,8 @@
         "--trigger-topic=fetch-conversation-dialogs-for-creating-audio"
       ]
     }
-  ]
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
 }
