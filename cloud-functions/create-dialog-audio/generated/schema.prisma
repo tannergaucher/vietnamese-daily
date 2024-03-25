@@ -72,7 +72,6 @@ model Dialog {
 
 model Word {
   vietnamese String   @id
-  speaker    Gender?
   dialog     Dialog[]
   maleSrc    String?
   femaleSrc  String?

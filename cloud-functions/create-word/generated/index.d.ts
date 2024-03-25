@@ -3103,21 +3103,18 @@ export namespace Prisma {
 
   export type WordMinAggregateOutputType = {
     vietnamese: string | null
-    speaker: $Enums.Gender | null
     maleSrc: string | null
     femaleSrc: string | null
   }
 
   export type WordMaxAggregateOutputType = {
     vietnamese: string | null
-    speaker: $Enums.Gender | null
     maleSrc: string | null
     femaleSrc: string | null
   }
 
   export type WordCountAggregateOutputType = {
     vietnamese: number
-    speaker: number
     maleSrc: number
     femaleSrc: number
     _all: number
@@ -3126,21 +3123,18 @@ export namespace Prisma {
 
   export type WordMinAggregateInputType = {
     vietnamese?: true
-    speaker?: true
     maleSrc?: true
     femaleSrc?: true
   }
 
   export type WordMaxAggregateInputType = {
     vietnamese?: true
-    speaker?: true
     maleSrc?: true
     femaleSrc?: true
   }
 
   export type WordCountAggregateInputType = {
     vietnamese?: true
-    speaker?: true
     maleSrc?: true
     femaleSrc?: true
     _all?: true
@@ -3220,7 +3214,6 @@ export namespace Prisma {
 
   export type WordGroupByOutputType = {
     vietnamese: string
-    speaker: $Enums.Gender | null
     maleSrc: string | null
     femaleSrc: string | null
     _count: WordCountAggregateOutputType | null
@@ -3244,7 +3237,6 @@ export namespace Prisma {
 
   export type WordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     vietnamese?: boolean
-    speaker?: boolean
     maleSrc?: boolean
     femaleSrc?: boolean
     dialog?: boolean | Word$dialogArgs<ExtArgs>
@@ -3253,7 +3245,6 @@ export namespace Prisma {
 
   export type WordSelectScalar = {
     vietnamese?: boolean
-    speaker?: boolean
     maleSrc?: boolean
     femaleSrc?: boolean
   }
@@ -3271,7 +3262,6 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       vietnamese: string
-      speaker: $Enums.Gender | null
       maleSrc: string | null
       femaleSrc: string | null
     }, ExtArgs["result"]["word"]>
@@ -3670,7 +3660,6 @@ export namespace Prisma {
    */ 
   interface WordFieldRefs {
     readonly vietnamese: FieldRef<"Word", 'String'>
-    readonly speaker: FieldRef<"Word", 'Gender'>
     readonly maleSrc: FieldRef<"Word", 'String'>
     readonly femaleSrc: FieldRef<"Word", 'String'>
   }
@@ -4058,7 +4047,6 @@ export namespace Prisma {
 
   export const WordScalarFieldEnum: {
     vietnamese: 'vietnamese',
-    speaker: 'speaker',
     maleSrc: 'maleSrc',
     femaleSrc: 'femaleSrc'
   };
@@ -4298,7 +4286,6 @@ export namespace Prisma {
     OR?: WordWhereInput[]
     NOT?: WordWhereInput | WordWhereInput[]
     vietnamese?: StringFilter<"Word"> | string
-    speaker?: EnumGenderNullableFilter<"Word"> | $Enums.Gender | null
     maleSrc?: StringNullableFilter<"Word"> | string | null
     femaleSrc?: StringNullableFilter<"Word"> | string | null
     dialog?: DialogListRelationFilter
@@ -4306,7 +4293,6 @@ export namespace Prisma {
 
   export type WordOrderByWithRelationInput = {
     vietnamese?: SortOrder
-    speaker?: SortOrderInput | SortOrder
     maleSrc?: SortOrderInput | SortOrder
     femaleSrc?: SortOrderInput | SortOrder
     dialog?: DialogOrderByRelationAggregateInput
@@ -4317,7 +4303,6 @@ export namespace Prisma {
     AND?: WordWhereInput | WordWhereInput[]
     OR?: WordWhereInput[]
     NOT?: WordWhereInput | WordWhereInput[]
-    speaker?: EnumGenderNullableFilter<"Word"> | $Enums.Gender | null
     maleSrc?: StringNullableFilter<"Word"> | string | null
     femaleSrc?: StringNullableFilter<"Word"> | string | null
     dialog?: DialogListRelationFilter
@@ -4325,7 +4310,6 @@ export namespace Prisma {
 
   export type WordOrderByWithAggregationInput = {
     vietnamese?: SortOrder
-    speaker?: SortOrderInput | SortOrder
     maleSrc?: SortOrderInput | SortOrder
     femaleSrc?: SortOrderInput | SortOrder
     _count?: WordCountOrderByAggregateInput
@@ -4338,7 +4322,6 @@ export namespace Prisma {
     OR?: WordScalarWhereWithAggregatesInput[]
     NOT?: WordScalarWhereWithAggregatesInput | WordScalarWhereWithAggregatesInput[]
     vietnamese?: StringWithAggregatesFilter<"Word"> | string
-    speaker?: EnumGenderNullableWithAggregatesFilter<"Word"> | $Enums.Gender | null
     maleSrc?: StringNullableWithAggregatesFilter<"Word"> | string | null
     femaleSrc?: StringNullableWithAggregatesFilter<"Word"> | string | null
   }
@@ -4478,7 +4461,6 @@ export namespace Prisma {
 
   export type WordCreateInput = {
     vietnamese: string
-    speaker?: $Enums.Gender | null
     maleSrc?: string | null
     femaleSrc?: string | null
     dialog?: DialogCreateNestedManyWithoutWordsInput
@@ -4486,7 +4468,6 @@ export namespace Prisma {
 
   export type WordUncheckedCreateInput = {
     vietnamese: string
-    speaker?: $Enums.Gender | null
     maleSrc?: string | null
     femaleSrc?: string | null
     dialog?: DialogUncheckedCreateNestedManyWithoutWordsInput
@@ -4494,7 +4475,6 @@ export namespace Prisma {
 
   export type WordUpdateInput = {
     vietnamese?: StringFieldUpdateOperationsInput | string
-    speaker?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     dialog?: DialogUpdateManyWithoutWordsNestedInput
@@ -4502,7 +4482,6 @@ export namespace Prisma {
 
   export type WordUncheckedUpdateInput = {
     vietnamese?: StringFieldUpdateOperationsInput | string
-    speaker?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     dialog?: DialogUncheckedUpdateManyWithoutWordsNestedInput
@@ -4510,21 +4489,18 @@ export namespace Prisma {
 
   export type WordCreateManyInput = {
     vietnamese: string
-    speaker?: $Enums.Gender | null
     maleSrc?: string | null
     femaleSrc?: string | null
   }
 
   export type WordUpdateManyMutationInput = {
     vietnamese?: StringFieldUpdateOperationsInput | string
-    speaker?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WordUncheckedUpdateManyInput = {
     vietnamese?: StringFieldUpdateOperationsInput | string
-    speaker?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -4756,42 +4732,22 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type EnumGenderNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
-  }
-
   export type WordCountOrderByAggregateInput = {
     vietnamese?: SortOrder
-    speaker?: SortOrder
     maleSrc?: SortOrder
     femaleSrc?: SortOrder
   }
 
   export type WordMaxOrderByAggregateInput = {
     vietnamese?: SortOrder
-    speaker?: SortOrder
     maleSrc?: SortOrder
     femaleSrc?: SortOrder
   }
 
   export type WordMinOrderByAggregateInput = {
     vietnamese?: SortOrder
-    speaker?: SortOrder
     maleSrc?: SortOrder
     femaleSrc?: SortOrder
-  }
-
-  export type EnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
-    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
   }
 
   export type DialogCreateNestedManyWithoutConversationInput = {
@@ -4922,10 +4878,6 @@ export namespace Prisma {
     create?: XOR<DialogCreateWithoutWordsInput, DialogUncheckedCreateWithoutWordsInput> | DialogCreateWithoutWordsInput[] | DialogUncheckedCreateWithoutWordsInput[]
     connectOrCreate?: DialogCreateOrConnectWithoutWordsInput | DialogCreateOrConnectWithoutWordsInput[]
     connect?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
-  }
-
-  export type NullableEnumGenderFieldUpdateOperationsInput = {
-    set?: $Enums.Gender | null
   }
 
   export type DialogUpdateManyWithoutWordsNestedInput = {
@@ -5107,23 +5059,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumGenderNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
-  }
-
-  export type NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
-    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
-  }
-
   export type DialogCreateWithoutConversationInput = {
     id?: string
     index: number
@@ -5188,14 +5123,12 @@ export namespace Prisma {
 
   export type WordCreateWithoutDialogInput = {
     vietnamese: string
-    speaker?: $Enums.Gender | null
     maleSrc?: string | null
     femaleSrc?: string | null
   }
 
   export type WordUncheckedCreateWithoutDialogInput = {
     vietnamese: string
-    speaker?: $Enums.Gender | null
     maleSrc?: string | null
     femaleSrc?: string | null
   }
@@ -5245,7 +5178,6 @@ export namespace Prisma {
     OR?: WordScalarWhereInput[]
     NOT?: WordScalarWhereInput | WordScalarWhereInput[]
     vietnamese?: StringFilter<"Word"> | string
-    speaker?: EnumGenderNullableFilter<"Word"> | $Enums.Gender | null
     maleSrc?: StringNullableFilter<"Word"> | string | null
     femaleSrc?: StringNullableFilter<"Word"> | string | null
   }
@@ -5362,21 +5294,18 @@ export namespace Prisma {
 
   export type WordUpdateWithoutDialogInput = {
     vietnamese?: StringFieldUpdateOperationsInput | string
-    speaker?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WordUncheckedUpdateWithoutDialogInput = {
     vietnamese?: StringFieldUpdateOperationsInput | string
-    speaker?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WordUncheckedUpdateManyWithoutDialogInput = {
     vietnamese?: StringFieldUpdateOperationsInput | string
-    speaker?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
     femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }

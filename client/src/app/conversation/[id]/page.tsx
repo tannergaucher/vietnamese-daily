@@ -44,7 +44,6 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
   });
 
-  // get signed urls for dialog words
   const wordPromises = words.map(async (word) => {
     const [maleSignedUrl] = await wordAudioBucket
       .file(`male/${word.vietnamese}.wav`)

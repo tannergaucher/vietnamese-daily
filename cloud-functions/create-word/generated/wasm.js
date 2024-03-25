@@ -136,7 +136,6 @@ exports.Prisma.DialogScalarFieldEnum = {
 
 exports.Prisma.WordScalarFieldEnum = {
   vietnamese: 'vietnamese',
-  speaker: 'speaker',
   maleSrc: 'maleSrc',
   femaleSrc: 'femaleSrc'
 };
