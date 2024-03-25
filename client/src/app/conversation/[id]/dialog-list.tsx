@@ -7,17 +7,26 @@ import { Dialog as DialogModel } from "@/generated";
 type Dialog = DialogModel & { audioSrc: string };
 
 export default function DialogList({ dialog }: { dialog: Dialog[] }) {
-  const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
-  const liRefs = useRef<(HTMLLIElement | null)[]>([]);
-
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
     null
   );
 
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
+  const liRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+  useEffect(() => {
+    audioRefs.current = audioRefs.current.slice(0, dialog.length);
+  }, [dialog]);
+
   const toggleConversation = () => {
     const audio = audioRefs.current[currentPlayingIndex ?? 0];
+
+    if (currentPlayingIndex === null) {
+      setCurrentPlayingIndex(0);
+    }
+
     if (audio) {
       if (isPlaying) {
         audio.pause();
@@ -28,15 +37,15 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
     }
   };
 
-  useEffect(() => {
-    audioRefs.current = audioRefs.current.slice(0, dialog.length);
-  }, [dialog]);
-
   const playNext = (index: number) => {
     const nextAudio = audioRefs.current[index + 1];
+
     if (nextAudio) {
       setCurrentPlayingIndex(index + 1);
       nextAudio.play();
+    } else {
+      setIsPlaying(false);
+      setCurrentPlayingIndex(null);
     }
 
     const nextLi = liRefs.current[index + 1];
@@ -61,7 +70,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
             ref={(li) => {
               liRefs.current[index] = li;
             }}
-            className={`cursor-pointer transition-colors duration-200 p-4 rounded-lg shadow-md mb-4 
+            className={`transition-colors duration-200 p-4 rounded-lg shadow-md mb-4 
           ${currentPlayingIndex === index ? "bg-gray-700 text-white" : ""}`}
           >
             <small className="text-slate-500">
