@@ -89,6 +89,16 @@ export async function createDialog({
         },
       });
 
+    for (const dialog of conversation.dialog) {
+      {
+        pubsub.topic("fetch-dialog-words-for-creating").publishMessage({
+          json: {
+            dialogId: dialog.id,
+          },
+        });
+      }
+    }
+
     return {
       message: "Conversation dialog created",
       conversation,

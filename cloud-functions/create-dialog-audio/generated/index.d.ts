@@ -23,6 +23,11 @@ export type Conversation = $Result.DefaultSelection<Prisma.$ConversationPayload>
  * 
  */
 export type Dialog = $Result.DefaultSelection<Prisma.$DialogPayload>
+/**
+ * Model Word
+ * 
+ */
+export type Word = $Result.DefaultSelection<Prisma.$WordPayload>
 
 /**
  * Enums
@@ -182,6 +187,16 @@ export class PrismaClient<
     * ```
     */
   get dialog(): Prisma.DialogDelegate<ExtArgs>;
+
+  /**
+   * `prisma.word`: Exposes CRUD operations for the **Word** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Words
+    * const words = await prisma.word.findMany()
+    * ```
+    */
+  get word(): Prisma.WordDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -653,7 +668,8 @@ export namespace Prisma {
 
   export const ModelName: {
     Conversation: 'Conversation',
-    Dialog: 'Dialog'
+    Dialog: 'Dialog',
+    Word: 'Word'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -670,7 +686,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'conversation' | 'dialog'
+      modelProps: 'conversation' | 'dialog' | 'word'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -803,6 +819,72 @@ export namespace Prisma {
           count: {
             args: Prisma.DialogCountArgs<ExtArgs>,
             result: $Utils.Optional<DialogCountAggregateOutputType> | number
+          }
+        }
+      }
+      Word: {
+        payload: Prisma.$WordPayload<ExtArgs>
+        fields: Prisma.WordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WordFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WordFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload>
+          }
+          findFirst: {
+            args: Prisma.WordFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WordFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload>
+          }
+          findMany: {
+            args: Prisma.WordFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload>[]
+          }
+          create: {
+            args: Prisma.WordCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload>
+          }
+          createMany: {
+            args: Prisma.WordCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.WordDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload>
+          }
+          update: {
+            args: Prisma.WordUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload>
+          }
+          deleteMany: {
+            args: Prisma.WordDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WordUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.WordUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$WordPayload>
+          }
+          aggregate: {
+            args: Prisma.WordAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateWord>
+          }
+          groupBy: {
+            args: Prisma.WordGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<WordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WordCountArgs<ExtArgs>,
+            result: $Utils.Optional<WordCountAggregateOutputType> | number
           }
         }
       }
@@ -989,6 +1071,74 @@ export namespace Prisma {
    * ConversationCountOutputType without action
    */
   export type ConversationCountOutputTypeCountDialogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DialogWhereInput
+  }
+
+
+
+  /**
+   * Count Type DialogCountOutputType
+   */
+
+  export type DialogCountOutputType = {
+    words: number
+  }
+
+  export type DialogCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    words?: boolean | DialogCountOutputTypeCountWordsArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * DialogCountOutputType without action
+   */
+  export type DialogCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DialogCountOutputType
+     */
+    select?: DialogCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * DialogCountOutputType without action
+   */
+  export type DialogCountOutputTypeCountWordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WordWhereInput
+  }
+
+
+
+  /**
+   * Count Type WordCountOutputType
+   */
+
+  export type WordCountOutputType = {
+    dialog: number
+  }
+
+  export type WordCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dialog?: boolean | WordCountOutputTypeCountDialogArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * WordCountOutputType without action
+   */
+  export type WordCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WordCountOutputType
+     */
+    select?: WordCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * WordCountOutputType without action
+   */
+  export type WordCountOutputTypeCountDialogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DialogWhereInput
   }
 
@@ -2150,7 +2300,9 @@ export namespace Prisma {
     vietnamese?: boolean
     audioSrc?: boolean
     conversationId?: boolean
+    words?: boolean | Dialog$wordsArgs<ExtArgs>
     conversation?: boolean | ConversationDefaultArgs<ExtArgs>
+    _count?: boolean | DialogCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dialog"]>
 
   export type DialogSelectScalar = {
@@ -2165,13 +2317,16 @@ export namespace Prisma {
   }
 
   export type DialogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    words?: boolean | Dialog$wordsArgs<ExtArgs>
     conversation?: boolean | ConversationDefaultArgs<ExtArgs>
+    _count?: boolean | DialogCountOutputTypeDefaultArgs<ExtArgs>
   }
 
 
   export type $DialogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Dialog"
     objects: {
+      words: Prisma.$WordPayload<ExtArgs>[]
       conversation: Prisma.$ConversationPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -2548,6 +2703,8 @@ export namespace Prisma {
   export interface Prisma__DialogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
+    words<T extends Dialog$wordsArgs<ExtArgs> = {}>(args?: Subset<T, Dialog$wordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     conversation<T extends ConversationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConversationDefaultArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
     /**
@@ -2898,6 +3055,27 @@ export namespace Prisma {
 
 
   /**
+   * Dialog.words
+   */
+  export type Dialog$wordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    where?: WordWhereInput
+    orderBy?: WordOrderByWithRelationInput | WordOrderByWithRelationInput[]
+    cursor?: WordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WordScalarFieldEnum | WordScalarFieldEnum[]
+  }
+
+
+  /**
    * Dialog without action
    */
   export type DialogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2909,6 +3087,925 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: DialogInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model Word
+   */
+
+  export type AggregateWord = {
+    _count: WordCountAggregateOutputType | null
+    _min: WordMinAggregateOutputType | null
+    _max: WordMaxAggregateOutputType | null
+  }
+
+  export type WordMinAggregateOutputType = {
+    vietnamese: string | null
+    maleSrc: string | null
+    femaleSrc: string | null
+  }
+
+  export type WordMaxAggregateOutputType = {
+    vietnamese: string | null
+    maleSrc: string | null
+    femaleSrc: string | null
+  }
+
+  export type WordCountAggregateOutputType = {
+    vietnamese: number
+    maleSrc: number
+    femaleSrc: number
+    _all: number
+  }
+
+
+  export type WordMinAggregateInputType = {
+    vietnamese?: true
+    maleSrc?: true
+    femaleSrc?: true
+  }
+
+  export type WordMaxAggregateInputType = {
+    vietnamese?: true
+    maleSrc?: true
+    femaleSrc?: true
+  }
+
+  export type WordCountAggregateInputType = {
+    vietnamese?: true
+    maleSrc?: true
+    femaleSrc?: true
+    _all?: true
+  }
+
+  export type WordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Word to aggregate.
+     */
+    where?: WordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Words to fetch.
+     */
+    orderBy?: WordOrderByWithRelationInput | WordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Words from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Words.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Words
+    **/
+    _count?: true | WordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WordMaxAggregateInputType
+  }
+
+  export type GetWordAggregateType<T extends WordAggregateArgs> = {
+        [P in keyof T & keyof AggregateWord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWord[P]>
+      : GetScalarType<T[P], AggregateWord[P]>
+  }
+
+
+
+
+  export type WordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WordWhereInput
+    orderBy?: WordOrderByWithAggregationInput | WordOrderByWithAggregationInput[]
+    by: WordScalarFieldEnum[] | WordScalarFieldEnum
+    having?: WordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WordCountAggregateInputType | true
+    _min?: WordMinAggregateInputType
+    _max?: WordMaxAggregateInputType
+  }
+
+  export type WordGroupByOutputType = {
+    vietnamese: string
+    maleSrc: string | null
+    femaleSrc: string | null
+    _count: WordCountAggregateOutputType | null
+    _min: WordMinAggregateOutputType | null
+    _max: WordMaxAggregateOutputType | null
+  }
+
+  type GetWordGroupByPayload<T extends WordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WordGroupByOutputType[P]>
+            : GetScalarType<T[P], WordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    vietnamese?: boolean
+    maleSrc?: boolean
+    femaleSrc?: boolean
+    dialog?: boolean | Word$dialogArgs<ExtArgs>
+    _count?: boolean | WordCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["word"]>
+
+  export type WordSelectScalar = {
+    vietnamese?: boolean
+    maleSrc?: boolean
+    femaleSrc?: boolean
+  }
+
+  export type WordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dialog?: boolean | Word$dialogArgs<ExtArgs>
+    _count?: boolean | WordCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+
+  export type $WordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Word"
+    objects: {
+      dialog: Prisma.$DialogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      vietnamese: string
+      maleSrc: string | null
+      femaleSrc: string | null
+    }, ExtArgs["result"]["word"]>
+    composites: {}
+  }
+
+
+  type WordGetPayload<S extends boolean | null | undefined | WordDefaultArgs> = $Result.GetResult<Prisma.$WordPayload, S>
+
+  type WordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<WordFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: WordCountAggregateInputType | true
+    }
+
+  export interface WordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Word'], meta: { name: 'Word' } }
+    /**
+     * Find zero or one Word that matches the filter.
+     * @param {WordFindUniqueArgs} args - Arguments to find a Word
+     * @example
+     * // Get one Word
+     * const word = await prisma.word.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends WordFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, WordFindUniqueArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Word that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {WordFindUniqueOrThrowArgs} args - Arguments to find a Word
+     * @example
+     * // Get one Word
+     * const word = await prisma.word.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends WordFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, WordFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Word that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WordFindFirstArgs} args - Arguments to find a Word
+     * @example
+     * // Get one Word
+     * const word = await prisma.word.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends WordFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, WordFindFirstArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Word that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WordFindFirstOrThrowArgs} args - Arguments to find a Word
+     * @example
+     * // Get one Word
+     * const word = await prisma.word.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends WordFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, WordFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Words that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WordFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Words
+     * const words = await prisma.word.findMany()
+     * 
+     * // Get first 10 Words
+     * const words = await prisma.word.findMany({ take: 10 })
+     * 
+     * // Only select the `vietnamese`
+     * const wordWithVietnameseOnly = await prisma.word.findMany({ select: { vietnamese: true } })
+     * 
+    **/
+    findMany<T extends WordFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, WordFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Word.
+     * @param {WordCreateArgs} args - Arguments to create a Word.
+     * @example
+     * // Create one Word
+     * const Word = await prisma.word.create({
+     *   data: {
+     *     // ... data to create a Word
+     *   }
+     * })
+     * 
+    **/
+    create<T extends WordCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, WordCreateArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Words.
+     *     @param {WordCreateManyArgs} args - Arguments to create many Words.
+     *     @example
+     *     // Create many Words
+     *     const word = await prisma.word.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends WordCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, WordCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Word.
+     * @param {WordDeleteArgs} args - Arguments to delete one Word.
+     * @example
+     * // Delete one Word
+     * const Word = await prisma.word.delete({
+     *   where: {
+     *     // ... filter to delete one Word
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends WordDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, WordDeleteArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Word.
+     * @param {WordUpdateArgs} args - Arguments to update one Word.
+     * @example
+     * // Update one Word
+     * const word = await prisma.word.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends WordUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, WordUpdateArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Words.
+     * @param {WordDeleteManyArgs} args - Arguments to filter Words to delete.
+     * @example
+     * // Delete a few Words
+     * const { count } = await prisma.word.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends WordDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, WordDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Words.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Words
+     * const word = await prisma.word.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends WordUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, WordUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Word.
+     * @param {WordUpsertArgs} args - Arguments to update or create a Word.
+     * @example
+     * // Update or create a Word
+     * const word = await prisma.word.upsert({
+     *   create: {
+     *     // ... data to create a Word
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Word we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends WordUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, WordUpsertArgs<ExtArgs>>
+    ): Prisma__WordClient<$Result.GetResult<Prisma.$WordPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Words.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WordCountArgs} args - Arguments to filter Words to count.
+     * @example
+     * // Count the number of Words
+     * const count = await prisma.word.count({
+     *   where: {
+     *     // ... the filter for the Words we want to count
+     *   }
+     * })
+    **/
+    count<T extends WordCountArgs>(
+      args?: Subset<T, WordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Word.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WordAggregateArgs>(args: Subset<T, WordAggregateArgs>): Prisma.PrismaPromise<GetWordAggregateType<T>>
+
+    /**
+     * Group by Word.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WordGroupByArgs['orderBy'] }
+        : { orderBy?: WordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Word model
+   */
+  readonly fields: WordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Word.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    dialog<T extends Word$dialogArgs<ExtArgs> = {}>(args?: Subset<T, Word$dialogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DialogPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Word model
+   */ 
+  interface WordFieldRefs {
+    readonly vietnamese: FieldRef<"Word", 'String'>
+    readonly maleSrc: FieldRef<"Word", 'String'>
+    readonly femaleSrc: FieldRef<"Word", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Word findUnique
+   */
+  export type WordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * Filter, which Word to fetch.
+     */
+    where: WordWhereUniqueInput
+  }
+
+
+  /**
+   * Word findUniqueOrThrow
+   */
+  export type WordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * Filter, which Word to fetch.
+     */
+    where: WordWhereUniqueInput
+  }
+
+
+  /**
+   * Word findFirst
+   */
+  export type WordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * Filter, which Word to fetch.
+     */
+    where?: WordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Words to fetch.
+     */
+    orderBy?: WordOrderByWithRelationInput | WordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Words.
+     */
+    cursor?: WordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Words from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Words.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Words.
+     */
+    distinct?: WordScalarFieldEnum | WordScalarFieldEnum[]
+  }
+
+
+  /**
+   * Word findFirstOrThrow
+   */
+  export type WordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * Filter, which Word to fetch.
+     */
+    where?: WordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Words to fetch.
+     */
+    orderBy?: WordOrderByWithRelationInput | WordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Words.
+     */
+    cursor?: WordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Words from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Words.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Words.
+     */
+    distinct?: WordScalarFieldEnum | WordScalarFieldEnum[]
+  }
+
+
+  /**
+   * Word findMany
+   */
+  export type WordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * Filter, which Words to fetch.
+     */
+    where?: WordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Words to fetch.
+     */
+    orderBy?: WordOrderByWithRelationInput | WordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Words.
+     */
+    cursor?: WordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Words from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Words.
+     */
+    skip?: number
+    distinct?: WordScalarFieldEnum | WordScalarFieldEnum[]
+  }
+
+
+  /**
+   * Word create
+   */
+  export type WordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Word.
+     */
+    data: XOR<WordCreateInput, WordUncheckedCreateInput>
+  }
+
+
+  /**
+   * Word createMany
+   */
+  export type WordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Words.
+     */
+    data: WordCreateManyInput | WordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Word update
+   */
+  export type WordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Word.
+     */
+    data: XOR<WordUpdateInput, WordUncheckedUpdateInput>
+    /**
+     * Choose, which Word to update.
+     */
+    where: WordWhereUniqueInput
+  }
+
+
+  /**
+   * Word updateMany
+   */
+  export type WordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Words.
+     */
+    data: XOR<WordUpdateManyMutationInput, WordUncheckedUpdateManyInput>
+    /**
+     * Filter which Words to update
+     */
+    where?: WordWhereInput
+  }
+
+
+  /**
+   * Word upsert
+   */
+  export type WordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Word to update in case it exists.
+     */
+    where: WordWhereUniqueInput
+    /**
+     * In case the Word found by the `where` argument doesn't exist, create a new Word with this data.
+     */
+    create: XOR<WordCreateInput, WordUncheckedCreateInput>
+    /**
+     * In case the Word was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WordUpdateInput, WordUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Word delete
+   */
+  export type WordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
+    /**
+     * Filter which Word to delete.
+     */
+    where: WordWhereUniqueInput
+  }
+
+
+  /**
+   * Word deleteMany
+   */
+  export type WordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Words to delete
+     */
+    where?: WordWhereInput
+  }
+
+
+  /**
+   * Word.dialog
+   */
+  export type Word$dialogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dialog
+     */
+    select?: DialogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DialogInclude<ExtArgs> | null
+    where?: DialogWhereInput
+    orderBy?: DialogOrderByWithRelationInput | DialogOrderByWithRelationInput[]
+    cursor?: DialogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DialogScalarFieldEnum | DialogScalarFieldEnum[]
+  }
+
+
+  /**
+   * Word without action
+   */
+  export type WordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Word
+     */
+    select?: WordSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WordInclude<ExtArgs> | null
   }
 
 
@@ -2946,6 +4043,15 @@ export namespace Prisma {
   };
 
   export type DialogScalarFieldEnum = (typeof DialogScalarFieldEnum)[keyof typeof DialogScalarFieldEnum]
+
+
+  export const WordScalarFieldEnum: {
+    vietnamese: 'vietnamese',
+    maleSrc: 'maleSrc',
+    femaleSrc: 'femaleSrc'
+  };
+
+  export type WordScalarFieldEnum = (typeof WordScalarFieldEnum)[keyof typeof WordScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3112,6 +4218,7 @@ export namespace Prisma {
     vietnamese?: StringFilter<"Dialog"> | string
     audioSrc?: StringNullableFilter<"Dialog"> | string | null
     conversationId?: StringFilter<"Dialog"> | string
+    words?: WordListRelationFilter
     conversation?: XOR<ConversationRelationFilter, ConversationWhereInput>
   }
 
@@ -3124,6 +4231,7 @@ export namespace Prisma {
     vietnamese?: SortOrder
     audioSrc?: SortOrderInput | SortOrder
     conversationId?: SortOrder
+    words?: WordOrderByRelationAggregateInput
     conversation?: ConversationOrderByWithRelationInput
   }
 
@@ -3139,6 +4247,7 @@ export namespace Prisma {
     vietnamese?: StringFilter<"Dialog"> | string
     audioSrc?: StringNullableFilter<"Dialog"> | string | null
     conversationId?: StringFilter<"Dialog"> | string
+    words?: WordListRelationFilter
     conversation?: XOR<ConversationRelationFilter, ConversationWhereInput>
   }, "id">
 
@@ -3170,6 +4279,51 @@ export namespace Prisma {
     vietnamese?: StringWithAggregatesFilter<"Dialog"> | string
     audioSrc?: StringNullableWithAggregatesFilter<"Dialog"> | string | null
     conversationId?: StringWithAggregatesFilter<"Dialog"> | string
+  }
+
+  export type WordWhereInput = {
+    AND?: WordWhereInput | WordWhereInput[]
+    OR?: WordWhereInput[]
+    NOT?: WordWhereInput | WordWhereInput[]
+    vietnamese?: StringFilter<"Word"> | string
+    maleSrc?: StringNullableFilter<"Word"> | string | null
+    femaleSrc?: StringNullableFilter<"Word"> | string | null
+    dialog?: DialogListRelationFilter
+  }
+
+  export type WordOrderByWithRelationInput = {
+    vietnamese?: SortOrder
+    maleSrc?: SortOrderInput | SortOrder
+    femaleSrc?: SortOrderInput | SortOrder
+    dialog?: DialogOrderByRelationAggregateInput
+  }
+
+  export type WordWhereUniqueInput = Prisma.AtLeast<{
+    vietnamese?: string
+    AND?: WordWhereInput | WordWhereInput[]
+    OR?: WordWhereInput[]
+    NOT?: WordWhereInput | WordWhereInput[]
+    maleSrc?: StringNullableFilter<"Word"> | string | null
+    femaleSrc?: StringNullableFilter<"Word"> | string | null
+    dialog?: DialogListRelationFilter
+  }, "vietnamese">
+
+  export type WordOrderByWithAggregationInput = {
+    vietnamese?: SortOrder
+    maleSrc?: SortOrderInput | SortOrder
+    femaleSrc?: SortOrderInput | SortOrder
+    _count?: WordCountOrderByAggregateInput
+    _max?: WordMaxOrderByAggregateInput
+    _min?: WordMinOrderByAggregateInput
+  }
+
+  export type WordScalarWhereWithAggregatesInput = {
+    AND?: WordScalarWhereWithAggregatesInput | WordScalarWhereWithAggregatesInput[]
+    OR?: WordScalarWhereWithAggregatesInput[]
+    NOT?: WordScalarWhereWithAggregatesInput | WordScalarWhereWithAggregatesInput[]
+    vietnamese?: StringWithAggregatesFilter<"Word"> | string
+    maleSrc?: StringNullableWithAggregatesFilter<"Word"> | string | null
+    femaleSrc?: StringNullableWithAggregatesFilter<"Word"> | string | null
   }
 
   export type ConversationCreateInput = {
@@ -3233,6 +4387,7 @@ export namespace Prisma {
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
+    words?: WordCreateNestedManyWithoutDialogInput
     conversation: ConversationCreateNestedOneWithoutDialogInput
   }
 
@@ -3245,6 +4400,7 @@ export namespace Prisma {
     vietnamese: string
     audioSrc?: string | null
     conversationId: string
+    words?: WordUncheckedCreateNestedManyWithoutDialogInput
   }
 
   export type DialogUpdateInput = {
@@ -3255,6 +4411,7 @@ export namespace Prisma {
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    words?: WordUpdateManyWithoutDialogNestedInput
     conversation?: ConversationUpdateOneRequiredWithoutDialogNestedInput
   }
 
@@ -3267,6 +4424,7 @@ export namespace Prisma {
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: StringFieldUpdateOperationsInput | string
+    words?: WordUncheckedUpdateManyWithoutDialogNestedInput
   }
 
   export type DialogCreateManyInput = {
@@ -3299,6 +4457,52 @@ export namespace Prisma {
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WordCreateInput = {
+    vietnamese: string
+    maleSrc?: string | null
+    femaleSrc?: string | null
+    dialog?: DialogCreateNestedManyWithoutWordsInput
+  }
+
+  export type WordUncheckedCreateInput = {
+    vietnamese: string
+    maleSrc?: string | null
+    femaleSrc?: string | null
+    dialog?: DialogUncheckedCreateNestedManyWithoutWordsInput
+  }
+
+  export type WordUpdateInput = {
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    dialog?: DialogUpdateManyWithoutWordsNestedInput
+  }
+
+  export type WordUncheckedUpdateInput = {
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    dialog?: DialogUncheckedUpdateManyWithoutWordsNestedInput
+  }
+
+  export type WordCreateManyInput = {
+    vietnamese: string
+    maleSrc?: string | null
+    femaleSrc?: string | null
+  }
+
+  export type WordUpdateManyMutationInput = {
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WordUncheckedUpdateManyInput = {
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3423,6 +4627,12 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type WordListRelationFilter = {
+    every?: WordWhereInput
+    some?: WordWhereInput
+    none?: WordWhereInput
+  }
+
   export type ConversationRelationFilter = {
     is?: ConversationWhereInput
     isNot?: ConversationWhereInput
@@ -3431,6 +4641,10 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type WordOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type DialogCountOrderByAggregateInput = {
@@ -3518,6 +4732,24 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type WordCountOrderByAggregateInput = {
+    vietnamese?: SortOrder
+    maleSrc?: SortOrder
+    femaleSrc?: SortOrder
+  }
+
+  export type WordMaxOrderByAggregateInput = {
+    vietnamese?: SortOrder
+    maleSrc?: SortOrder
+    femaleSrc?: SortOrder
+  }
+
+  export type WordMinOrderByAggregateInput = {
+    vietnamese?: SortOrder
+    maleSrc?: SortOrder
+    femaleSrc?: SortOrder
+  }
+
   export type DialogCreateNestedManyWithoutConversationInput = {
     create?: XOR<DialogCreateWithoutConversationInput, DialogUncheckedCreateWithoutConversationInput> | DialogCreateWithoutConversationInput[] | DialogUncheckedCreateWithoutConversationInput[]
     connectOrCreate?: DialogCreateOrConnectWithoutConversationInput | DialogCreateOrConnectWithoutConversationInput[]
@@ -3568,10 +4800,22 @@ export namespace Prisma {
     deleteMany?: DialogScalarWhereInput | DialogScalarWhereInput[]
   }
 
+  export type WordCreateNestedManyWithoutDialogInput = {
+    create?: XOR<WordCreateWithoutDialogInput, WordUncheckedCreateWithoutDialogInput> | WordCreateWithoutDialogInput[] | WordUncheckedCreateWithoutDialogInput[]
+    connectOrCreate?: WordCreateOrConnectWithoutDialogInput | WordCreateOrConnectWithoutDialogInput[]
+    connect?: WordWhereUniqueInput | WordWhereUniqueInput[]
+  }
+
   export type ConversationCreateNestedOneWithoutDialogInput = {
     create?: XOR<ConversationCreateWithoutDialogInput, ConversationUncheckedCreateWithoutDialogInput>
     connectOrCreate?: ConversationCreateOrConnectWithoutDialogInput
     connect?: ConversationWhereUniqueInput
+  }
+
+  export type WordUncheckedCreateNestedManyWithoutDialogInput = {
+    create?: XOR<WordCreateWithoutDialogInput, WordUncheckedCreateWithoutDialogInput> | WordCreateWithoutDialogInput[] | WordUncheckedCreateWithoutDialogInput[]
+    connectOrCreate?: WordCreateOrConnectWithoutDialogInput | WordCreateOrConnectWithoutDialogInput[]
+    connect?: WordWhereUniqueInput | WordWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -3590,12 +4834,76 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type WordUpdateManyWithoutDialogNestedInput = {
+    create?: XOR<WordCreateWithoutDialogInput, WordUncheckedCreateWithoutDialogInput> | WordCreateWithoutDialogInput[] | WordUncheckedCreateWithoutDialogInput[]
+    connectOrCreate?: WordCreateOrConnectWithoutDialogInput | WordCreateOrConnectWithoutDialogInput[]
+    upsert?: WordUpsertWithWhereUniqueWithoutDialogInput | WordUpsertWithWhereUniqueWithoutDialogInput[]
+    set?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    disconnect?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    delete?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    connect?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    update?: WordUpdateWithWhereUniqueWithoutDialogInput | WordUpdateWithWhereUniqueWithoutDialogInput[]
+    updateMany?: WordUpdateManyWithWhereWithoutDialogInput | WordUpdateManyWithWhereWithoutDialogInput[]
+    deleteMany?: WordScalarWhereInput | WordScalarWhereInput[]
+  }
+
   export type ConversationUpdateOneRequiredWithoutDialogNestedInput = {
     create?: XOR<ConversationCreateWithoutDialogInput, ConversationUncheckedCreateWithoutDialogInput>
     connectOrCreate?: ConversationCreateOrConnectWithoutDialogInput
     upsert?: ConversationUpsertWithoutDialogInput
     connect?: ConversationWhereUniqueInput
     update?: XOR<XOR<ConversationUpdateToOneWithWhereWithoutDialogInput, ConversationUpdateWithoutDialogInput>, ConversationUncheckedUpdateWithoutDialogInput>
+  }
+
+  export type WordUncheckedUpdateManyWithoutDialogNestedInput = {
+    create?: XOR<WordCreateWithoutDialogInput, WordUncheckedCreateWithoutDialogInput> | WordCreateWithoutDialogInput[] | WordUncheckedCreateWithoutDialogInput[]
+    connectOrCreate?: WordCreateOrConnectWithoutDialogInput | WordCreateOrConnectWithoutDialogInput[]
+    upsert?: WordUpsertWithWhereUniqueWithoutDialogInput | WordUpsertWithWhereUniqueWithoutDialogInput[]
+    set?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    disconnect?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    delete?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    connect?: WordWhereUniqueInput | WordWhereUniqueInput[]
+    update?: WordUpdateWithWhereUniqueWithoutDialogInput | WordUpdateWithWhereUniqueWithoutDialogInput[]
+    updateMany?: WordUpdateManyWithWhereWithoutDialogInput | WordUpdateManyWithWhereWithoutDialogInput[]
+    deleteMany?: WordScalarWhereInput | WordScalarWhereInput[]
+  }
+
+  export type DialogCreateNestedManyWithoutWordsInput = {
+    create?: XOR<DialogCreateWithoutWordsInput, DialogUncheckedCreateWithoutWordsInput> | DialogCreateWithoutWordsInput[] | DialogUncheckedCreateWithoutWordsInput[]
+    connectOrCreate?: DialogCreateOrConnectWithoutWordsInput | DialogCreateOrConnectWithoutWordsInput[]
+    connect?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+  }
+
+  export type DialogUncheckedCreateNestedManyWithoutWordsInput = {
+    create?: XOR<DialogCreateWithoutWordsInput, DialogUncheckedCreateWithoutWordsInput> | DialogCreateWithoutWordsInput[] | DialogUncheckedCreateWithoutWordsInput[]
+    connectOrCreate?: DialogCreateOrConnectWithoutWordsInput | DialogCreateOrConnectWithoutWordsInput[]
+    connect?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+  }
+
+  export type DialogUpdateManyWithoutWordsNestedInput = {
+    create?: XOR<DialogCreateWithoutWordsInput, DialogUncheckedCreateWithoutWordsInput> | DialogCreateWithoutWordsInput[] | DialogUncheckedCreateWithoutWordsInput[]
+    connectOrCreate?: DialogCreateOrConnectWithoutWordsInput | DialogCreateOrConnectWithoutWordsInput[]
+    upsert?: DialogUpsertWithWhereUniqueWithoutWordsInput | DialogUpsertWithWhereUniqueWithoutWordsInput[]
+    set?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    disconnect?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    delete?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    connect?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    update?: DialogUpdateWithWhereUniqueWithoutWordsInput | DialogUpdateWithWhereUniqueWithoutWordsInput[]
+    updateMany?: DialogUpdateManyWithWhereWithoutWordsInput | DialogUpdateManyWithWhereWithoutWordsInput[]
+    deleteMany?: DialogScalarWhereInput | DialogScalarWhereInput[]
+  }
+
+  export type DialogUncheckedUpdateManyWithoutWordsNestedInput = {
+    create?: XOR<DialogCreateWithoutWordsInput, DialogUncheckedCreateWithoutWordsInput> | DialogCreateWithoutWordsInput[] | DialogUncheckedCreateWithoutWordsInput[]
+    connectOrCreate?: DialogCreateOrConnectWithoutWordsInput | DialogCreateOrConnectWithoutWordsInput[]
+    upsert?: DialogUpsertWithWhereUniqueWithoutWordsInput | DialogUpsertWithWhereUniqueWithoutWordsInput[]
+    set?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    disconnect?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    delete?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    connect?: DialogWhereUniqueInput | DialogWhereUniqueInput[]
+    update?: DialogUpdateWithWhereUniqueWithoutWordsInput | DialogUpdateWithWhereUniqueWithoutWordsInput[]
+    updateMany?: DialogUpdateManyWithWhereWithoutWordsInput | DialogUpdateManyWithWhereWithoutWordsInput[]
+    deleteMany?: DialogScalarWhereInput | DialogScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -3759,6 +5067,7 @@ export namespace Prisma {
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
+    words?: WordCreateNestedManyWithoutDialogInput
   }
 
   export type DialogUncheckedCreateWithoutConversationInput = {
@@ -3769,6 +5078,7 @@ export namespace Prisma {
     scene?: string | null
     vietnamese: string
     audioSrc?: string | null
+    words?: WordUncheckedCreateNestedManyWithoutDialogInput
   }
 
   export type DialogCreateOrConnectWithoutConversationInput = {
@@ -3811,6 +5121,23 @@ export namespace Prisma {
     conversationId?: StringFilter<"Dialog"> | string
   }
 
+  export type WordCreateWithoutDialogInput = {
+    vietnamese: string
+    maleSrc?: string | null
+    femaleSrc?: string | null
+  }
+
+  export type WordUncheckedCreateWithoutDialogInput = {
+    vietnamese: string
+    maleSrc?: string | null
+    femaleSrc?: string | null
+  }
+
+  export type WordCreateOrConnectWithoutDialogInput = {
+    where: WordWhereUniqueInput
+    create: XOR<WordCreateWithoutDialogInput, WordUncheckedCreateWithoutDialogInput>
+  }
+
   export type ConversationCreateWithoutDialogInput = {
     id?: string
     title: string
@@ -3828,6 +5155,31 @@ export namespace Prisma {
   export type ConversationCreateOrConnectWithoutDialogInput = {
     where: ConversationWhereUniqueInput
     create: XOR<ConversationCreateWithoutDialogInput, ConversationUncheckedCreateWithoutDialogInput>
+  }
+
+  export type WordUpsertWithWhereUniqueWithoutDialogInput = {
+    where: WordWhereUniqueInput
+    update: XOR<WordUpdateWithoutDialogInput, WordUncheckedUpdateWithoutDialogInput>
+    create: XOR<WordCreateWithoutDialogInput, WordUncheckedCreateWithoutDialogInput>
+  }
+
+  export type WordUpdateWithWhereUniqueWithoutDialogInput = {
+    where: WordWhereUniqueInput
+    data: XOR<WordUpdateWithoutDialogInput, WordUncheckedUpdateWithoutDialogInput>
+  }
+
+  export type WordUpdateManyWithWhereWithoutDialogInput = {
+    where: WordScalarWhereInput
+    data: XOR<WordUpdateManyMutationInput, WordUncheckedUpdateManyWithoutDialogInput>
+  }
+
+  export type WordScalarWhereInput = {
+    AND?: WordScalarWhereInput | WordScalarWhereInput[]
+    OR?: WordScalarWhereInput[]
+    NOT?: WordScalarWhereInput | WordScalarWhereInput[]
+    vietnamese?: StringFilter<"Word"> | string
+    maleSrc?: StringNullableFilter<"Word"> | string | null
+    femaleSrc?: StringNullableFilter<"Word"> | string | null
   }
 
   export type ConversationUpsertWithoutDialogInput = {
@@ -3855,6 +5207,49 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DialogCreateWithoutWordsInput = {
+    id?: string
+    index: number
+    speaker: string
+    gender: $Enums.Gender
+    scene?: string | null
+    vietnamese: string
+    audioSrc?: string | null
+    conversation: ConversationCreateNestedOneWithoutDialogInput
+  }
+
+  export type DialogUncheckedCreateWithoutWordsInput = {
+    id?: string
+    index: number
+    speaker: string
+    gender: $Enums.Gender
+    scene?: string | null
+    vietnamese: string
+    audioSrc?: string | null
+    conversationId: string
+  }
+
+  export type DialogCreateOrConnectWithoutWordsInput = {
+    where: DialogWhereUniqueInput
+    create: XOR<DialogCreateWithoutWordsInput, DialogUncheckedCreateWithoutWordsInput>
+  }
+
+  export type DialogUpsertWithWhereUniqueWithoutWordsInput = {
+    where: DialogWhereUniqueInput
+    update: XOR<DialogUpdateWithoutWordsInput, DialogUncheckedUpdateWithoutWordsInput>
+    create: XOR<DialogCreateWithoutWordsInput, DialogUncheckedCreateWithoutWordsInput>
+  }
+
+  export type DialogUpdateWithWhereUniqueWithoutWordsInput = {
+    where: DialogWhereUniqueInput
+    data: XOR<DialogUpdateWithoutWordsInput, DialogUncheckedUpdateWithoutWordsInput>
+  }
+
+  export type DialogUpdateManyWithWhereWithoutWordsInput = {
+    where: DialogScalarWhereInput
+    data: XOR<DialogUpdateManyMutationInput, DialogUncheckedUpdateManyWithoutWordsInput>
+  }
+
   export type DialogCreateManyConversationInput = {
     id?: string
     index: number
@@ -3873,6 +5268,7 @@ export namespace Prisma {
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    words?: WordUpdateManyWithoutDialogNestedInput
   }
 
   export type DialogUncheckedUpdateWithoutConversationInput = {
@@ -3883,6 +5279,7 @@ export namespace Prisma {
     scene?: NullableStringFieldUpdateOperationsInput | string | null
     vietnamese?: StringFieldUpdateOperationsInput | string
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    words?: WordUncheckedUpdateManyWithoutDialogNestedInput
   }
 
   export type DialogUncheckedUpdateManyWithoutConversationInput = {
@@ -3895,6 +5292,57 @@ export namespace Prisma {
     audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type WordUpdateWithoutDialogInput = {
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WordUncheckedUpdateWithoutDialogInput = {
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WordUncheckedUpdateManyWithoutDialogInput = {
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    maleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    femaleSrc?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DialogUpdateWithoutWordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    index?: IntFieldUpdateOperationsInput | number
+    speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    scene?: NullableStringFieldUpdateOperationsInput | string | null
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    conversation?: ConversationUpdateOneRequiredWithoutDialogNestedInput
+  }
+
+  export type DialogUncheckedUpdateWithoutWordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    index?: IntFieldUpdateOperationsInput | number
+    speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    scene?: NullableStringFieldUpdateOperationsInput | string | null
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DialogUncheckedUpdateManyWithoutWordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    index?: IntFieldUpdateOperationsInput | number
+    speaker?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    scene?: NullableStringFieldUpdateOperationsInput | string | null
+    vietnamese?: StringFieldUpdateOperationsInput | string
+    audioSrc?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: StringFieldUpdateOperationsInput | string
+  }
+
 
 
   /**
@@ -3905,6 +5353,14 @@ export namespace Prisma {
      */
     export type ConversationCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ConversationCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use DialogCountOutputTypeDefaultArgs instead
+     */
+    export type DialogCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DialogCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use WordCountOutputTypeDefaultArgs instead
+     */
+    export type WordCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WordCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use ConversationDefaultArgs instead
      */
     export type ConversationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ConversationDefaultArgs<ExtArgs>
@@ -3912,6 +5368,10 @@ export namespace Prisma {
      * @deprecated Use DialogDefaultArgs instead
      */
     export type DialogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DialogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use WordDefaultArgs instead
+     */
+    export type WordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WordDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

@@ -14,6 +14,24 @@ generator createDialog {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+generator createWord {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-word/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createWordAudio {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-word-audio/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator fetchDialogWordsForCreating {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/fetch-dialog-words-for-creating/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 generator createDialogAudio {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/create-dialog-audio/generated"
@@ -46,7 +64,15 @@ model Dialog {
   gender         Gender
   scene          String?
   vietnamese     String
+  words          Word[]
   audioSrc       String?
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id])
+}
+
+model Word {
+  vietnamese String   @id
+  dialog     Dialog[]
+  maleSrc    String?
+  femaleSrc  String?
 }

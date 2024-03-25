@@ -1,0 +1,23 @@
+{
+  "steps": [
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "args": [
+        "gcloud",
+        "functions",
+        "deploy",
+        "createWord",
+        "--gen2",
+        "--region=us-east1",
+        "--runtime=nodejs18",
+        "--source=.",
+        "--entry-point=createWord",
+        "--trigger-topic=create-word",
+        "--env-vars-file=.env.yaml"
+      ]
+    }
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
+}

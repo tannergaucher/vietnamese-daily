@@ -1,5 +1,6 @@
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
+
 import { PrismaClient } from "./generated";
 
 interface CloudEventData {
