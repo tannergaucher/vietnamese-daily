@@ -2,16 +2,37 @@
 
 import { useRef, useEffect, useState } from "react";
 
-import { Dialog as DialogModel } from "@/generated";
+import { Dialog as DialogModel, Word } from "@/generated";
 
 type Dialog = DialogModel & { audioSrc: string };
 
-export default function DialogList({ dialog }: { dialog: Dialog[] }) {
+export default function DialogList({
+  dialog,
+  dialogWords,
+}: {
+  dialog: Dialog[];
+  dialogWords: Word[];
+}) {
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
     null
   );
 
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const [currentDialogWordSrc, setCurrentDialogWordSrc] = useState<
+    string | null
+  >(null);
+
+  useEffect(() => {
+    if (currentDialogWordSrc) {
+      const audio = new Audio(currentDialogWordSrc);
+      audio.load();
+      audio.play();
+      audio.addEventListener("ended", () => {
+        setCurrentDialogWordSrc(null);
+      });
+    }
+  }, [currentDialogWordSrc]);
 
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
   const liRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -63,6 +84,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
       >
         {isPlaying ? "Pause Conversation" : "Start Conversation"}
       </button>
+      {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
       <ul>
         {dialog.map((dialog, index) => (
           <li
@@ -77,9 +99,37 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
               <em>{dialog.speaker}</em>
             </small>{" "}
             <p className="text-2xl">
-              {dialog.vietnamese.split(" ").map((word, index) => (
-                <span key={index}>{word} </span>
-              ))}
+              {dialog.vietnamese.split(" ").map((word, index) => {
+                const currentDialogWord = dialogWords.find(
+                  (dialogWord) =>
+                    // and lets remove punctuation
+                    dialogWord.vietnamese ===
+                    word
+                      .toLocaleLowerCase()
+                      .replace(/[.,\/#!$%\^&\*;:{}=\\-_`~()]/g, "")
+                );
+
+                return (
+                  <span
+                    // hover clickable
+                    className="hover:underline cursor-pointer"
+                    key={index}
+                    onClick={() => {
+                      if (currentDialogWord) {
+                        if (dialog.gender === "male") {
+                          setCurrentDialogWordSrc(currentDialogWord.maleSrc);
+                        }
+
+                        if (dialog.gender === "female") {
+                          setCurrentDialogWordSrc(currentDialogWord.femaleSrc);
+                        }
+                      }
+                    }}
+                  >
+                    {word}{" "}
+                  </span>
+                );
+              })}
             </p>
             <audio
               ref={(audio) => {

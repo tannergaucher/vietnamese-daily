@@ -5,4 +5,6 @@ export const storage = new Storage({
   keyFilename: "service-account.json",
 });
 
-export const audioBucket = storage.bucket("dialog-audio");
+export const dialogAudioBucket = storage.bucket("dialog-audio");
+
+export const wordAudioBucket = storage.bucket("word-audio");
