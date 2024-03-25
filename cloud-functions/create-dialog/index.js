@@ -75,15 +75,15 @@ functions.http("createDialog", function (req, res) { return __awaiter(void 0, vo
 function createDialog(_a) {
     var dialogSituation = _a.dialogSituation, model = _a.model, prisma = _a.prisma, pubsub = _a.pubsub;
     return __awaiter(this, void 0, void 0, function () {
-        var schema, translator, response, conversation;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var schema, translator, response, conversation, _i, _b, dialog;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     schema = fs.readFileSync(path.join(__dirname, "dialogSchema.ts"), "utf8");
                     translator = (0, typechat_1.createJsonTranslator)(model, schema, "CreateDialogResponse");
                     return [4 /*yield*/, translator.translate("Help me practice conversational Vietnamese. The context of the practice conversation is ".concat(dialogSituation, " Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting."))];
                 case 1:
-                    response = _b.sent();
+                    response = _c.sent();
                     if (!response.success) return [3 /*break*/, 3];
                     return [4 /*yield*/, prisma.conversation.create({
                             data: {
@@ -97,7 +97,7 @@ function createDialog(_a) {
                             },
                         })];
                 case 2:
-                    conversation = _b.sent();
+                    conversation = _c.sent();
                     pubsub
                         .topic("fetch-conversation-dialogs-for-creating-audio")
                         .publishMessage({
@@ -105,6 +105,16 @@ function createDialog(_a) {
                             conversationId: conversation.id,
                         },
                     });
+                    for (_i = 0, _b = conversation.dialog; _i < _b.length; _i++) {
+                        dialog = _b[_i];
+                        {
+                            pubsub.topic("fetch-dialog-words-for-creating").publishMessage({
+                                json: {
+                                    dialogId: dialog.id,
+                                },
+                            });
+                        }
+                    }
                     return [2 /*return*/, {
                             message: "Conversation dialog created",
                             conversation: conversation,

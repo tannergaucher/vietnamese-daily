@@ -134,6 +134,13 @@ exports.Prisma.DialogScalarFieldEnum = {
   conversationId: 'conversationId'
 };
 
+exports.Prisma.WordScalarFieldEnum = {
+  vietnamese: 'vietnamese',
+  speaker: 'speaker',
+  maleSrc: 'maleSrc',
+  femaleSrc: 'femaleSrc'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -155,7 +162,8 @@ exports.Gender = exports.$Enums.Gender = {
 
 exports.Prisma.ModelName = {
   Conversation: 'Conversation',
-  Dialog: 'Dialog'
+  Dialog: 'Dialog',
+  Word: 'Word'
 };
 
 /**

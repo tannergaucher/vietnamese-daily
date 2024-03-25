@@ -105,14 +105,14 @@ export async function createDialogAudio({
       console.log(err, "err");
     });
 
-  const gcsUrl = `https://storage.googleapis.com/${bucketName}/${dialog.conversationId}/${audioFile}`;
+  const gcsUri = `https://storage.googleapis.com/${bucketName}/${dialog.conversationId}/${audioFile}`;
 
   await prisma.dialog.update({
     where: {
       id: dialog.id,
     },
     data: {
-      audioSrc: gcsUrl,
+      audioSrc: gcsUri,
     },
   });
 }
