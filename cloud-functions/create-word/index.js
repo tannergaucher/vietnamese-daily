@@ -99,8 +99,8 @@ function createWord(_a) {
                     _c.label = 3;
                 case 3:
                     sanitizedVietnamese = vietnamese
-                        .toLowerCase()
                         .trim()
+                        .toLowerCase()
                         .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
                     if (!!word) return [3 /*break*/, 5];
                     return [4 /*yield*/, prisma.word.create({

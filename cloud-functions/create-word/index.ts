@@ -72,11 +72,11 @@ export async function createWord({
     });
   }
   // if it doesn't exist, create it, join it to the dialog, and publish to create-word-audio
-  // sanitize the word by lowercasing it and removing any leading or trailing whitespace and punctuation
+  // sanitize the word by lowercasing it and removing punctuation
   const sanitizedVietnamese = vietnamese
     .trim()
     .toLowerCase()
-    .replace(/[^\w\s]|_/g, "");
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
 
   if (!word) {
     await prisma.word.create({
