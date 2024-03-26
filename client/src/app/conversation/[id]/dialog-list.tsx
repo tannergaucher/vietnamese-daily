@@ -106,7 +106,7 @@ export default function DialogList({
                     dialogWord.vietnamese ===
                     word
                       .toLocaleLowerCase()
-                      .replace(/[.,\/#!$%\^&\*;:{}=\\-_`~()]/g, "")
+                      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
                 );
 
                 return (
