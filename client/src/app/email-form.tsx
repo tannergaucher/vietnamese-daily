@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 
 export function EmailForm() {
@@ -33,28 +35,29 @@ export function EmailForm() {
     }
   };
   return (
-    <form className="flex flex-col items-center justify-center">
+    <form
+      className="flex flex-col items-center justify-center"
+      onSubmit={handleSubmit}
+    >
       <label htmlFor="email" className="my-4 text-xl">
         Subscribe for daily Vietnamese conversations.
       </label>
       <div className="flex justify-evenly items-center">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Your email address"
-            className="my-4 mr-2 p-2 flex-grow rounded border border-gray-300"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="my-4 px-6 py-2 bg-white text-black rounded shadow hover:bg-gray-200"
-          >
-            Sign Up
-          </button>
-        </form>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Your email address"
+          className="my-4 mr-2 p-2 flex-grow rounded border border-gray-300"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="my-4 px-6 py-2 bg-white text-black rounded shadow hover:bg-gray-200"
+        >
+          Sign Up
+        </button>
       </div>
     </form>
   );
