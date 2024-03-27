@@ -44,6 +44,18 @@ generator fetchConversationDialogsForCreatingAudio {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+generator handleEmailSignUp {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/handle-email-signup/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator sendConfirmationEmail {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/send-confirmation-email/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 enum Gender {
   male
   female
@@ -75,4 +87,9 @@ model Word {
   dialog     Dialog[]
   maleSrc    String?
   femaleSrc  String?
+}
+
+model User {
+  id    String @id @default(uuid())
+  email String @unique
 }

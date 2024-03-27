@@ -1,5 +1,8 @@
+import React, { useState } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+
+import { EmailForm } from "./email-form";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,26 +28,7 @@ export default function RootLayout({
         </header>
         <main className="mb-auto">{children}</main>
         <footer className="bg-vietnam-red text-white p-4">
-          <form className="flex flex-col items-center justify-center">
-            <label htmlFor="email" className="my-4 text-xl">
-              Subscribe for daily Vietnamese conversations.
-            </label>
-            <div className="flex justify-evenly items-center">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Your email address"
-                className="my-4 mr-2 p-2 flex-grow rounded border border-gray-300"
-              />
-              <button
-                type="submit"
-                className="my-4 px-6 py-2 bg-white text-black rounded shadow hover:bg-gray-200"
-              >
-                Sign Up
-              </button>
-            </div>
-          </form>
+          <EmailForm />
         </footer>
       </body>
     </html>
