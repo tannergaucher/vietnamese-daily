@@ -31,11 +31,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendConfirmationEmail = void 0;
 const functions = __importStar(require("@google-cloud/functions-framework"));
-const sgMail = __importStar(require("@sendgrid/mail"));
-const generated_1 = require("./generated");
+const mail_1 = __importDefault(require("@sendgrid/mail"));
 functions.cloudEvent("sendConfirmationEmail", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {
@@ -46,26 +48,26 @@ functions.cloudEvent("sendConfirmationEmail", (cloudEvent) => __awaiter(void 0, 
     if (!process.env.SENDGRID_API_KEY) {
         throw new Error("SENDGRID_API_KEY is required");
     }
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const prisma = new generated_1.PrismaClient();
+    mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
+    // const prisma = new PrismaClient();
     sendConfirmationEmail({
         email: parsedData.email,
-        sgMail: sgMail,
-        prisma,
+        sgMail: mail_1.default,
+        // prisma,
     });
 }));
 function sendConfirmationEmail(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ email, sgMail, prisma, }) {
-        const user = yield prisma.user.findUniqueOrThrow({
-            where: {
-                email: email,
-            },
-            select: {
-                email: true,
-            },
-        });
+    return __awaiter(this, arguments, void 0, function* ({ email, sgMail, }) {
+        // const user = await prisma.user.findUniqueOrThrow({
+        //   where: {
+        //     email: email,
+        //   },
+        //   select: {
+        //     email: true,
+        //   },
+        // });
         const msg = {
-            to: user.email,
+            to: email,
             from: "tanner@vietnamesedaily.app",
             subject: "You are now a member of Vietnamese Daily!",
             text: "and easy to do anywhere, even with Node.js",

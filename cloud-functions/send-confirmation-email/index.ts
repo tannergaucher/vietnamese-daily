@@ -1,7 +1,5 @@
 import * as functions from "@google-cloud/functions-framework";
-import * as sgMail from "@sendgrid/mail";
-
-import { PrismaClient } from "./generated";
+import sgMail from "@sendgrid/mail";
 
 interface CloudEventData {
   message: {
@@ -29,12 +27,12 @@ functions.cloudEvent(
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const prisma = new PrismaClient();
+    // const prisma = new PrismaClient();
 
     sendConfirmationEmail({
       email: parsedData.email,
       sgMail: sgMail,
-      prisma,
+      // prisma,
     });
   }
 );
@@ -42,23 +40,12 @@ functions.cloudEvent(
 export async function sendConfirmationEmail({
   email,
   sgMail,
-  prisma,
 }: {
   email: string;
   sgMail: sgMail.MailService;
-  prisma: PrismaClient;
 }) {
-  const user = await prisma.user.findUniqueOrThrow({
-    where: {
-      email: email,
-    },
-    select: {
-      email: true,
-    },
-  });
-
   const msg = {
-    to: user.email,
+    to: email,
     from: "tanner@vietnamesedaily.app",
     subject: "You are now a member of Vietnamese Daily!",
     text: "and easy to do anywhere, even with Node.js",

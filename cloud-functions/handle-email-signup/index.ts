@@ -8,6 +8,17 @@ interface RequestBody {
 }
 
 functions.http("handleEmailSignup", async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  res.set("Access-Control-Max-Age", "3600");
+
+  if (req.method === "OPTIONS") {
+    // Pre-flight request. Reply successfully:
+    res.status(204).send("");
+    return;
+  }
+
   const { email }: RequestBody = req.body;
 
   if (!email) {

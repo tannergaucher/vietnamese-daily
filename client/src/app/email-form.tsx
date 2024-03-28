@@ -8,30 +8,22 @@ export function EmailForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!process.env.EMAIL_SIGNUP_URL) {
+    console.log(process.env);
+
+    if (!process.env.NEXT_PUBLIC_EMAIL_SIGNUP_URL) {
       throw new Error("EMAIL_SIGNUP_URL is required");
     }
 
-    try {
-      const response = await fetch(process.env.EMAIL_SIGNUP_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+    const response = await fetch(process.env.NEXT_PUBLIC_EMAIL_SIGNUP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(
-        "There has been a problem with your fetch operation:",
-        error
-      );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
     }
   };
   return (
@@ -48,7 +40,7 @@ export function EmailForm() {
           id="email"
           name="email"
           placeholder="Your email address"
-          className="my-4 mr-2 p-2 flex-grow rounded border border-gray-300"
+          className="my-4 mr-2 p-2 flex-grow rounded border border-gray-300 text-black"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

@@ -37,6 +37,15 @@ const functions = __importStar(require("@google-cloud/functions-framework"));
 const pubsub_1 = require("@google-cloud/pubsub");
 const generated_1 = require("./generated");
 functions.http("handleEmailSignup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "POST");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    res.set("Access-Control-Max-Age", "3600");
+    if (req.method === "OPTIONS") {
+        // Pre-flight request. Reply successfully:
+        res.status(204).send("");
+        return;
+    }
     const { email } = req.body;
     if (!email) {
         res.status(400).send("email is required");
