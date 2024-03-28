@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx functions-framework --target=createWord --signature-type=cloudevent",
     "build": "tsc ./index.ts --skipLibCheck",
     "deploy": "npm run build && gcloud builds submit --config cloudbuild.json"
   },
