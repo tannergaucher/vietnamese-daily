@@ -123,6 +123,12 @@ exports.Prisma.ConversationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConversationSituationScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  conversationId: 'conversationId'
+};
+
 exports.Prisma.DialogScalarFieldEnum = {
   id: 'id',
   index: 'index',
@@ -161,6 +167,7 @@ exports.Gender = exports.$Enums.Gender = {
 
 exports.Prisma.ModelName = {
   Conversation: 'Conversation',
+  ConversationSituation: 'ConversationSituation',
   Dialog: 'Dialog',
   Word: 'Word'
 };

@@ -11,44 +11,53 @@ import {
 import { CreateDialogResponse } from "./dialogSchema";
 import { PrismaClient } from "./generated";
 
-interface RequestBody {
-  dialogSituation: string;
+interface CloudEventData {
+  message: {
+    data: string;
+  };
 }
 
-functions.http("createDialog", async (req, res) => {
-  const { dialogSituation }: RequestBody = req.body;
+functions.cloudEvent(
+  "createDialog",
+  async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
+    if (!cloudEvent.data?.message?.data) {
+      throw new Error("Message data is required");
+    }
 
-  if (!dialogSituation) {
-    res.status(400).send("dialogSituation is required");
-    return;
+    const messageData = Buffer.from(
+      cloudEvent.data.message.data,
+      "base64"
+    ).toString("utf8");
+
+    const parsedData = JSON.parse(messageData);
+
+    const model = createLanguageModel(process.env);
+
+    const prisma = new PrismaClient();
+
+    const pubsub = new PubSub({
+      projectId: "daily-vietnamese",
+      keyFilename: "./service-account.json",
+    });
+
+    const response = await createDialog({
+      situationId: parsedData.situationId,
+      model,
+      prisma,
+      pubsub,
+    });
+
+    return response;
   }
-
-  const model = createLanguageModel(process.env);
-
-  const prisma = new PrismaClient();
-
-  const pubsub = new PubSub({
-    projectId: "daily-vietnamese",
-    keyFilename: "./service-account.json",
-  });
-
-  const response = await createDialog({
-    dialogSituation,
-    model,
-    prisma,
-    pubsub,
-  });
-
-  res.status(200).send(response);
-});
+);
 
 export async function createDialog({
-  dialogSituation,
+  situationId,
   model,
   prisma,
   pubsub,
 }: {
-  dialogSituation: string;
+  situationId: string;
   model: TypeChatLanguageModel;
   prisma: PrismaClient;
   pubsub: PubSub;
@@ -64,14 +73,29 @@ export async function createDialog({
     "CreateDialogResponse"
   );
 
+  const conversationSituation =
+    await prisma.conversationSituation.findUniqueOrThrow({
+      where: {
+        id: situationId,
+      },
+      select: {
+        text: true,
+      },
+    });
+
   const response = await translator.translate(
-    `Help me practice conversational Vietnamese. The context of the practice conversation is ${dialogSituation} Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting.`
+    `Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text} Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting.`
   );
 
   if (response.success) {
     const conversation = await prisma.conversation.create({
       data: {
         title: response.data.conversation.title,
+        situation: {
+          connect: {
+            id: situationId,
+          },
+        },
         dialog: {
           create: response.data.conversation.dialog,
         },
