@@ -42,10 +42,11 @@ var util = require("util");
 var functions = require("@google-cloud/functions-framework");
 var TextToSpeech = require("@google-cloud/text-to-speech");
 var text_to_speech_1 = require("@google-cloud/text-to-speech");
+var pubsub_1 = require("@google-cloud/pubsub");
 var storage_1 = require("@google-cloud/storage");
 var generated_1 = require("./generated");
 functions.cloudEvent("createWordAudio", function (cloudEvent) { return __awaiter(void 0, void 0, void 0, function () {
-    var messageData, parsedData, prisma, textToSpeech, storage;
+    var messageData, parsedData, prisma, textToSpeech, storage, pubsub;
     var _a, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
@@ -61,11 +62,17 @@ functions.cloudEvent("createWordAudio", function (cloudEvent) { return __awaiter
                     projectId: "daily-vietnamese",
                     keyFilename: "./service-account.json",
                 });
+                pubsub = new pubsub_1.PubSub({
+                    projectId: "daily-vietnamese",
+                    keyFilename: "./service-account.json",
+                });
                 return [4 /*yield*/, createWordAudio({
                         vietnamese: parsedData.vietnamese,
+                        dialogId: parsedData.dialogId,
                         prisma: prisma,
                         textToSpeech: textToSpeech,
                         storage: storage,
+                        pubsub: pubsub,
                     })];
             case 1:
                 _c.sent();
@@ -75,8 +82,8 @@ functions.cloudEvent("createWordAudio", function (cloudEvent) { return __awaiter
 }); });
 function createWordAudio(_a) {
     return __awaiter(this, arguments, void 0, function (_b) {
-        var maleResponse, writeFile, maleAudioFile, bucketName, bucket, maleGcsUri, femaleResponse, femaleAudioFile, femaleGcsUri;
-        var vietnamese = _b.vietnamese, prisma = _b.prisma, textToSpeech = _b.textToSpeech, storage = _b.storage;
+        var maleResponse, writeFile, maleAudioFile, bucketName, bucket, maleGcsUri, femaleResponse, femaleAudioFile, femaleGcsUri, dialog;
+        var vietnamese = _b.vietnamese, dialogId = _b.dialogId, prisma = _b.prisma, textToSpeech = _b.textToSpeech, storage = _b.storage, pubsub = _b.pubsub;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0: return [4 /*yield*/, textToSpeech.synthesizeSpeech({
@@ -150,6 +157,21 @@ function createWordAudio(_a) {
                         })];
                 case 6:
                     _c.sent();
+                    return [4 /*yield*/, prisma.dialog.findUniqueOrThrow({
+                            where: {
+                                id: dialogId,
+                            },
+                            select: {
+                                conversationId: true,
+                            },
+                        })];
+                case 7:
+                    dialog = _c.sent();
+                    pubsub.topic("publish-conversation").publishMessage({
+                        json: {
+                            conversationId: dialog.conversationId,
+                        },
+                    });
                     return [2 /*return*/];
             }
         });

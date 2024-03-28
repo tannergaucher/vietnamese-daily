@@ -1327,6 +1327,8 @@ export namespace Prisma {
     title: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    published: boolean | null
+    date: Date | null
   }
 
   export type ConversationMaxAggregateOutputType = {
@@ -1334,6 +1336,8 @@ export namespace Prisma {
     title: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    published: boolean | null
+    date: Date | null
   }
 
   export type ConversationCountAggregateOutputType = {
@@ -1341,6 +1345,8 @@ export namespace Prisma {
     title: number
     createdAt: number
     updatedAt: number
+    published: number
+    date: number
     _all: number
   }
 
@@ -1350,6 +1356,8 @@ export namespace Prisma {
     title?: true
     createdAt?: true
     updatedAt?: true
+    published?: true
+    date?: true
   }
 
   export type ConversationMaxAggregateInputType = {
@@ -1357,6 +1365,8 @@ export namespace Prisma {
     title?: true
     createdAt?: true
     updatedAt?: true
+    published?: true
+    date?: true
   }
 
   export type ConversationCountAggregateInputType = {
@@ -1364,6 +1374,8 @@ export namespace Prisma {
     title?: true
     createdAt?: true
     updatedAt?: true
+    published?: true
+    date?: true
     _all?: true
   }
 
@@ -1444,6 +1456,8 @@ export namespace Prisma {
     title: string
     createdAt: Date
     updatedAt: Date
+    published: boolean
+    date: Date | null
     _count: ConversationCountAggregateOutputType | null
     _min: ConversationMinAggregateOutputType | null
     _max: ConversationMaxAggregateOutputType | null
@@ -1468,6 +1482,8 @@ export namespace Prisma {
     title?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    published?: boolean
+    date?: boolean
     dialog?: boolean | Conversation$dialogArgs<ExtArgs>
     situation?: boolean | Conversation$situationArgs<ExtArgs>
     _count?: boolean | ConversationCountOutputTypeDefaultArgs<ExtArgs>
@@ -1478,6 +1494,8 @@ export namespace Prisma {
     title?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    published?: boolean
+    date?: boolean
   }
 
   export type ConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1498,6 +1516,8 @@ export namespace Prisma {
       title: string
       createdAt: Date
       updatedAt: Date
+      published: boolean
+      date: Date | null
     }, ExtArgs["result"]["conversation"]>
     composites: {}
   }
@@ -1899,6 +1919,8 @@ export namespace Prisma {
     readonly title: FieldRef<"Conversation", 'String'>
     readonly createdAt: FieldRef<"Conversation", 'DateTime'>
     readonly updatedAt: FieldRef<"Conversation", 'DateTime'>
+    readonly published: FieldRef<"Conversation", 'Boolean'>
+    readonly date: FieldRef<"Conversation", 'DateTime'>
   }
     
 
@@ -5959,7 +5981,9 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    published: 'published',
+    date: 'date'
   };
 
   export type ConversationScalarFieldEnum = (typeof ConversationScalarFieldEnum)[keyof typeof ConversationScalarFieldEnum]
@@ -6063,6 +6087,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -6115,6 +6146,8 @@ export namespace Prisma {
     title?: StringFilter<"Conversation"> | string
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
+    published?: BoolFilter<"Conversation"> | boolean
+    date?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     dialog?: DialogListRelationFilter
     situation?: XOR<ConversationSituationNullableRelationFilter, ConversationSituationWhereInput> | null
   }
@@ -6124,6 +6157,8 @@ export namespace Prisma {
     title?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
+    date?: SortOrderInput | SortOrder
     dialog?: DialogOrderByRelationAggregateInput
     situation?: ConversationSituationOrderByWithRelationInput
   }
@@ -6136,6 +6171,8 @@ export namespace Prisma {
     title?: StringFilter<"Conversation"> | string
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
+    published?: BoolFilter<"Conversation"> | boolean
+    date?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     dialog?: DialogListRelationFilter
     situation?: XOR<ConversationSituationNullableRelationFilter, ConversationSituationWhereInput> | null
   }, "id">
@@ -6145,6 +6182,8 @@ export namespace Prisma {
     title?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
+    date?: SortOrderInput | SortOrder
     _count?: ConversationCountOrderByAggregateInput
     _max?: ConversationMaxOrderByAggregateInput
     _min?: ConversationMinOrderByAggregateInput
@@ -6158,6 +6197,8 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Conversation"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
+    published?: BoolWithAggregatesFilter<"Conversation"> | boolean
+    date?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
   }
 
   export type ConversationSituationWhereInput = {
@@ -6367,6 +6408,8 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
+    date?: Date | string | null
     dialog?: DialogCreateNestedManyWithoutConversationInput
     situation?: ConversationSituationCreateNestedOneWithoutConversationInput
   }
@@ -6376,6 +6419,8 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
+    date?: Date | string | null
     dialog?: DialogUncheckedCreateNestedManyWithoutConversationInput
     situation?: ConversationSituationUncheckedCreateNestedOneWithoutConversationInput
   }
@@ -6385,6 +6430,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dialog?: DialogUpdateManyWithoutConversationNestedInput
     situation?: ConversationSituationUpdateOneWithoutConversationNestedInput
   }
@@ -6394,6 +6441,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dialog?: DialogUncheckedUpdateManyWithoutConversationNestedInput
     situation?: ConversationSituationUncheckedUpdateOneWithoutConversationNestedInput
   }
@@ -6403,6 +6452,8 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
+    date?: Date | string | null
   }
 
   export type ConversationUpdateManyMutationInput = {
@@ -6410,6 +6461,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ConversationUncheckedUpdateManyInput = {
@@ -6417,6 +6470,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ConversationSituationCreateInput = {
@@ -6647,6 +6702,22 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type DialogListRelationFilter = {
     every?: DialogWhereInput
     some?: DialogWhereInput
@@ -6658,6 +6729,11 @@ export namespace Prisma {
     isNot?: ConversationSituationWhereInput | null
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type DialogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -6667,6 +6743,8 @@ export namespace Prisma {
     title?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
+    date?: SortOrder
   }
 
   export type ConversationMaxOrderByAggregateInput = {
@@ -6674,6 +6752,8 @@ export namespace Prisma {
     title?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
+    date?: SortOrder
   }
 
   export type ConversationMinOrderByAggregateInput = {
@@ -6681,6 +6761,8 @@ export namespace Prisma {
     title?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
+    date?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -6715,6 +6797,28 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6733,11 +6837,6 @@ export namespace Prisma {
   export type ConversationNullableRelationFilter = {
     is?: ConversationWhereInput | null
     isNot?: ConversationWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type ConversationSituationCountOrderByAggregateInput = {
@@ -6943,6 +7042,14 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type DialogUpdateManyWithoutConversationNestedInput = {
     create?: XOR<DialogCreateWithoutConversationInput, DialogUncheckedCreateWithoutConversationInput> | DialogCreateWithoutConversationInput[] | DialogUncheckedCreateWithoutConversationInput[]
     connectOrCreate?: DialogCreateOrConnectWithoutConversationInput | DialogCreateOrConnectWithoutConversationInput[]
@@ -7138,6 +7245,22 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -7180,6 +7303,39 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7209,17 +7365,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumGenderFilter<$PrismaModel = never> = {
@@ -7369,6 +7514,8 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
+    date?: Date | string | null
     dialog?: DialogCreateNestedManyWithoutConversationInput
   }
 
@@ -7377,6 +7524,8 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
+    date?: Date | string | null
     dialog?: DialogUncheckedCreateNestedManyWithoutConversationInput
   }
 
@@ -7401,6 +7550,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dialog?: DialogUpdateManyWithoutConversationNestedInput
   }
 
@@ -7409,6 +7560,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dialog?: DialogUncheckedUpdateManyWithoutConversationNestedInput
   }
 
@@ -7434,6 +7587,8 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
+    date?: Date | string | null
     situation?: ConversationSituationCreateNestedOneWithoutConversationInput
   }
 
@@ -7442,6 +7597,8 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
+    date?: Date | string | null
     situation?: ConversationSituationUncheckedCreateNestedOneWithoutConversationInput
   }
 
@@ -7491,6 +7648,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     situation?: ConversationSituationUpdateOneWithoutConversationNestedInput
   }
 
@@ -7499,6 +7658,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     situation?: ConversationSituationUncheckedUpdateOneWithoutConversationNestedInput
   }
 

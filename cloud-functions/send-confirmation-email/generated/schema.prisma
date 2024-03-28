@@ -62,6 +62,24 @@ generator sendConfirmationEmail {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+generator publishConversation {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/publish-conversation/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator sendDailyEmail {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/send-daily-email/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator fetchUsersForDailyEmail {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/fetch-users-for-daily-email/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 enum Gender {
   male
   female
@@ -72,6 +90,8 @@ model Conversation {
   title     String
   createdAt DateTime               @default(now())
   updatedAt DateTime               @updatedAt
+  published Boolean                @default(false)
+  date      DateTime?
   dialog    Dialog[]
   situation ConversationSituation?
 }

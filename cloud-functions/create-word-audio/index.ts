@@ -4,6 +4,7 @@ import * as util from "util";
 import * as functions from "@google-cloud/functions-framework";
 import * as TextToSpeech from "@google-cloud/text-to-speech";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
+import { PubSub } from "@google-cloud/pubsub";
 import { Storage } from "@google-cloud/storage";
 
 import { PrismaClient } from "./generated";
@@ -37,25 +38,36 @@ functions.cloudEvent(
       keyFilename: "./service-account.json",
     });
 
+    const pubsub = new PubSub({
+      projectId: "daily-vietnamese",
+      keyFilename: "./service-account.json",
+    });
+
     await createWordAudio({
       vietnamese: parsedData.vietnamese,
+      dialogId: parsedData.dialogId,
       prisma,
       textToSpeech,
       storage,
+      pubsub,
     });
   }
 );
 
 export async function createWordAudio({
   vietnamese,
+  dialogId,
   prisma,
   textToSpeech,
   storage,
+  pubsub,
 }: {
   vietnamese: string;
+  dialogId: string;
   prisma: PrismaClient;
   textToSpeech: TextToSpeechClient;
   storage: Storage;
+  pubsub: PubSub;
 }) {
   const [maleResponse] = await textToSpeech.synthesizeSpeech({
     input: { text: vietnamese },
@@ -134,6 +146,21 @@ export async function createWordAudio({
     },
     data: {
       femaleSrc: femaleGcsUri,
+    },
+  });
+
+  const dialog = await prisma.dialog.findUniqueOrThrow({
+    where: {
+      id: dialogId,
+    },
+    select: {
+      conversationId: true,
+    },
+  });
+
+  pubsub.topic("publish-conversation").publishMessage({
+    json: {
+      conversationId: dialog.conversationId,
     },
   });
 }
