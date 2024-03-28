@@ -27,12 +27,9 @@ functions.cloudEvent(
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    // const prisma = new PrismaClient();
-
     sendConfirmationEmail({
       email: parsedData.email,
       sgMail: sgMail,
-      // prisma,
     });
   }
 );
@@ -46,7 +43,7 @@ export async function sendConfirmationEmail({
 }) {
   const msg = {
     to: email,
-    from: "tanner@vietnamesedaily.app",
+    from: "tannermichaelgaucher@gmail.com",
     subject: "You are now a member of Vietnamese Daily!",
     text: "and easy to do anywhere, even with Node.js",
     html: "<strong>and easy to do anywhere, even with Node.js</strong>",

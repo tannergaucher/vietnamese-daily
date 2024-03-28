@@ -49,26 +49,16 @@ functions.cloudEvent("sendConfirmationEmail", (cloudEvent) => __awaiter(void 0, 
         throw new Error("SENDGRID_API_KEY is required");
     }
     mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
-    // const prisma = new PrismaClient();
     sendConfirmationEmail({
         email: parsedData.email,
         sgMail: mail_1.default,
-        // prisma,
     });
 }));
 function sendConfirmationEmail(_a) {
     return __awaiter(this, arguments, void 0, function* ({ email, sgMail, }) {
-        // const user = await prisma.user.findUniqueOrThrow({
-        //   where: {
-        //     email: email,
-        //   },
-        //   select: {
-        //     email: true,
-        //   },
-        // });
         const msg = {
             to: email,
-            from: "tanner@vietnamesedaily.app",
+            from: "tannermichaelgaucher@gmail.com",
             subject: "You are now a member of Vietnamese Daily!",
             text: "and easy to do anywhere, even with Node.js",
             html: "<strong>and easy to do anywhere, even with Node.js</strong>",
