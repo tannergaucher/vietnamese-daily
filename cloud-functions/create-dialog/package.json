@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "vitest",
-    "start": "npx functions-framework --target=createDialog --signature-type=http",
+    "start": "npx functions-framework --target=createDialog --signature-type=event",
     "deploy": "npm run build && gcloud builds submit --config cloudbuild.json"
   },
   "author": "",

@@ -10,10 +10,9 @@
         "--gen2",
         "--region=us-east1",
         "--source=.",
-        "--trigger-http",
         "--runtime=nodejs18",
-        "--allow-unauthenticated",
         "--entry-point=createDialog",
+        "--trigger-topic=create-dialog",
         "--env-vars-file=.env.yaml"
       ]
     }
