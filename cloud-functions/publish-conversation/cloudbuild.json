@@ -1,0 +1,23 @@
+{
+  "steps": [
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "args": [
+        "gcloud",
+        "functions",
+        "deploy",
+        "publishConversation",
+        "--gen2",
+        "--region=us-east1",
+        "--source=.",
+        "--runtime=nodejs18",
+        "--entry-point=publishConversation",
+        "--trigger-topic=publish-conversation",
+        "--env-vars-file=.env.yaml"
+      ]
+    }
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
+}

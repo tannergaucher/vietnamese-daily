@@ -120,7 +120,9 @@ exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
   title: 'title',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  published: 'published',
+  date: 'date'
 };
 
 exports.Prisma.ConversationSituationScalarFieldEnum = {

@@ -93,6 +93,7 @@ export async function createWord({
     pubsub.topic("create-word-audio").publishMessage({
       json: {
         vietnamese: sanitizedVietnamese,
+        dialogId,
       },
     });
   }

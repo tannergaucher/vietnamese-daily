@@ -1,0 +1,23 @@
+{
+  "steps": [
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "args": [
+        "gcloud",
+        "functions",
+        "deploy",
+        "fetchUsersForDailyEmail",
+        "--gen2",
+        "--region=us-east1",
+        "--source=.",
+        "--runtime=nodejs18",
+        "--entry-point=fetchUsersForDailyEmail",
+        "--trigger-topic=fetch-users-for-daily-email",
+        "--env-vars-file=.env.yaml"
+      ]
+    }
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
+}
