@@ -1,0 +1,23 @@
+{
+  "steps": [
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "args": [
+        "gcloud",
+        "functions",
+        "deploy",
+        "sendConfirmationEmail",
+        "--gen2",
+        "--region=us-east1",
+        "--runtime=nodejs18",
+        "--source=.",
+        "--entry-point=sendConfirmationEmail",
+        "--trigger-topic=send-confirmation-email",
+        "--env-vars-file=.env.yaml"
+      ]
+    }
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
+}
