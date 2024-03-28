@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc ./index.ts --skipLibCheck",
     "test": "vitest",
+    "start": "npx functions-framework --target=createDialogAudio --signature-type=cloudevent",
     "deploy": "gcloud builds submit --config cloudbuild.json"
   },
   "author": "",
