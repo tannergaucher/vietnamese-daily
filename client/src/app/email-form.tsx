@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 
+import { HandleEmailSignupRequestBody } from "../../../cloud-functions-event-types";
+
 export function EmailForm() {
   const [email, setEmail] = useState("");
 
@@ -19,7 +21,7 @@ export function EmailForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email } as HandleEmailSignupRequestBody),
     });
 
     if (!response.ok) {
