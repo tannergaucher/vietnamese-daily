@@ -8,19 +8,14 @@ import {
   SendDailyEmailEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "sendDailyEmail",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData) as SendDailyEmailEvent;
+    const { email, conversationId } = parseCloudEventData<SendDailyEmailEvent>({
+      cloudEvent,
+    });
 
     if (!process.env.SENDGRID_API_KEY) {
       throw new Error("SENDGRID_API_KEY is required");
@@ -31,8 +26,8 @@ functions.cloudEvent(
     const prisma = new PrismaClient();
 
     sendDailyEmail({
-      email: parsedData.email,
-      conversationId: parsedData.conversationId,
+      email,
+      conversationId,
       prisma,
       sgMail,
     });

@@ -12,19 +12,14 @@ import {
   CreateDialogAudioEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "createDialogAudio",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData) as CreateDialogAudioEvent;
+    const { dialogId } = parseCloudEventData<CreateDialogAudioEvent>({
+      cloudEvent,
+    });
 
     const textToSpeech = new TextToSpeechClient({
       projectId: "daily-vietnamese",
@@ -39,7 +34,7 @@ functions.cloudEvent(
     });
 
     await createDialogAudio({
-      dialogId: parsedData.dialogId,
+      dialogId,
       textToSpeech,
       prisma,
       storage,

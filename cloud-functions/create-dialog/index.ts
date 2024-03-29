@@ -18,6 +18,8 @@ import {
   CreateDialogEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "createDialog",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
@@ -25,12 +27,9 @@ functions.cloudEvent(
       throw new Error("Message data is required");
     }
 
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData) as CreateDialogEvent;
+    const { situationId } = parseCloudEventData<CreateDialogEvent>({
+      cloudEvent,
+    });
 
     const model = createLanguageModel(process.env);
 
@@ -42,7 +41,7 @@ functions.cloudEvent(
     });
 
     const response = await createDialog({
-      situationId: parsedData.situationId,
+      situationId,
       model,
       prisma,
       pubsub,

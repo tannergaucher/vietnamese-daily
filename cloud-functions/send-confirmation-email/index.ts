@@ -6,19 +6,14 @@ import {
   SendConfirmationEmailEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "sendConfirmationEmail",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData) as SendConfirmationEmailEvent;
+    const { email } = parseCloudEventData<SendConfirmationEmailEvent>({
+      cloudEvent,
+    });
 
     if (!process.env.SENDGRID_API_KEY) {
       throw new Error("SENDGRID_API_KEY is required");
@@ -27,8 +22,8 @@ functions.cloudEvent(
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     sendConfirmationEmail({
-      email: parsedData.email,
-      sgMail: sgMail,
+      email,
+      sgMail,
     });
   }
 );

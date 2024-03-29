@@ -9,21 +9,15 @@ import {
   FetchConversationDialogsForCreatingAudioEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "fetchConversationDialogsForCreatingAudio",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(
-      messageData
-    ) as FetchConversationDialogsForCreatingAudioEvent;
+    const { conversationId } =
+      parseCloudEventData<FetchConversationDialogsForCreatingAudioEvent>({
+        cloudEvent,
+      });
 
     const prisma = new PrismaClient();
 
@@ -33,7 +27,7 @@ functions.cloudEvent(
     });
 
     await fetchConversationDialogsForCreatingAudio({
-      conversationId: parsedData.conversationId,
+      conversationId,
       prisma,
       pubsub,
     });

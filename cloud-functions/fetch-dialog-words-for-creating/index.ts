@@ -9,21 +9,14 @@ import {
   CreateWordEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "fetchDialogWordsForCreating",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(
-      messageData
-    ) as FetchDialogWordsForCreatingEvent;
+    const { dialogId } = parseCloudEventData<FetchDialogWordsForCreatingEvent>({
+      cloudEvent,
+    });
 
     const prisma = new PrismaClient();
 
@@ -33,7 +26,7 @@ functions.cloudEvent(
     });
 
     await fetchDialogWordsForCreating({
-      dialogId: parsedData.dialogId,
+      dialogId,
       prisma,
       pubsub,
     });

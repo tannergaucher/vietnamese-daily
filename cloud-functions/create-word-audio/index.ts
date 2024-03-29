@@ -15,19 +15,14 @@ import {
   PublishConversationEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "createWordAudio",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData) as CreateWordAudioEvent;
+    const { vietnamese, dialogId } = parseCloudEventData<CreateWordAudioEvent>({
+      cloudEvent,
+    });
 
     const prisma = new PrismaClient();
 
@@ -44,8 +39,8 @@ functions.cloudEvent(
     });
 
     await createWordAudio({
-      vietnamese: parsedData.vietnamese,
-      dialogId: parsedData.dialogId,
+      vietnamese,
+      dialogId,
       prisma,
       textToSpeech,
       storage,

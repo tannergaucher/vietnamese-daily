@@ -9,19 +9,14 @@ import {
   FetchUsersForDailyEmailEvent,
 } from "../../cloud-functions-event-types";
 
+import { parseCloudEventData } from "../temp-utils";
+
 functions.cloudEvent(
   "publishConversation",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData) as PublishConversationEvent;
+    const { conversationId } = parseCloudEventData<PublishConversationEvent>({
+      cloudEvent,
+    });
 
     const prisma = new PrismaClient();
 
@@ -31,7 +26,7 @@ functions.cloudEvent(
     });
 
     await publishConversation({
-      conversationId: parsedData.conversationId,
+      conversationId,
       prisma,
       pubsub,
     });
