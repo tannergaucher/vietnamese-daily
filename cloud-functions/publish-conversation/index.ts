@@ -3,11 +3,11 @@ import { PubSub } from "@google-cloud/pubsub";
 
 import { PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  PublishConversationEvent,
+  FetchUsersForDailyEmailEvent,
+} from "../../cloud-functions-event-types";
 
 functions.cloudEvent(
   "publishConversation",
@@ -21,7 +21,7 @@ functions.cloudEvent(
       "base64"
     ).toString("utf8");
 
-    const parsedData = JSON.parse(messageData);
+    const parsedData = JSON.parse(messageData) as PublishConversationEvent;
 
     const prisma = new PrismaClient();
 
@@ -38,15 +38,16 @@ functions.cloudEvent(
   }
 );
 
+type PublishConversationParams = PublishConversationEvent & {
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function publishConversation({
   conversationId,
   prisma,
   pubsub,
-}: {
-  conversationId: string;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
+}: PublishConversationParams) {
   const dialogWords = await prisma.word.findMany({
     where: {
       dialog: {
@@ -94,9 +95,11 @@ export async function publishConversation({
     },
   });
 
+  const json: FetchUsersForDailyEmailEvent = {
+    conversationId,
+  };
+
   pubsub.topic("fetch-users-for-daily-email").publishMessage({
-    json: {
-      conversationId,
-    },
+    json,
   });
 }

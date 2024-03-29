@@ -11,11 +11,12 @@ import {
 import { CreateDialogResponse } from "./dialogSchema";
 import { PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  FetchConversationDialogsForCreatingAudioEvent,
+  FetchDialogWordsForCreatingEvent,
+  CreateDialogEvent,
+} from "../../cloud-functions-event-types";
 
 functions.cloudEvent(
   "createDialog",
@@ -29,7 +30,7 @@ functions.cloudEvent(
       "base64"
     ).toString("utf8");
 
-    const parsedData = JSON.parse(messageData);
+    const parsedData = JSON.parse(messageData) as CreateDialogEvent;
 
     const model = createLanguageModel(process.env);
 
@@ -51,17 +52,18 @@ functions.cloudEvent(
   }
 );
 
+type CreateDialogParams = CreateDialogEvent & {
+  model: TypeChatLanguageModel;
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function createDialog({
   situationId,
   model,
   prisma,
   pubsub,
-}: {
-  situationId: string;
-  model: TypeChatLanguageModel;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
+}: CreateDialogParams) {
   const schema = fs.readFileSync(
     path.join(__dirname, "dialogSchema.ts"),
     "utf8"
@@ -105,20 +107,24 @@ export async function createDialog({
       },
     });
 
+    const json: FetchConversationDialogsForCreatingAudioEvent = {
+      conversationId: conversation.id,
+    };
+
     pubsub
       .topic("fetch-conversation-dialogs-for-creating-audio")
       .publishMessage({
-        json: {
-          conversationId: conversation.id,
-        },
+        json,
       });
 
     for (const dialog of conversation.dialog) {
+      const json: FetchDialogWordsForCreatingEvent = {
+        dialogId: dialog.id,
+      };
+
       {
         pubsub.topic("fetch-dialog-words-for-creating").publishMessage({
-          json: {
-            dialogId: dialog.id,
-          },
+          json,
         });
       }
     }

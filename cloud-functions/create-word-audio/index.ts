@@ -9,11 +9,11 @@ import { Storage } from "@google-cloud/storage";
 
 import { PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  CreateWordAudioEvent,
+  PublishConversationEvent,
+} from "../../cloud-functions-event-types";
 
 functions.cloudEvent(
   "createWordAudio",
@@ -27,7 +27,7 @@ functions.cloudEvent(
       "base64"
     ).toString("utf8");
 
-    const parsedData = JSON.parse(messageData);
+    const parsedData = JSON.parse(messageData) as CreateWordAudioEvent;
 
     const prisma = new PrismaClient();
 
@@ -54,6 +54,13 @@ functions.cloudEvent(
   }
 );
 
+type CreateWordAudioParams = CreateWordAudioEvent & {
+  prisma: PrismaClient;
+  textToSpeech: TextToSpeechClient;
+  storage: Storage;
+  pubsub: PubSub;
+};
+
 export async function createWordAudio({
   vietnamese,
   dialogId,
@@ -61,14 +68,7 @@ export async function createWordAudio({
   textToSpeech,
   storage,
   pubsub,
-}: {
-  vietnamese: string;
-  dialogId: string;
-  prisma: PrismaClient;
-  textToSpeech: TextToSpeechClient;
-  storage: Storage;
-  pubsub: PubSub;
-}) {
+}: CreateWordAudioParams) {
   const [maleResponse] = await textToSpeech.synthesizeSpeech({
     input: { text: vietnamese },
     voice: {
@@ -158,9 +158,11 @@ export async function createWordAudio({
     },
   });
 
+  const json: PublishConversationEvent = {
+    conversationId: dialog.conversationId,
+  };
+
   pubsub.topic("publish-conversation").publishMessage({
-    json: {
-      conversationId: dialog.conversationId,
-    },
+    json,
   });
 }

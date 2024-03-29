@@ -3,11 +3,11 @@ import { PubSub } from "@google-cloud/pubsub";
 
 import { PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  CreateDialogAudioEvent,
+  FetchConversationDialogsForCreatingAudioEvent,
+} from "../../cloud-functions-event-types";
 
 functions.cloudEvent(
   "fetchConversationDialogsForCreatingAudio",
@@ -21,7 +21,9 @@ functions.cloudEvent(
       "base64"
     ).toString("utf8");
 
-    const parsedData = JSON.parse(messageData);
+    const parsedData = JSON.parse(
+      messageData
+    ) as FetchConversationDialogsForCreatingAudioEvent;
 
     const prisma = new PrismaClient();
 
@@ -38,15 +40,17 @@ functions.cloudEvent(
   }
 );
 
+type FetchDialogWordsForCreatingAudioParams =
+  FetchConversationDialogsForCreatingAudioEvent & {
+    prisma: PrismaClient;
+    pubsub: PubSub;
+  };
+
 export async function fetchConversationDialogsForCreatingAudio({
   conversationId,
   prisma,
   pubsub,
-}: {
-  conversationId: string;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
+}: FetchDialogWordsForCreatingAudioParams) {
   const conversation = await prisma.conversation.findUniqueOrThrow({
     where: {
       id: conversationId,
@@ -57,10 +61,12 @@ export async function fetchConversationDialogsForCreatingAudio({
   });
 
   for (const dialog of conversation.dialog) {
+    const json: CreateDialogAudioEvent = {
+      dialogId: dialog.id,
+    };
+
     pubsub.topic("create-dialog-audio").publishMessage({
-      json: {
-        dialogId: dialog.id,
-      },
+      json,
     });
   }
 }

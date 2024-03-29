@@ -2,11 +2,11 @@ import * as functions from "@google-cloud/functions-framework";
 import { PrismaClient } from "./generated";
 import { PubSub } from "@google-cloud/pubsub";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  FetchUsersForDailyEmailEvent,
+  SendDailyEmailEvent,
+} from "../../cloud-functions-event-types";
 
 functions.cloudEvent(
   "fetchUsersForDailyEmail",
@@ -20,7 +20,7 @@ functions.cloudEvent(
       "base64"
     ).toString("utf8");
 
-    const parsedData = JSON.parse(messageData);
+    const parsedData = JSON.parse(messageData) as FetchUsersForDailyEmailEvent;
 
     const prisma = new PrismaClient();
 
@@ -37,16 +37,16 @@ functions.cloudEvent(
   }
 );
 
+type FetchUsersForDailyEmailParams = FetchUsersForDailyEmailEvent & {
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function fetchUsersForDailyEmail({
   conversationId,
   prisma,
   pubsub,
-}: {
-  conversationId: string;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
-  //
+}: FetchUsersForDailyEmailParams) {
   const users = await prisma.user.findMany({
     select: {
       email: true,
@@ -54,11 +54,13 @@ export async function fetchUsersForDailyEmail({
   });
 
   for (const user of users) {
+    const json: SendDailyEmailEvent = {
+      conversationId,
+      email: user.email,
+    };
+
     pubsub.topic("send-daily-email").publishMessage({
-      json: {
-        conversationId,
-        email: user.email,
-      },
+      json,
     });
   }
 }

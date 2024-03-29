@@ -3,11 +3,11 @@ import { PubSub } from "@google-cloud/pubsub";
 
 import { PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  FetchDialogWordsForCreatingEvent,
+  CreateWordEvent,
+} from "../../cloud-functions-event-types";
 
 functions.cloudEvent(
   "fetchDialogWordsForCreating",
@@ -21,7 +21,9 @@ functions.cloudEvent(
       "base64"
     ).toString("utf8");
 
-    const parsedData = JSON.parse(messageData);
+    const parsedData = JSON.parse(
+      messageData
+    ) as FetchDialogWordsForCreatingEvent;
 
     const prisma = new PrismaClient();
 
@@ -38,15 +40,16 @@ functions.cloudEvent(
   }
 );
 
+type FetchDialogWordsForCreatingParams = FetchDialogWordsForCreatingEvent & {
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function fetchDialogWordsForCreating({
   dialogId,
   prisma,
   pubsub,
-}: {
-  dialogId: string;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
+}: FetchDialogWordsForCreatingParams) {
   const dialog = await prisma.dialog.findUniqueOrThrow({
     where: {
       id: dialogId,
@@ -56,11 +59,13 @@ export async function fetchDialogWordsForCreating({
   const words = dialog.vietnamese.split(" ");
 
   for (const word of words) {
+    const json: CreateWordEvent = {
+      vietnamese: word,
+      dialogId: dialog.id,
+    };
+
     pubsub.topic("create-word").publishMessage({
-      json: {
-        vietnamese: word,
-        dialogId: dialog.id,
-      },
+      json,
     });
   }
 }

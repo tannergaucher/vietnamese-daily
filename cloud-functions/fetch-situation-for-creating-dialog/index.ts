@@ -1,6 +1,9 @@
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
+
 import { PrismaClient } from "./generated";
+
+import { CreateDialogEvent } from "../../cloud-functions-event-types";
 
 functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
   const prisma = new PrismaClient();
@@ -36,9 +39,11 @@ export async function fetchSituationForCreatingDialog({
     throw new Error("No situation to create dialog from");
   }
 
+  const json: CreateDialogEvent = {
+    situationId: situationToCreateDialog.id,
+  };
+
   pubsub.topic("create-dialog").publishMessage({
-    json: {
-      situationId: situationToCreateDialog.id,
-    },
+    json,
   });
 }

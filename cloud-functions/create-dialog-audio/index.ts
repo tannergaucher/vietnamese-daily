@@ -7,11 +7,10 @@ import { Storage } from "@google-cloud/storage";
 
 import { Gender, PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  CreateDialogAudioEvent,
+} from "../../cloud-functions-event-types";
 
 functions.cloudEvent(
   "createDialogAudio",
@@ -25,7 +24,7 @@ functions.cloudEvent(
       "base64"
     ).toString("utf8");
 
-    const parsedData = JSON.parse(messageData);
+    const parsedData = JSON.parse(messageData) as CreateDialogAudioEvent;
 
     const textToSpeech = new TextToSpeechClient({
       projectId: "daily-vietnamese",
@@ -48,17 +47,18 @@ functions.cloudEvent(
   }
 );
 
+type CreateDialogAudioParams = CreateDialogAudioEvent & {
+  textToSpeech: TextToSpeechClient;
+  prisma: PrismaClient;
+  storage: Storage;
+};
+
 export async function createDialogAudio({
   dialogId,
   textToSpeech,
   prisma,
   storage,
-}: {
-  dialogId: string;
-  textToSpeech: TextToSpeechClient;
-  prisma: PrismaClient;
-  storage: Storage;
-}) {
+}: CreateDialogAudioParams) {
   const dialog = await prisma.dialog.findUniqueOrThrow({
     where: {
       id: dialogId,
