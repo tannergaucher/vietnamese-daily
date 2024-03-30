@@ -3,9 +3,10 @@ import { PubSub } from "@google-cloud/pubsub";
 
 import { PrismaClient } from "./generated";
 
-interface RequestBody {
-  email: string;
-}
+import {
+  SendConfirmationEmailEvent,
+  HandleEmailSignupRequestBody,
+} from "cloud-function-events";
 
 functions.http("handleEmailSignup", async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -19,7 +20,7 @@ functions.http("handleEmailSignup", async (req, res) => {
     return;
   }
 
-  const { email }: RequestBody = req.body;
+  const { email }: HandleEmailSignupRequestBody = req.body;
 
   if (!email) {
     res.status(400).send("email is required");
@@ -42,24 +43,27 @@ functions.http("handleEmailSignup", async (req, res) => {
   res.status(200).send("Email signup successful");
 });
 
+type HandleEmailSignupParams = HandleEmailSignupRequestBody & {
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function handleEmailSignup({
   email,
   prisma,
   pubsub,
-}: {
-  email: string;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
+}: HandleEmailSignupParams) {
   await prisma.user.create({
     data: {
       email,
     },
   });
 
+  const json: SendConfirmationEmailEvent = {
+    email,
+  };
+
   pubsub.topic("send-confirmation-email").publishMessage({
-    json: {
-      email,
-    },
+    json,
   });
 }

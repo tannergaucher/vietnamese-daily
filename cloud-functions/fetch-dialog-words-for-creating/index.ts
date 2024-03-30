@@ -3,25 +3,19 @@ import { PubSub } from "@google-cloud/pubsub";
 
 import { PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  FetchDialogWordsForCreatingEvent,
+  CreateWordEvent,
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "fetchDialogWordsForCreating",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData);
+    const { dialogId } = parseCloudEventData<FetchDialogWordsForCreatingEvent>({
+      cloudEvent,
+    });
 
     const prisma = new PrismaClient();
 
@@ -31,22 +25,23 @@ functions.cloudEvent(
     });
 
     await fetchDialogWordsForCreating({
-      dialogId: parsedData.dialogId,
+      dialogId,
       prisma,
       pubsub,
     });
   }
 );
 
+type FetchDialogWordsForCreatingParams = FetchDialogWordsForCreatingEvent & {
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function fetchDialogWordsForCreating({
   dialogId,
   prisma,
   pubsub,
-}: {
-  dialogId: string;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
+}: FetchDialogWordsForCreatingParams) {
   const dialog = await prisma.dialog.findUniqueOrThrow({
     where: {
       id: dialogId,
@@ -56,11 +51,13 @@ export async function fetchDialogWordsForCreating({
   const words = dialog.vietnamese.split(" ");
 
   for (const word of words) {
+    const json: CreateWordEvent = {
+      vietnamese: word,
+      dialogId: dialog.id,
+    };
+
     pubsub.topic("create-word").publishMessage({
-      json: {
-        vietnamese: word,
-        dialogId: dialog.id,
-      },
+      json,
     });
   }
 }

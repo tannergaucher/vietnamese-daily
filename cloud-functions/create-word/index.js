@@ -118,6 +118,7 @@ function createWord(_a) {
                     pubsub.topic("create-word-audio").publishMessage({
                         json: {
                             vietnamese: sanitizedVietnamese,
+                            dialogId: dialogId,
                         },
                     });
                     _c.label = 5;

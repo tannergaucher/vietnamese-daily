@@ -6,28 +6,21 @@ import * as TextToSpeech from "@google-cloud/text-to-speech";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import { PubSub } from "@google-cloud/pubsub";
 import { Storage } from "@google-cloud/storage";
+import {
+  CloudEventData,
+  CreateWordAudioEvent,
+  PublishConversationEvent,
+  parseCloudEventData,
+} from "cloud-function-events";
 
 import { PrismaClient } from "./generated";
-
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
 
 functions.cloudEvent(
   "createWordAudio",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData);
+    const { vietnamese, dialogId } = parseCloudEventData<CreateWordAudioEvent>({
+      cloudEvent,
+    });
 
     const prisma = new PrismaClient();
 
@@ -44,8 +37,8 @@ functions.cloudEvent(
     });
 
     await createWordAudio({
-      vietnamese: parsedData.vietnamese,
-      dialogId: parsedData.dialogId,
+      vietnamese,
+      dialogId,
       prisma,
       textToSpeech,
       storage,
@@ -54,6 +47,13 @@ functions.cloudEvent(
   }
 );
 
+type CreateWordAudioParams = CreateWordAudioEvent & {
+  prisma: PrismaClient;
+  textToSpeech: TextToSpeechClient;
+  storage: Storage;
+  pubsub: PubSub;
+};
+
 export async function createWordAudio({
   vietnamese,
   dialogId,
@@ -61,14 +61,7 @@ export async function createWordAudio({
   textToSpeech,
   storage,
   pubsub,
-}: {
-  vietnamese: string;
-  dialogId: string;
-  prisma: PrismaClient;
-  textToSpeech: TextToSpeechClient;
-  storage: Storage;
-  pubsub: PubSub;
-}) {
+}: CreateWordAudioParams) {
   const [maleResponse] = await textToSpeech.synthesizeSpeech({
     input: { text: vietnamese },
     voice: {
@@ -158,9 +151,11 @@ export async function createWordAudio({
     },
   });
 
+  const json: PublishConversationEvent = {
+    conversationId: dialog.conversationId,
+  };
+
   pubsub.topic("publish-conversation").publishMessage({
-    json: {
-      conversationId: dialog.conversationId,
-    },
+    json,
   });
 }

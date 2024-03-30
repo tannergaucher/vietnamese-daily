@@ -2,25 +2,20 @@ import * as functions from "@google-cloud/functions-framework";
 import { PrismaClient } from "./generated";
 import { PubSub } from "@google-cloud/pubsub";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  FetchUsersForDailyEmailEvent,
+  SendDailyEmailEvent,
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "fetchUsersForDailyEmail",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData);
+    const { conversationId } =
+      parseCloudEventData<FetchUsersForDailyEmailEvent>({
+        cloudEvent,
+      });
 
     const prisma = new PrismaClient();
 
@@ -30,23 +25,23 @@ functions.cloudEvent(
     });
 
     await fetchUsersForDailyEmail({
-      conversationId: parsedData.conversationId,
+      conversationId,
       prisma,
       pubsub,
     });
   }
 );
 
+type FetchUsersForDailyEmailParams = FetchUsersForDailyEmailEvent & {
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function fetchUsersForDailyEmail({
   conversationId,
   prisma,
   pubsub,
-}: {
-  conversationId: string;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
-  //
+}: FetchUsersForDailyEmailParams) {
   const users = await prisma.user.findMany({
     select: {
       email: true,
@@ -54,11 +49,13 @@ export async function fetchUsersForDailyEmail({
   });
 
   for (const user of users) {
+    const json: SendDailyEmailEvent = {
+      conversationId,
+      email: user.email,
+    };
+
     pubsub.topic("send-daily-email").publishMessage({
-      json: {
-        conversationId,
-        email: user.email,
-      },
+      json,
     });
   }
 }

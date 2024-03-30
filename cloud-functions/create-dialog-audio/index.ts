@@ -7,25 +7,18 @@ import { Storage } from "@google-cloud/storage";
 
 import { Gender, PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  CreateDialogAudioEvent,
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "createDialogAudio",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData);
+    const { dialogId } = parseCloudEventData<CreateDialogAudioEvent>({
+      cloudEvent,
+    });
 
     const textToSpeech = new TextToSpeechClient({
       projectId: "daily-vietnamese",
@@ -40,7 +33,7 @@ functions.cloudEvent(
     });
 
     await createDialogAudio({
-      dialogId: parsedData.dialogId,
+      dialogId,
       textToSpeech,
       prisma,
       storage,
@@ -48,17 +41,18 @@ functions.cloudEvent(
   }
 );
 
+type CreateDialogAudioParams = CreateDialogAudioEvent & {
+  textToSpeech: TextToSpeechClient;
+  prisma: PrismaClient;
+  storage: Storage;
+};
+
 export async function createDialogAudio({
   dialogId,
   textToSpeech,
   prisma,
   storage,
-}: {
-  dialogId: string;
-  textToSpeech: TextToSpeechClient;
-  prisma: PrismaClient;
-  storage: Storage;
-}) {
+}: CreateDialogAudioParams) {
   const dialog = await prisma.dialog.findUniqueOrThrow({
     where: {
       id: dialogId,

@@ -11,25 +11,20 @@ import {
 import { CreateDialogResponse } from "./dialogSchema";
 import { PrismaClient } from "./generated";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  FetchConversationDialogsForCreatingAudioEvent,
+  FetchDialogWordsForCreatingEvent,
+  CreateDialogEvent,
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "createDialog",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData);
+    const { situationId } = parseCloudEventData<CreateDialogEvent>({
+      cloudEvent,
+    });
 
     const model = createLanguageModel(process.env);
 
@@ -41,7 +36,7 @@ functions.cloudEvent(
     });
 
     const response = await createDialog({
-      situationId: parsedData.situationId,
+      situationId,
       model,
       prisma,
       pubsub,
@@ -51,17 +46,18 @@ functions.cloudEvent(
   }
 );
 
+type CreateDialogParams = CreateDialogEvent & {
+  model: TypeChatLanguageModel;
+  prisma: PrismaClient;
+  pubsub: PubSub;
+};
+
 export async function createDialog({
   situationId,
   model,
   prisma,
   pubsub,
-}: {
-  situationId: string;
-  model: TypeChatLanguageModel;
-  prisma: PrismaClient;
-  pubsub: PubSub;
-}) {
+}: CreateDialogParams) {
   const schema = fs.readFileSync(
     path.join(__dirname, "dialogSchema.ts"),
     "utf8"
@@ -105,20 +101,24 @@ export async function createDialog({
       },
     });
 
+    const json: FetchConversationDialogsForCreatingAudioEvent = {
+      conversationId: conversation.id,
+    };
+
     pubsub
       .topic("fetch-conversation-dialogs-for-creating-audio")
       .publishMessage({
-        json: {
-          conversationId: conversation.id,
-        },
+        json,
       });
 
     for (const dialog of conversation.dialog) {
+      const json: FetchDialogWordsForCreatingEvent = {
+        dialogId: dialog.id,
+      };
+
       {
         pubsub.topic("fetch-dialog-words-for-creating").publishMessage({
-          json: {
-            dialogId: dialog.id,
-          },
+          json,
         });
       }
     }

@@ -1,25 +1,18 @@
 import * as functions from "@google-cloud/functions-framework";
 import sgMail from "@sendgrid/mail";
 
-interface CloudEventData {
-  message: {
-    data: string;
-  };
-}
+import {
+  CloudEventData,
+  SendConfirmationEmailEvent,
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "sendConfirmationEmail",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
-    const messageData = Buffer.from(
-      cloudEvent.data.message.data,
-      "base64"
-    ).toString("utf8");
-
-    const parsedData = JSON.parse(messageData);
+    const { email } = parseCloudEventData<SendConfirmationEmailEvent>({
+      cloudEvent,
+    });
 
     if (!process.env.SENDGRID_API_KEY) {
       throw new Error("SENDGRID_API_KEY is required");
@@ -28,19 +21,20 @@ functions.cloudEvent(
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     sendConfirmationEmail({
-      email: parsedData.email,
-      sgMail: sgMail,
+      email,
+      sgMail,
     });
   }
 );
 
+type SendConfirmationEmailParams = SendConfirmationEmailEvent & {
+  sgMail: sgMail.MailService;
+};
+
 export async function sendConfirmationEmail({
   email,
   sgMail,
-}: {
-  email: string;
-  sgMail: sgMail.MailService;
-}) {
+}: SendConfirmationEmailParams) {
   const msg = {
     to: email,
     from: "tannermichaelgaucher@gmail.com",

@@ -30,14 +30,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const sortedDialog = await Promise.all(sortedDialogPromises);
 
-  const dialogIds = sortedDialog.map((dialog) => dialog.id);
-
   const words = await prisma.word.findMany({
     where: {
       dialog: {
         every: {
           id: {
-            in: dialogIds,
+            in: sortedDialog.map((dialog) => dialog.id),
           },
         },
       },
@@ -45,6 +43,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   });
 
   const wordPromises = words.map(async (word) => {
+    // only fetch appropriate url
+
     const [maleSignedUrl] = await wordAudioBucket
       .file(`male/${word.vietnamese}.wav`)
       .getSignedUrl({
