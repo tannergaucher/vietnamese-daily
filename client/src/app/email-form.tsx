@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { HandleEmailSignupRequestBody } from "../../../cloud-functions-event-types";
+import { HandleEmailSignupRequestBody } from "cloud-function-events";
 
 export function EmailForm() {
   const [email, setEmail] = useState("");
