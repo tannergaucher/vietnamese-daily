@@ -1,6 +1,6 @@
-import * as functions from "./create-dialog/node_modules/@google-cloud/functions-framework";
+import * as functions from "./create-dialog/node_modules/@google-cloud/functions-framework/build/src";
 
-import { CloudEventData } from "../cloud-functions-event-types";
+import { CloudEventData } from "../cloud-function-events";
 
 export function parseCloudEventData<T>({
   cloudEvent,

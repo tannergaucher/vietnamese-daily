@@ -6,7 +6,7 @@ import { PrismaClient } from "./generated";
 import {
   SendConfirmationEmailEvent,
   HandleEmailSignupRequestBody,
-} from "../../cloud-functions-event-types";
+} from "cloud-function-events";
 
 functions.http("handleEmailSignup", async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");

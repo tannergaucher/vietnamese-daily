@@ -7,9 +7,8 @@ import {
   CloudEventData,
   CreateWordEvent,
   CreateWordAudioEvent,
-} from "../../cloud-functions-event-types";
-
-import { parseCloudEventData } from "../temp-utils";
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "createWord",
@@ -64,6 +63,8 @@ export async function createWord({
         },
       },
     });
+
+    return;
   }
 
   const sanitizedVietnamese = vietnamese
@@ -71,25 +72,23 @@ export async function createWord({
     .toLowerCase()
     .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
 
-  if (!word) {
-    await prisma.word.create({
-      data: {
-        vietnamese: sanitizedVietnamese,
-        dialog: {
-          connect: {
-            id: dialogId,
-          },
+  await prisma.word.create({
+    data: {
+      vietnamese: sanitizedVietnamese,
+      dialog: {
+        connect: {
+          id: dialogId,
         },
       },
-    });
+    },
+  });
 
-    const json: CreateWordAudioEvent = {
-      vietnamese: sanitizedVietnamese,
-      dialogId,
-    };
+  const json: CreateWordAudioEvent = {
+    vietnamese: sanitizedVietnamese,
+    dialogId,
+  };
 
-    pubsub.topic("create-word-audio").publishMessage({
-      json,
-    });
-  }
+  pubsub.topic("create-word-audio").publishMessage({
+    json,
+  });
 }

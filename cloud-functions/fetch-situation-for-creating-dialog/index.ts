@@ -1,9 +1,8 @@
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
+import { CreateDialogEvent } from "cloud-function-events";
 
 import { PrismaClient } from "./generated";
-
-import { CreateDialogEvent } from "../../cloud-functions-event-types";
 
 functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
   const prisma = new PrismaClient();

@@ -16,17 +16,12 @@ import {
   FetchConversationDialogsForCreatingAudioEvent,
   FetchDialogWordsForCreatingEvent,
   CreateDialogEvent,
-} from "../../cloud-functions-event-types";
-
-import { parseCloudEventData } from "../temp-utils";
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "createDialog",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    if (!cloudEvent.data?.message?.data) {
-      throw new Error("Message data is required");
-    }
-
     const { situationId } = parseCloudEventData<CreateDialogEvent>({
       cloudEvent,
     });

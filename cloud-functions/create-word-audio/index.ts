@@ -6,16 +6,14 @@ import * as TextToSpeech from "@google-cloud/text-to-speech";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import { PubSub } from "@google-cloud/pubsub";
 import { Storage } from "@google-cloud/storage";
-
-import { PrismaClient } from "./generated";
-
 import {
   CloudEventData,
   CreateWordAudioEvent,
   PublishConversationEvent,
-} from "../../cloud-functions-event-types";
+  parseCloudEventData,
+} from "cloud-function-events";
 
-import { parseCloudEventData } from "../temp-utils";
+import { PrismaClient } from "./generated";
 
 functions.cloudEvent(
   "createWordAudio",

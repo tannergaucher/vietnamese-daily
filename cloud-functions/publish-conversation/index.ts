@@ -7,9 +7,8 @@ import {
   CloudEventData,
   PublishConversationEvent,
   FetchUsersForDailyEmailEvent,
-} from "../../cloud-functions-event-types";
-
-import { parseCloudEventData } from "../temp-utils";
+  parseCloudEventData,
+} from "cloud-function-events";
 
 functions.cloudEvent(
   "publishConversation",
