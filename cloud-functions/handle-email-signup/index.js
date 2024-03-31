@@ -70,10 +70,11 @@ function handleEmailSignup(_a) {
                 email,
             },
         });
+        const json = {
+            email,
+        };
         pubsub.topic("send-confirmation-email").publishMessage({
-            json: {
-                email,
-            },
+            json,
         });
     });
 }

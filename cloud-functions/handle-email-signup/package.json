@@ -12,11 +12,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cloud-function-events": "^0.0.2",
     "@types/node": "^20.11.17",
+    "cloud-function-events": "^0.0.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@functional-vietnamese/cloud-function-events": "^0.0.1",
     "@google-cloud/functions-framework": "^3.3.0",
     "@google-cloud/pubsub": "^4.3.3"
   }

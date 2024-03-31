@@ -36,20 +36,18 @@ exports.publishConversation = void 0;
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const pubsub_1 = require("@google-cloud/pubsub");
 const generated_1 = require("./generated");
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 functions.cloudEvent("publishConversation", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {
-        throw new Error("Message data is required");
-    }
-    const messageData = Buffer.from(cloudEvent.data.message.data, "base64").toString("utf8");
-    const parsedData = JSON.parse(messageData);
+    const { conversationId } = (0, cloud_function_events_1.parseCloudEventData)({
+        cloudEvent,
+    });
     const prisma = new generated_1.PrismaClient();
     const pubsub = new pubsub_1.PubSub({
         projectId: "daily-vietnamese",
         keyFilename: "./service-account.json",
     });
     yield publishConversation({
-        conversationId: parsedData.conversationId,
+        conversationId,
         prisma,
         pubsub,
     });
@@ -99,10 +97,11 @@ function publishConversation(_a) {
                 published: true,
             },
         });
+        const json = {
+            conversationId,
+        };
         pubsub.topic("fetch-users-for-daily-email").publishMessage({
-            json: {
-                conversationId,
-            },
+            json,
         });
     });
 }
