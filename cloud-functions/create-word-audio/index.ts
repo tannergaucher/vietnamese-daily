@@ -11,7 +11,7 @@ import {
   CreateWordAudioEvent,
   PublishConversationEvent,
   parseCloudEventData,
-} from "cloud-function-events";
+} from "@functional-vietnamese/cloud-function-events";
 
 import { PrismaClient } from "./generated";
 

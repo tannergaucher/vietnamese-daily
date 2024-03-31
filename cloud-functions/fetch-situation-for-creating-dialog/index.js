@@ -60,10 +60,11 @@ function fetchSituationForCreatingDialog(_a) {
         if (!situationToCreateDialog) {
             throw new Error("No situation to create dialog from");
         }
+        const json = {
+            situationId: situationToCreateDialog.id,
+        };
         pubsub.topic("create-dialog").publishMessage({
-            json: {
-                situationId: situationToCreateDialog.id,
-            },
+            json,
         });
     });
 }

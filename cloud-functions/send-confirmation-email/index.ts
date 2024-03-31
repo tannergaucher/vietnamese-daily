@@ -5,7 +5,7 @@ import {
   CloudEventData,
   SendConfirmationEmailEvent,
   parseCloudEventData,
-} from "cloud-function-events";
+} from "@functional-vietnamese/cloud-function-events";
 
 functions.cloudEvent(
   "sendConfirmationEmail",

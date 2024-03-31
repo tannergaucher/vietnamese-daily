@@ -38,19 +38,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendConfirmationEmail = void 0;
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const mail_1 = __importDefault(require("@sendgrid/mail"));
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 functions.cloudEvent("sendConfirmationEmail", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {
-        throw new Error("Message data is required");
-    }
-    const messageData = Buffer.from(cloudEvent.data.message.data, "base64").toString("utf8");
-    const parsedData = JSON.parse(messageData);
+    const { email } = (0, cloud_function_events_1.parseCloudEventData)({
+        cloudEvent,
+    });
     if (!process.env.SENDGRID_API_KEY) {
         throw new Error("SENDGRID_API_KEY is required");
     }
     mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
     sendConfirmationEmail({
-        email: parsedData.email,
+        email,
         sgMail: mail_1.default,
     });
 }));

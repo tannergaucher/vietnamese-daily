@@ -40,37 +40,35 @@ exports.createWord = void 0;
 var functions = require("@google-cloud/functions-framework");
 var pubsub_1 = require("@google-cloud/pubsub");
 var generated_1 = require("./generated");
+var cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 functions.cloudEvent("createWord", function (cloudEvent) { return __awaiter(void 0, void 0, void 0, function () {
-    var messageData, parsedData, prisma, pubsub;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var _a, vietnamese, dialogId, prisma, pubsub;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {
-                    throw new Error("Message data is required");
-                }
-                messageData = Buffer.from(cloudEvent.data.message.data, "base64").toString("utf8");
-                parsedData = JSON.parse(messageData);
+                _a = (0, cloud_function_events_1.parseCloudEventData)({
+                    cloudEvent: cloudEvent,
+                }), vietnamese = _a.vietnamese, dialogId = _a.dialogId;
                 prisma = new generated_1.PrismaClient();
                 pubsub = new pubsub_1.PubSub({
                     projectId: "daily-vietnamese",
                     keyFilename: "./service-account.json",
                 });
                 return [4 /*yield*/, createWord({
-                        vietnamese: parsedData.vietnamese,
-                        dialogId: parsedData.dialogId,
+                        vietnamese: vietnamese,
+                        dialogId: dialogId,
                         prisma: prisma,
                         pubsub: pubsub,
                     })];
             case 1:
-                _c.sent();
+                _b.sent();
                 return [2 /*return*/];
         }
     });
 }); });
 function createWord(_a) {
     return __awaiter(this, arguments, void 0, function (_b) {
-        var word, sanitizedVietnamese;
+        var word, sanitizedVietnamese, json;
         var vietnamese = _b.vietnamese, dialogId = _b.dialogId, prisma = _b.prisma, pubsub = _b.pubsub;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -96,13 +94,12 @@ function createWord(_a) {
                         })];
                 case 2:
                     _c.sent();
-                    _c.label = 3;
+                    return [2 /*return*/];
                 case 3:
                     sanitizedVietnamese = vietnamese
                         .trim()
                         .toLowerCase()
                         .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-                    if (!!word) return [3 /*break*/, 5];
                     return [4 /*yield*/, prisma.word.create({
                             data: {
                                 vietnamese: sanitizedVietnamese,
@@ -115,14 +112,14 @@ function createWord(_a) {
                         })];
                 case 4:
                     _c.sent();
+                    json = {
+                        vietnamese: sanitizedVietnamese,
+                        dialogId: dialogId,
+                    };
                     pubsub.topic("create-word-audio").publishMessage({
-                        json: {
-                            vietnamese: sanitizedVietnamese,
-                            dialogId: dialogId,
-                        },
+                        json: json,
                     });
-                    _c.label = 5;
-                case 5: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });

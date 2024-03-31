@@ -8,7 +8,7 @@ import {
   CreateWordEvent,
   CreateWordAudioEvent,
   parseCloudEventData,
-} from "cloud-function-events";
+} from "@functional-vietnamese/cloud-function-events";
 
 functions.cloudEvent(
   "createWord",

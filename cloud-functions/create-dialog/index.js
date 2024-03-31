@@ -39,13 +39,11 @@ const pubsub_1 = require("@google-cloud/pubsub");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const typechat_1 = require("typechat");
 const generated_1 = require("./generated");
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 functions.cloudEvent("createDialog", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {
-        throw new Error("Message data is required");
-    }
-    const messageData = Buffer.from(cloudEvent.data.message.data, "base64").toString("utf8");
-    const parsedData = JSON.parse(messageData);
+    const { situationId } = (0, cloud_function_events_1.parseCloudEventData)({
+        cloudEvent,
+    });
     const model = (0, typechat_1.createLanguageModel)(process.env);
     const prisma = new generated_1.PrismaClient();
     const pubsub = new pubsub_1.PubSub({
@@ -53,7 +51,7 @@ functions.cloudEvent("createDialog", (cloudEvent) => __awaiter(void 0, void 0, v
         keyFilename: "./service-account.json",
     });
     const response = yield createDialog({
-        situationId: parsedData.situationId,
+        situationId,
         model,
         prisma,
         pubsub,
@@ -90,19 +88,21 @@ function createDialog({ situationId, model, prisma, pubsub, }) {
                     dialog: true,
                 },
             });
+            const json = {
+                conversationId: conversation.id,
+            };
             pubsub
                 .topic("fetch-conversation-dialogs-for-creating-audio")
                 .publishMessage({
-                json: {
-                    conversationId: conversation.id,
-                },
+                json,
             });
             for (const dialog of conversation.dialog) {
+                const json = {
+                    dialogId: dialog.id,
+                };
                 {
                     pubsub.topic("fetch-dialog-words-for-creating").publishMessage({
-                        json: {
-                            dialogId: dialog.id,
-                        },
+                        json,
                     });
                 }
             }

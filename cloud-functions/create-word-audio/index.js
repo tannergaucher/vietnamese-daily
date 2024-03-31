@@ -44,18 +44,16 @@ var TextToSpeech = require("@google-cloud/text-to-speech");
 var text_to_speech_1 = require("@google-cloud/text-to-speech");
 var pubsub_1 = require("@google-cloud/pubsub");
 var storage_1 = require("@google-cloud/storage");
+var cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 var generated_1 = require("./generated");
 functions.cloudEvent("createWordAudio", function (cloudEvent) { return __awaiter(void 0, void 0, void 0, function () {
-    var messageData, parsedData, prisma, textToSpeech, storage, pubsub;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var _a, vietnamese, dialogId, prisma, textToSpeech, storage, pubsub;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {
-                    throw new Error("Message data is required");
-                }
-                messageData = Buffer.from(cloudEvent.data.message.data, "base64").toString("utf8");
-                parsedData = JSON.parse(messageData);
+                _a = (0, cloud_function_events_1.parseCloudEventData)({
+                    cloudEvent: cloudEvent,
+                }), vietnamese = _a.vietnamese, dialogId = _a.dialogId;
                 prisma = new generated_1.PrismaClient();
                 textToSpeech = new text_to_speech_1.TextToSpeechClient();
                 storage = new storage_1.Storage({
@@ -67,22 +65,22 @@ functions.cloudEvent("createWordAudio", function (cloudEvent) { return __awaiter
                     keyFilename: "./service-account.json",
                 });
                 return [4 /*yield*/, createWordAudio({
-                        vietnamese: parsedData.vietnamese,
-                        dialogId: parsedData.dialogId,
+                        vietnamese: vietnamese,
+                        dialogId: dialogId,
                         prisma: prisma,
                         textToSpeech: textToSpeech,
                         storage: storage,
                         pubsub: pubsub,
                     })];
             case 1:
-                _c.sent();
+                _b.sent();
                 return [2 /*return*/];
         }
     });
 }); });
 function createWordAudio(_a) {
     return __awaiter(this, arguments, void 0, function (_b) {
-        var maleResponse, writeFile, maleAudioFile, bucketName, bucket, maleGcsUri, femaleResponse, femaleAudioFile, femaleGcsUri, dialog;
+        var maleResponse, writeFile, maleAudioFile, bucketName, bucket, maleGcsUri, femaleResponse, femaleAudioFile, femaleGcsUri, dialog, json;
         var vietnamese = _b.vietnamese, dialogId = _b.dialogId, prisma = _b.prisma, textToSpeech = _b.textToSpeech, storage = _b.storage, pubsub = _b.pubsub;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -167,10 +165,11 @@ function createWordAudio(_a) {
                         })];
                 case 7:
                     dialog = _c.sent();
+                    json = {
+                        conversationId: dialog.conversationId,
+                    };
                     pubsub.topic("publish-conversation").publishMessage({
-                        json: {
-                            conversationId: dialog.conversationId,
-                        },
+                        json: json,
                     });
                     return [2 /*return*/];
             }

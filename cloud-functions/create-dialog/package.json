@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@functional-vietnamese/cloud-function-events": "^0.0.1",
     "@google-cloud/functions-framework": "^3.3.0",
     "@google-cloud/pubsub": "^4.3.3",
-    "cloud-function-events": "^0.0.2",
     "dotenv": "^16.4.4",
     "typechat": "^0.0.10"
   },
