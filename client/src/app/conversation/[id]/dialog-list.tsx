@@ -103,18 +103,11 @@ export default function DialogList({
               {dialog.vietnamese.split(" ").map((word, index) => {
                 const currentDialogWord = dialogWords.find(
                   (dialogWord) =>
-                    // and lets remove punctuation
                     dialogWord.vietnamese ===
                     sanitizeVietnamese({ vietnamese: word })
-                  // word
-                  //   .trim()
-                  //   .toLowerCase()
-                  //   .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
                 );
-
                 return (
                   <span
-                    // hover clickable
                     className="hover:underline cursor-pointer"
                     key={index}
                     onClick={() => {
