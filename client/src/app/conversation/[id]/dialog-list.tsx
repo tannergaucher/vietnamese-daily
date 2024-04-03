@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { sanitizeVietnamese } from "@functional-vietnamese/cloud-function-events";
 
 import { Dialog as DialogModel, Word } from "@/generated";
 
@@ -104,9 +105,11 @@ export default function DialogList({
                   (dialogWord) =>
                     // and lets remove punctuation
                     dialogWord.vietnamese ===
-                    word
-                      .toLocaleLowerCase()
-                      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+                    sanitizeVietnamese({ vietnamese: word })
+                  // word
+                  //   .trim()
+                  //   .toLowerCase()
+                  //   .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
                 );
 
                 return (

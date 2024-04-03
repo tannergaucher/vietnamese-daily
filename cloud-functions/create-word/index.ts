@@ -1,14 +1,15 @@
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
 
-import { PrismaClient } from "./generated";
-
 import {
   CloudEventData,
   CreateWordEvent,
   CreateWordAudioEvent,
   parseCloudEventData,
+  sanitizeVietnamese,
 } from "@functional-vietnamese/cloud-function-events";
+
+import { PrismaClient } from "./generated";
 
 functions.cloudEvent(
   "createWord",
@@ -67,10 +68,14 @@ export async function createWord({
     return;
   }
 
-  const sanitizedVietnamese = vietnamese
-    .trim()
-    .toLowerCase()
-    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  // const sanitizedVietnamese = vietnamese
+  //   .trim()
+  //   .toLowerCase()
+  //   .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+
+  const sanitizedVietnamese = sanitizeVietnamese({
+    vietnamese,
+  });
 
   await prisma.word.create({
     data: {
