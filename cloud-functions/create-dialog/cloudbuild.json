@@ -9,7 +9,7 @@
         "createDialog",
         "--gen2",
         "--region=us-east1",
-        "--source=./index.js",
+        "--source=.",
         "--runtime=nodejs18",
         "--entry-point=createDialog",
         "--trigger-topic=create-dialog"
