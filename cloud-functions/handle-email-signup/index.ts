@@ -16,7 +16,7 @@ functions.http("handleEmailSignup", async (req, res) => {
 
   if (req.method === "OPTIONS") {
     // Pre-flight request. Reply successfully:
-    res.status(204).send("");
+    res.status(204).send("Preflight success");
     return;
   }
 

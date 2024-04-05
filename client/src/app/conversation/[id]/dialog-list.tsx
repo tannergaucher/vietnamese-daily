@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { sanitizeVietnamese } from "@functional-vietnamese/cloud-function-events";
 
 import { Dialog as DialogModel, Word } from "@/generated";
 
@@ -102,16 +103,11 @@ export default function DialogList({
               {dialog.vietnamese.split(" ").map((word, index) => {
                 const currentDialogWord = dialogWords.find(
                   (dialogWord) =>
-                    // and lets remove punctuation
                     dialogWord.vietnamese ===
-                    word
-                      .toLocaleLowerCase()
-                      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+                    sanitizeVietnamese({ vietnamese: word })
                 );
-
                 return (
                   <span
-                    // hover clickable
                     className="hover:underline cursor-pointer"
                     key={index}
                     onClick={() => {

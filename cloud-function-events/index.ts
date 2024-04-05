@@ -111,3 +111,10 @@ export function parseCloudEventData<T>({
     Buffer.from(cloudEvent.data.message.data, "base64").toString("utf8")
   ) as T;
 }
+
+export function sanitizeVietnamese({ vietnamese }: { vietnamese: string }) {
+  return vietnamese
+    .trim()
+    .toLowerCase()
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+}
