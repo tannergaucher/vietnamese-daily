@@ -12,11 +12,19 @@
         "--runtime=nodejs18",
         "--source=.",
         "--entry-point=createWordAudio",
-        "--trigger-topic=create-word-audio",
-        "--env-vars-file=.env.yaml"
-      ]
+        "--trigger-topic=create-word-audio"
+      ],
+      "secretEnv": ["DATABASE_URL"]
     }
   ],
+  "availableSecrets": {
+    "secretManager": [
+      {
+        "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
+        "env": "DATABASE_URL"
+      }
+    ]
+  },
   "options": {
     "logging": "CLOUD_LOGGING_ONLY"
   }
