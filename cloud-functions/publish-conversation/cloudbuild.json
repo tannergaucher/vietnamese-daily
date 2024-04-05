@@ -14,9 +14,18 @@
         "--entry-point=publishConversation",
         "--trigger-topic=publish-conversation",
         "--env-vars-file=.env.yaml"
-      ]
+      ],
+      "secretEnv": ["DATABASE_URL"]
     }
   ],
+  "availableSecrets": {
+    "secretManager": [
+      {
+        "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
+        "env": "DATABASE_URL"
+      }
+    ]
+  },
   "options": {
     "logging": "CLOUD_LOGGING_ONLY"
   }
