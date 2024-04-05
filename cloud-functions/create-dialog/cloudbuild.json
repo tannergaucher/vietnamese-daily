@@ -1,16 +1,6 @@
 {
   "steps": [
     {
-      "name": "node:18",
-      "entrypoint": "npm",
-      "args": ["install"]
-    },
-    {
-      "name": "node:18",
-      "entrypoint": "npm",
-      "args": ["run", "build"]
-    },
-    {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
       "args": [
         "gcloud",
@@ -19,7 +9,7 @@
         "createDialog",
         "--gen2",
         "--region=us-east1",
-        "--source=.",
+        "--source=./index.js",
         "--runtime=nodejs18",
         "--entry-point=createDialog",
         "--trigger-topic=create-dialog"
