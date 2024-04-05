@@ -12,8 +12,7 @@
         "--runtime=nodejs18",
         "--source=.",
         "--entry-point=sendConfirmationEmail",
-        "--trigger-topic=send-confirmation-email",
-        "--env-vars-file=.env.yaml"
+        "--trigger-topic=send-confirmation-email"
       ],
       "secretEnv": ["DATABASE_URL", "SENDGRID_API_KEY"]
     }

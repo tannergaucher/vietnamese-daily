@@ -12,8 +12,7 @@
         "--source=.",
         "--runtime=nodejs18",
         "--entry-point=sendDailyEmail",
-        "--trigger-topic=send-daily-email",
-        "--env-vars-file=.env.yaml"
+        "--trigger-topic=send-daily-email"
       ],
       "secretEnv": ["DATABASE_URL", "SENDGRID_API_KEY"]
     }

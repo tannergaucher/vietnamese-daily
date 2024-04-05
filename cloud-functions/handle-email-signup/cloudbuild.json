@@ -13,8 +13,7 @@
         "--trigger-http",
         "--runtime=nodejs18",
         "--allow-unauthenticated",
-        "--entry-point=handleEmailSignup",
-        "--env-vars-file=.env.yaml"
+        "--entry-point=handleEmailSignup"
       ],
       "secretEnv": ["DATABASE_URL"]
     }

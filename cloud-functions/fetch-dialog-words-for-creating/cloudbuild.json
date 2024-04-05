@@ -12,8 +12,7 @@
         "--runtime=nodejs18",
         "--source=.",
         "--entry-point=fetchDialogWordsForCreating",
-        "--trigger-topic=fetch-dialog-words-for-creating",
-        "--env-vars-file=.env.yaml"
+        "--trigger-topic=fetch-dialog-words-for-creating"
       ],
       "secretEnv": ["DATABASE_URL"]
     }

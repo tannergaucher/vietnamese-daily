@@ -12,8 +12,7 @@
         "--runtime=nodejs18",
         "--source=.",
         "--entry-point=createWord",
-        "--trigger-topic=create-word",
-        "--env-vars-file=.env.yaml"
+        "--trigger-topic=create-word"
       ],
       "secretEnv": ["DATABASE_URL"]
     }
