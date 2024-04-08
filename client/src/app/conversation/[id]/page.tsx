@@ -52,12 +52,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const sortedDialog = await Promise.all(sortedDialogPromises);
 
-  sortedDialog.map((dialog) => {
-    dialog.words.map((word) => {
-      console.log(word.signedUrl);
-    });
-  });
-
   return (
     <main>
       <h5 className="p-4">{new Date(conversation.createdAt).toDateString()}</h5>
