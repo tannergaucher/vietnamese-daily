@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { sanitizeVietnamese } from "@functional-vietnamese/cloud-function-events";
 
 import { Dialog as DialogModel, Word } from "@/generated";
 
@@ -104,7 +103,10 @@ export default function DialogList({
                 const currentDialogWord = dialogWords.find(
                   (dialogWord) =>
                     dialogWord.vietnamese ===
-                    sanitizeVietnamese({ vietnamese: word })
+                    word
+                      .trim()
+                      .toLowerCase()
+                      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
                 );
                 return (
                   <span
