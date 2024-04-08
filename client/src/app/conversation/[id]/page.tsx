@@ -7,7 +7,11 @@ export default async function Page({ params }: { params: { id: string } }) {
   const conversation = await prisma.conversation.findUnique({
     where: { id: params.id },
     include: {
-      dialog: true,
+      dialog: {
+        include: {
+          words: true,
+        },
+      },
     },
   });
 
@@ -25,50 +29,40 @@ export default async function Page({ params }: { params: { id: string } }) {
           expires: Date.now() + 1000 * 60 * 60,
         });
 
-      return { ...dialog, audioSrc: signedUrl };
+      return {
+        ...dialog,
+        audioSrc: signedUrl,
+        words: await Promise.all(
+          dialog.words.map(async (word) => {
+            const [signedUrl] = await wordAudioBucket
+              .file(`${dialog.gender}/${word.vietnamese}.wav`)
+              .getSignedUrl({
+                action: "read",
+                expires: Date.now() + 1000 * 60 * 60,
+              });
+
+            return {
+              ...word,
+              signedUrl,
+            };
+          })
+        ),
+      };
     });
 
   const sortedDialog = await Promise.all(sortedDialogPromises);
 
-  const words = await prisma.word.findMany({
-    where: {
-      dialog: {
-        every: {
-          id: {
-            in: sortedDialog.map((dialog) => dialog.id),
-          },
-        },
-      },
-    },
+  sortedDialog.map((dialog) => {
+    dialog.words.map((word) => {
+      console.log(word.signedUrl);
+    });
   });
-
-  const wordPromises = words.map(async (word) => {
-    // only fetch appropriate url
-
-    const [maleSignedUrl] = await wordAudioBucket
-      .file(`male/${word.vietnamese}.wav`)
-      .getSignedUrl({
-        action: "read",
-        expires: Date.now() + 1000 * 60 * 60,
-      });
-
-    const [femaleSignedUrl] = await wordAudioBucket
-      .file(`female/${word.vietnamese}.wav`)
-      .getSignedUrl({
-        action: "read",
-        expires: Date.now() + 1000 * 60 * 60,
-      });
-
-    return { ...word, maleSrc: maleSignedUrl, femaleSrc: femaleSignedUrl };
-  });
-
-  const dialogWords = await Promise.all(wordPromises);
 
   return (
     <main>
       <h5 className="p-4">{new Date(conversation.createdAt).toDateString()}</h5>
       <h2 className="px-4 py-8 text-3xl font-semibold">{conversation.title}</h2>
-      <DialogList dialog={sortedDialog} dialogWords={dialogWords} />
+      <DialogList dialog={sortedDialog} />
     </main>
   );
 }
