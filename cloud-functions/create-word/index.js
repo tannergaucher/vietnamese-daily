@@ -39,8 +39,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createWord = void 0;
 var functions = require("@google-cloud/functions-framework");
 var pubsub_1 = require("@google-cloud/pubsub");
-var generated_1 = require("./generated");
 var cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
+var generated_1 = require("./generated");
 functions.cloudEvent("createWord", function (cloudEvent) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, vietnamese, dialogId, prisma, pubsub;
     return __generator(this, function (_b) {
@@ -68,15 +68,20 @@ functions.cloudEvent("createWord", function (cloudEvent) { return __awaiter(void
 }); });
 function createWord(_a) {
     return __awaiter(this, arguments, void 0, function (_b) {
-        var word, sanitizedVietnamese, json;
+        var sanitizedVietnamese, word, json;
         var vietnamese = _b.vietnamese, dialogId = _b.dialogId, prisma = _b.prisma, pubsub = _b.pubsub;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, prisma.word.findUnique({
-                        where: {
-                            vietnamese: vietnamese,
-                        },
-                    })];
+                case 0:
+                    sanitizedVietnamese = vietnamese
+                        .trim()
+                        .toLowerCase()
+                        .replace(/[.,]/g, "");
+                    return [4 /*yield*/, prisma.word.findUnique({
+                            where: {
+                                vietnamese: sanitizedVietnamese,
+                            },
+                        })];
                 case 1:
                     word = _c.sent();
                     if (!word) return [3 /*break*/, 3];
@@ -87,7 +92,7 @@ function createWord(_a) {
                             data: {
                                 words: {
                                     connect: {
-                                        vietnamese: vietnamese,
+                                        vietnamese: sanitizedVietnamese,
                                     },
                                 },
                             },
@@ -95,21 +100,16 @@ function createWord(_a) {
                 case 2:
                     _c.sent();
                     return [2 /*return*/];
-                case 3:
-                    sanitizedVietnamese = vietnamese
-                        .trim()
-                        .toLowerCase()
-                        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-                    return [4 /*yield*/, prisma.word.create({
-                            data: {
-                                vietnamese: sanitizedVietnamese,
-                                dialog: {
-                                    connect: {
-                                        id: dialogId,
-                                    },
+                case 3: return [4 /*yield*/, prisma.word.create({
+                        data: {
+                            vietnamese: sanitizedVietnamese,
+                            dialog: {
+                                connect: {
+                                    id: dialogId,
                                 },
                             },
-                        })];
+                        },
+                    })];
                 case 4:
                     _c.sent();
                     json = {

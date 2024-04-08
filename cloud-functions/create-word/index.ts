@@ -6,7 +6,6 @@ import {
   CreateWordEvent,
   CreateWordAudioEvent,
   parseCloudEventData,
-  sanitizeVietnamese,
 } from "@functional-vietnamese/cloud-function-events";
 
 import { PrismaClient } from "./generated";
@@ -45,9 +44,14 @@ export async function createWord({
   prisma,
   pubsub,
 }: CreateWordParams) {
+  const sanitizedVietnamese = vietnamese
+    .trim()
+    .toLowerCase()
+    .replace(/[.,]/g, "");
+
   const word = await prisma.word.findUnique({
     where: {
-      vietnamese,
+      vietnamese: sanitizedVietnamese,
     },
   });
 
@@ -59,7 +63,7 @@ export async function createWord({
       data: {
         words: {
           connect: {
-            vietnamese,
+            vietnamese: sanitizedVietnamese,
           },
         },
       },
@@ -67,15 +71,6 @@ export async function createWord({
 
     return;
   }
-
-  // const sanitizedVietnamese = vietnamese
-  //   .trim()
-  //   .toLowerCase()
-  //   .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-
-  const sanitizedVietnamese = sanitizeVietnamese({
-    vietnamese,
-  });
 
   await prisma.word.create({
     data: {

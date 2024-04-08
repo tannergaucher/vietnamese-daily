@@ -99,10 +99,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
                 const currentDialogWord = dialog.words.find(
                   (dialogWord) =>
                     dialogWord.vietnamese ===
-                    word
-                      .trim()
-                      .toLowerCase()
-                      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+                    word.trim().toLowerCase().replace(/[.,]/g, "")
                 );
 
                 return (

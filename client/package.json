@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@functional-vietnamese/cloud-function-events": "^0.0.2",
+    "@functional-vietnamese/cloud-function-events": "0.0.3",
     "@google-cloud/storage": "^7.9.0",
     "cloud-function-events": "^0.0.2",
     "next": "14.1.4",
