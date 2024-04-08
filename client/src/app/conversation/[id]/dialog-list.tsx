@@ -2,17 +2,13 @@
 
 import { useRef, useEffect, useState } from "react";
 
-import { Dialog as DialogModel, Word } from "@/generated";
+import { Dialog as DialogModel, Word as WordModel } from "@/generated";
 
-type Dialog = DialogModel & { audioSrc: string };
+type Word = WordModel & { signedUrl: string };
 
-export default function DialogList({
-  dialog,
-  dialogWords,
-}: {
-  dialog: Dialog[];
-  dialogWords: Word[];
-}) {
+type Dialog = DialogModel & { audioSrc: string; words: Word[] };
+
+export default function DialogList({ dialog }: { dialog: Dialog[] }) {
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
     null
   );
@@ -100,7 +96,7 @@ export default function DialogList({
             </small>{" "}
             <p className="text-2xl">
               {dialog.vietnamese.split(" ").map((word, index) => {
-                const currentDialogWord = dialogWords.find(
+                const currentDialogWord = dialog.words.find(
                   (dialogWord) =>
                     dialogWord.vietnamese ===
                     word
@@ -108,19 +104,14 @@ export default function DialogList({
                       .toLowerCase()
                       .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
                 );
+
                 return (
                   <span
                     className="hover:underline cursor-pointer"
                     key={index}
                     onClick={() => {
                       if (currentDialogWord) {
-                        if (dialog.gender === "male") {
-                          setCurrentDialogWordSrc(currentDialogWord.maleSrc);
-                        }
-
-                        if (dialog.gender === "female") {
-                          setCurrentDialogWordSrc(currentDialogWord.femaleSrc);
-                        }
+                        setCurrentDialogWordSrc(currentDialogWord.signedUrl);
                       }
                     }}
                   >
