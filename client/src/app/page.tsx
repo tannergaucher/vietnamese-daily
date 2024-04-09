@@ -19,7 +19,7 @@ export default async function Home() {
 
   return (
     <main>
-      <div className="grid grid-cols-3 gap-4 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {conversations.map((conversation) => (
           <Link href={`conversation/${conversation.id}`} key={conversation.id}>
             <div className="border text-color dark:text-color-dark rounded-lg p-4 box-border shadow-lg h-auto">
