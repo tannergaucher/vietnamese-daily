@@ -3,6 +3,9 @@ import Link from "next/link";
 
 export default async function Home() {
   const conversations = await prisma.conversation.findMany({
+    where: {
+      published: true,
+    },
     include: {
       situation: {
         select: {
