@@ -11,15 +11,6 @@ const config: Config = {
       fontFamily: {
         "be-vietnam-pro": ['"Be Vietnam Pro"', "sans-serif"],
       },
-      colors: {
-        "vietnam-red": "#d90000",
-        "vietnam-yellow": "#ffcc00",
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
     },
   },
   plugins: [],

@@ -5,27 +5,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;800&display=swap");
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --bg-1: #fff5f5; /* A very light red */
+  --bg-2: #ff8080; /* A subtle red */
+  --text-color: #4b2c20; /* A dark brown, softer than black */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --bg-1: #2c1a1a; /* A very dark red */
+    --bg-2: #ff8080; /* A subtle red */
+    --text-color: #ffd700; /* Gold color for the star */
   }
 }
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--text-color);
+  background: var(--bg-1);
+}
+
+header,
+footer {
+  background: var(--bg-2);
 }
 
 @layer utilities {

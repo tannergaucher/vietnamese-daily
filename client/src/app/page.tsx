@@ -18,24 +18,29 @@ export default async function Home() {
 
   return (
     <main>
-      {conversations.map((conversation) => (
-        <Link href={`conversation/${conversation.id}`} key={conversation.id}>
-          {conversation.situation?.imageSrc ? (
-            <Image
-              src={conversation.situation.imageSrc}
-              width={1000}
-              height={1000}
-              alt="Conversation Image"
-            />
-          ) : // <img
-          //   src={conversation.situation.imageSrc}
-          //   alt="Conversation Image"
-          // />
-          null}
-          <small className="m-4">{conversation.createdAt.toDateString()}</small>
-          {conversation.title}
-        </Link>
-      ))}
+      <div className="grid grid-cols-3 gap-4 p-4">
+        {conversations.map((conversation, index) => (
+          <div
+            className="border border-gray-300 rounded p-4 box-border"
+            key={conversation.id}
+          >
+            <Link href={`conversation/${conversation.id}`}>
+              {conversation.situation?.imageSrc ? (
+                <Image
+                  src={conversation.situation.imageSrc}
+                  width={1000}
+                  height={1000}
+                  alt="Conversation Image"
+                />
+              ) : null}
+              <small className="m-4">
+                {conversation.createdAt.toDateString()}
+              </small>
+              <h2>{conversation.title}</h2>
+            </Link>
+          </div>
+        ))}
+      </div>
     </main>
   );
 }

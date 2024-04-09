@@ -21,13 +21,13 @@ export default function RootLayout({
       <body
         className={`font-be-vietnam-pro flex flex-col justify-between min-h-screen text-vietnam-yellow`}
       >
-        <header className="bg-vietnam-red text-white p-4">
+        <header className="p-4">
           <Link href="/" className="text-2xl font-bold hover:text-gray-300">
             <h1>{metadata.title?.toString()}</h1>
           </Link>
         </header>
         <main className="mb-auto">{children}</main>
-        <footer className="bg-vietnam-red text-white p-4">
+        <footer className="text-white p-4">
           <EmailForm />
         </footer>
       </body>
