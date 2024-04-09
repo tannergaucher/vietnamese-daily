@@ -27,7 +27,7 @@ export default function RootLayout({
           </Link>
         </header>
         <main className="mb-auto">{children}</main>
-        <footer className="text-white p-4">
+        <footer className="p-4">
           <EmailForm />
         </footer>
       </body>

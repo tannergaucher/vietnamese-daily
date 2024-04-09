@@ -11,6 +11,7 @@ export default async function Home() {
       situation: {
         select: {
           imageSrc: true,
+          text: true,
         },
       },
     },
@@ -33,10 +34,9 @@ export default async function Home() {
                   alt="Conversation Image"
                 />
               ) : null}
-              <small className="m-4">
-                {conversation.createdAt.toDateString()}
-              </small>
+              <small>{conversation.createdAt.toDateString()}</small>
               <h2>{conversation.title}</h2>
+              <p>{conversation.situation?.text}</p>
             </Link>
           </div>
         ))}
