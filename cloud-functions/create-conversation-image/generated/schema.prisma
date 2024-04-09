@@ -111,7 +111,7 @@ model Conversation {
 
 model ConversationSituation {
   id             String        @id @default(uuid())
-  text           String
+  text           String        @unique
   conversationId String?       @unique
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   imageSrc       String?
