@@ -22,7 +22,7 @@ export default async function Home() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {conversations.map((conversation) => (
           <Link href={`conversation/${conversation.id}`} key={conversation.id}>
-            <div className="border text-color dark:text-color-dark rounded-lg p-4 box-border shadow-lg h-auto">
+            <div className="border rounded-lg p-4 box-border shadow-lg h-auto">
               {conversation.situation?.imageSrc ? (
                 <Image
                   src={conversation.situation.imageSrc}
@@ -32,10 +32,10 @@ export default async function Home() {
                   className="rounded-lg"
                 />
               ) : null}
-              <small className="block text-gray-500 dark:text-gray-400 my-2">
+              <small className="block my-2 text-gray-600 dark:text-gray-300">
                 {conversation.createdAt.toDateString()}
               </small>
-              <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
+              <h2 className="text-2xl font-semibold mb-2">
                 {conversation.title}
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
