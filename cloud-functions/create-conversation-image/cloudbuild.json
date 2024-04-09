@@ -1,0 +1,35 @@
+{
+  "steps": [
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "args": [
+        "gcloud",
+        "functions",
+        "deploy",
+        "createConversationImage",
+        "--gen2",
+        "--region=us-east1",
+        "--source=.",
+        "--runtime=nodejs18",
+        "--entry-point=createConversationImage",
+        "--trigger-topic=create-conversation-image"
+      ],
+      "secretEnv": ["DATABASE_URL", "OPENAI_API_KEY"]
+    }
+  ],
+  "availableSecrets": {
+    "secretManager": [
+      {
+        "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
+        "env": "DATABASE_URL"
+      },
+      {
+        "versionName": "projects/625494448696/secrets/OPENAI_API_KEY/versions/1",
+        "env": "OPENAI_API_KEY"
+      }
+    ]
+  },
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
+}

@@ -81,6 +81,18 @@ generator fetchUsersForDailyEmail {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+generator createConversationSituation {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-conversation-situation/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createConversationImage {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-conversation-image/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 enum Gender {
   male
   female
@@ -102,6 +114,7 @@ model ConversationSituation {
   text           String
   conversationId String?       @unique
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  imageSrc       String?
 }
 
 model Dialog {

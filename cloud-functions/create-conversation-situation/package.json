@@ -1,0 +1,24 @@
+{
+  "name": "create-conversation-situation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "deploy": "npm run build && gcloud builds submit --config cloudbuild.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@functional-vietnamese/cloud-function-events": "^0.0.3",
+    "@google-cloud/functions-framework": "^3.3.0",
+    "dotenv": "^16.4.5",
+    "typechat": "^0.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.5",
+    "typescript": "^5.4.4",
+    "vitest": "^1.4.0"
+  }
+}

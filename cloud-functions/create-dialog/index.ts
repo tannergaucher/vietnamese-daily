@@ -15,6 +15,7 @@ import {
   CloudEventData,
   FetchConversationDialogsForCreatingAudioEvent,
   FetchDialogWordsForCreatingEvent,
+  CreateConversationImageEvent,
   CreateDialogEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
@@ -110,6 +111,14 @@ export async function createDialog({
       .publishMessage({
         json,
       });
+
+    const conversationImageJson: CreateConversationImageEvent = {
+      conversationSituationId: situationId,
+    };
+
+    pubsub.topic("create-conversation-image").publishMessage({
+      json: conversationImageJson,
+    });
 
     for (const dialog of conversation.dialog) {
       const json: FetchDialogWordsForCreatingEvent = {
