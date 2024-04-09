@@ -1,5 +1,6 @@
 import { prisma } from "../prisma";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function Home() {
   const conversations = await prisma.conversation.findMany({
@@ -17,31 +18,24 @@ export default async function Home() {
 
   return (
     <main>
-      <ul className="my-10">
-        {conversations.map((conversation) => (
-          <li
-            key={conversation.id}
-            className="cursor-pointer hover:bg-gray-700 hover:rounded-lg"
-          >
-            {conversation.situation?.imageSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={conversation.situation.imageSrc}
-                alt="Conversation Image"
-              />
-            ) : null}
-            <small className="m-4">
-              {conversation.createdAt.toDateString()}
-            </small>
-            <Link
-              href={`conversation/${conversation.id}`}
-              className="block p-4 transition-colors duration-200 hover:text-white text-3xl"
-            >
-              {conversation.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {conversations.map((conversation) => (
+        <Link href={`conversation/${conversation.id}`} key={conversation.id}>
+          {conversation.situation?.imageSrc ? (
+            <Image
+              src={conversation.situation.imageSrc}
+              width={1000}
+              height={1000}
+              alt="Conversation Image"
+            />
+          ) : // <img
+          //   src={conversation.situation.imageSrc}
+          //   alt="Conversation Image"
+          // />
+          null}
+          <small className="m-4">{conversation.createdAt.toDateString()}</small>
+          {conversation.title}
+        </Link>
+      ))}
     </main>
   );
 }
