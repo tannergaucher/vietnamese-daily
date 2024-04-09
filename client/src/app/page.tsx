@@ -2,7 +2,15 @@ import { prisma } from "../prisma";
 import Link from "next/link";
 
 export default async function Home() {
-  const conversations = await prisma.conversation.findMany();
+  const conversations = await prisma.conversation.findMany({
+    include: {
+      situation: {
+        select: {
+          imageSrc: true,
+        },
+      },
+    },
+  });
 
   return (
     <main>
@@ -12,6 +20,13 @@ export default async function Home() {
             key={conversation.id}
             className="cursor-pointer hover:bg-gray-700 hover:rounded-lg"
           >
+            {conversation.situation?.imageSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={conversation.situation.imageSrc}
+                alt="Conversation Image"
+              />
+            ) : null}
             <small className="m-4">
               {conversation.createdAt.toDateString()}
             </small>
