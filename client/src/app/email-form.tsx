@@ -33,7 +33,7 @@ export function EmailForm() {
       className="flex flex-col items-center justify-center"
       onSubmit={handleSubmit}
     >
-      <label htmlFor="email" className="my-4 text-xl">
+      <label htmlFor="email" className="my-4 text-xl text-center">
         Subscribe for daily Vietnamese conversations.
       </label>
       <div className="flex justify-evenly items-center">
@@ -42,14 +42,11 @@ export function EmailForm() {
           id="email"
           name="email"
           placeholder="Your email address"
-          className="my-4 mr-2 p-2 flex-grow rounded border border-gray-300 text-black"
+          className="my-4 p-2 flex-grow rounded border h-12"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button
-          type="submit"
-          className="my-4 px-6 py-2 bg-white text-black rounded shadow hover:bg-gray-200"
-        >
+        <button type="submit" className="p-3 rounded shadow h-12">
           Sign Up
         </button>
       </div>
