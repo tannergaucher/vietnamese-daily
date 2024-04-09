@@ -96,6 +96,12 @@ function createDialog({ situationId, model, prisma, pubsub, }) {
                 .publishMessage({
                 json,
             });
+            const conversationImageJson = {
+                conversationSituationId: situationId,
+            };
+            pubsub.topic("create-conversation-image").publishMessage({
+                json: conversationImageJson,
+            });
             for (const dialog of conversation.dialog) {
                 const json = {
                     dialogId: dialog.id,

@@ -98,6 +98,10 @@ export interface HandleEmailSignupRequestBody {
   email: string;
 }
 
+export interface CreateConversationImageEvent {
+  conversationSituationId: string;
+}
+
 export function parseCloudEventData<T>({
   cloudEvent,
 }: {
