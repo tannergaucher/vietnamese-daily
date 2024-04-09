@@ -6234,14 +6234,14 @@ export namespace Prisma {
 
   export type ConversationSituationWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    text?: string
     conversationId?: string
     AND?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
     OR?: ConversationSituationWhereInput[]
     NOT?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
-    text?: StringFilter<"ConversationSituation"> | string
     imageSrc?: StringNullableFilter<"ConversationSituation"> | string | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
-  }, "id" | "conversationId">
+  }, "id" | "text" | "conversationId">
 
   export type ConversationSituationOrderByWithAggregationInput = {
     id?: SortOrder
