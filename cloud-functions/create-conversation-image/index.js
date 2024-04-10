@@ -36,8 +36,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createConversationImage = void 0;
+const fs = __importStar(require("fs"));
+const util = __importStar(require("util"));
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const openai_1 = __importDefault(require("openai"));
+const storage_1 = require("@google-cloud/storage");
 const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationImage", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,14 +51,19 @@ functions.cloudEvent("createConversationImage", (cloudEvent) => __awaiter(void 0
     const openai = new openai_1.default({
         apiKey: process.env.OPENAI_API_KEY,
     });
+    const storage = new storage_1.Storage({
+        projectId: "daily-vietnamese",
+        keyFilename: "./service-account.json",
+    });
     yield createConversationImage({
         conversationSituationId,
         prisma,
         openai,
+        storage,
     });
 }));
 function createConversationImage(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ conversationSituationId, prisma, openai, }) {
+    return __awaiter(this, arguments, void 0, function* ({ conversationSituationId, prisma, openai, storage, }) {
         const conversationSituation = yield prisma.conversationSituation.findUniqueOrThrow({
             where: {
                 id: conversationSituationId,
@@ -75,12 +83,25 @@ function createConversationImage(_a) {
             size: "1024x1024",
         });
         if (completion.data[0].url) {
+            const response = yield fetch(completion.data[0].url);
+            const blob = yield response.blob();
+            const writeFile = util.promisify(fs.writeFile);
+            const imageFile = `${conversationSituationId}.jpg`;
+            const buffer = yield blob.arrayBuffer();
+            const uint8Array = new Uint8Array(buffer);
+            writeFile(imageFile, uint8Array, "binary");
+            const bucketName = `conversation-dalee-images`;
+            const bucket = storage.bucket(bucketName);
+            yield bucket.upload(imageFile, {
+                destination: `${conversationSituationId}.jpg`,
+            });
+            const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.jpg`;
             yield prisma.conversationSituation.update({
                 where: {
                     id: conversationSituationId,
                 },
                 data: {
-                    imageSrc: completion.data[0].url,
+                    imageSrc: gcsUri,
                 },
             });
         }
