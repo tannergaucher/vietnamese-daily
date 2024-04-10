@@ -73,15 +73,15 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
   };
 
   return (
-    <section className="mb-8">
+    <section className="my-12">
       <button
         onClick={toggleConversation}
-        className="mx-4 px-6 py-4 mt-6 mb-10 bg-vietnam-red text-white rounded shadow hover:bg-white hover:text-black focus:outline-none text-xl"
+        className="w-full px-6 py-4 mt-6 mb-10 rounded shadow text-xl sticky top-0"
       >
         {isPlaying ? "Pause Conversation" : "Start Conversation"}
       </button>
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
-      <ul>
+      <ul className="px-4">
         {dialog.map((dialog, index) => (
           <li
             key={dialog.id}
