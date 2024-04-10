@@ -1,47 +1,77 @@
 import { prisma } from "../prisma";
 import Link from "next/link";
+import Image from "next/image";
+
+import { conversationImageBucket, getSignedUrl } from "../storage";
 
 export default async function Home() {
-  const conversations = await prisma.conversation.findMany({
+  let conversations = await prisma.conversation.findMany({
     where: {
       published: true,
     },
     include: {
       situation: {
         select: {
+          id: true,
           imageSrc: true,
+          text: true,
         },
       },
     },
   });
 
+  conversations = await Promise.all(
+    conversations.map(async (conversation) => {
+      if (!conversation.situation) {
+        throw new Error("Situation is not found");
+      }
+
+      const signedUrl = await getSignedUrl({
+        filePath: `${conversation.situation.id}.webp`,
+        bucket: conversationImageBucket,
+      });
+      return {
+        ...conversation,
+        situation: { ...conversation.situation, imageSrc: signedUrl },
+      };
+    })
+  );
+
   return (
     <main>
-      <ul className="my-10">
-        {conversations.map((conversation) => (
-          <li
-            key={conversation.id}
-            className="cursor-pointer hover:bg-gray-700 hover:rounded-lg"
-          >
-            {conversation.situation?.imageSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={conversation.situation.imageSrc}
-                alt="Conversation Image"
-              />
-            ) : null}
-            <small className="m-4">
-              {conversation.createdAt.toDateString()}
-            </small>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+        {conversations.map((conversation) => {
+          console.log(conversation.situation?.imageSrc);
+
+          return (
             <Link
               href={`conversation/${conversation.id}`}
-              className="block p-4 transition-colors duration-200 hover:text-white text-3xl"
+              key={conversation.id}
             >
-              {conversation.title}
+              <div className="border rounded-lg p-4 box-border shadow-lg h-auto">
+                {conversation.situation?.imageSrc ? (
+                  <Image
+                    src={conversation.situation.imageSrc}
+                    width={1000}
+                    height={1000}
+                    alt="Conversation Image"
+                    className="rounded-lg"
+                  />
+                ) : null}
+                <small className="block my-2 text-gray-600 dark:text-gray-300">
+                  {conversation.createdAt.toDateString()}
+                </small>
+                <h2 className="text-2xl font-semibold mb-2">
+                  {conversation.title}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {conversation.situation?.text}
+                </p>
+              </div>
             </Link>
-          </li>
-        ))}
-      </ul>
+          );
+        })}
+      </div>
     </main>
   );
 }
