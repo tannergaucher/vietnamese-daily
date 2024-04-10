@@ -4,10 +4,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "oaidalleapiprodscus.blob.core.windows.net",
+        hostname: "storage.googleapis.com",
         port: "",
-        pathname:
-          "/private/org-wQpIGYxtXSflVoB5bCp5JUeo/user-VrykEyJkiAIfRiu2RFdMV0ol/**",
+        pathname: "/conversation-dalee-images/**",
       },
     ],
   },
