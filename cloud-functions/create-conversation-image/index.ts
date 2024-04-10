@@ -1,5 +1,8 @@
+import * as fs from "fs";
+import * as util from "util";
 import * as functions from "@google-cloud/functions-framework";
 import OpenAI from "openai";
+import { Storage } from "@google-cloud/storage";
 
 import {
   CloudEventData,
@@ -23,10 +26,16 @@ functions.cloudEvent(
       apiKey: process.env.OPENAI_API_KEY,
     });
 
+    const storage = new Storage({
+      projectId: "daily-vietnamese",
+      keyFilename: "./service-account.json",
+    });
+
     await createConversationImage({
       conversationSituationId,
       prisma,
       openai,
+      storage,
     });
   }
 );
@@ -35,10 +44,12 @@ export async function createConversationImage({
   conversationSituationId,
   prisma,
   openai,
+  storage,
 }: {
   conversationSituationId: string;
   prisma: PrismaClient;
   openai: OpenAI;
+  storage: Storage;
 }) {
   const conversationSituation =
     await prisma.conversationSituation.findUniqueOrThrow({
@@ -63,12 +74,36 @@ export async function createConversationImage({
   });
 
   if (completion.data[0].url) {
+    const response = await fetch(completion.data[0].url);
+
+    const blob = await response.blob();
+
+    const writeFile = util.promisify(fs.writeFile);
+
+    const imageFile = `${conversationSituationId}.jpg`;
+
+    const buffer = await blob.arrayBuffer();
+
+    const uint8Array = new Uint8Array(buffer);
+
+    writeFile(imageFile, uint8Array, "binary");
+
+    const bucketName = `conversation-dalee-images`;
+
+    const bucket = storage.bucket(bucketName);
+
+    await bucket.upload(imageFile, {
+      destination: `${conversationSituationId}.jpg`,
+    });
+
+    const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.jpg`;
+
     await prisma.conversationSituation.update({
       where: {
         id: conversationSituationId,
       },
       data: {
-        imageSrc: completion.data[0].url,
+        imageSrc: gcsUri,
       },
     });
   }
