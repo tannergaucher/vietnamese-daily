@@ -26,15 +26,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`flex flex-col justify-between min-h-screen ${beVietnamePro.className}`}
+        className={`flex flex-col justify-between min-h-screen ${beVietnamePro.className} bg-bg-1-light dark:bg-bg-1-dark text-text-color-light dark:text-text-color-dark`}
       >
-        <header className="p-4">
-          <Link href="/" className="text-2xl font-bold hover:text-gray-300">
+        <header className="p-4 bg-bg-2-light dark:bg-bg-2-dark">
+          <Link
+            href="/"
+            className="text-2xl font-bold hover:text-accent-1-light dark:hover:text-accent-1-dark"
+          >
             <h1>{metadata.title?.toString()}</h1>
           </Link>
         </header>
-        <main className="mb-auto">{children}</main>
-        <footer className="p-4">
+        <main className="my-12">{children}</main>
+        <footer className="p-12 bg-bg-2-light dark:bg-bg-2-dark">
           <EmailForm />
         </footer>
       </body>
