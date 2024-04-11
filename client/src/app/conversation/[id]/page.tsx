@@ -65,17 +65,19 @@ export default async function Page({ params }: { params: { id: string } }) {
   const sortedDialog = await Promise.all(sortedDialogPromises);
 
   return (
-    <main className="max-w-[1000px] mx-auto">
-      <p className="mt-6 mx-4">
+    <main className="container mx-auto mb-12">
+      <p className="mt-6 mx-4 text-gray-600 dark:text-gray-300 text-sm">
         <time>{new Date(conversation.createdAt).toDateString()}</time>
       </p>
-      <h2 className="px-4 py-6 text-3xl font-bold">{conversation.title}</h2>
-      <h3 className="px-4  mb-6 text-lg">{conversation.situation?.text}</h3>
+      <h2 className="px-4 py-6 text-4xl font-bold">{conversation.title}</h2>
+      <h3 className="px-4  mb-12 text-lg text-gray-600 dark:text-gray-300">
+        {conversation.situation?.text}
+      </h3>
       {conversation.situation?.imageSrc ? (
         <Image
           src={conversation.situation?.imageSrc}
-          width={1000}
-          height={1000}
+          width={1536}
+          height={1536}
           alt="Situation image"
         />
       ) : null}

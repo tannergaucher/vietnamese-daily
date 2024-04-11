@@ -7,3 +7,7 @@
     text-wrap: balance;
   }
 }
+
+.dark .placeholder-dark::placeholder {
+  @apply text-accent-1-dark;
+}

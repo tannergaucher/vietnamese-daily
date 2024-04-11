@@ -24,6 +24,14 @@ const config: Config = {
           light: "#4b2c20", // A dark brown, softer than black
           dark: "#ffd700", // Gold color for the star
         },
+        "accent-1": {
+          light: "#ff0", // Bright yellow for the star
+          dark: "#ff0", // Bright yellow for the star
+        },
+        "accent-2": {
+          light: "#d60000", // Red for the flag background
+          dark: "#d60000", // Red for the flag background
+        },
       },
       variants: {
         extend: {

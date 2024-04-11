@@ -38,7 +38,7 @@ export default async function Home() {
   );
 
   return (
-    <main>
+    <main className="container mx-auto px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {conversations.map((conversation) => {
           console.log(conversation.situation?.imageSrc);
@@ -46,8 +46,9 @@ export default async function Home() {
             <Link
               href={`conversation/${conversation.id}`}
               key={conversation.id}
+              className="hover:text-accent-2-light dark:hover:text-accent-1-dark"
             >
-              <div className="border rounded-lg p-4 box-border shadow-lg h-auto">
+              <div className="border border-bg-1-light dark:border-accent-1-dark dark:hover:border-accent-1-dark rounded-lg p-4 box-border shadow-lg h-auto">
                 {conversation.situation?.imageSrc ? (
                   <Image
                     src={conversation.situation.imageSrc}

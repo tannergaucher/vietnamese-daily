@@ -69,20 +69,24 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
     const nextLi = liRefs.current[index + 1];
 
     if (nextLi) {
-      nextLi.scrollIntoView({ behavior: "smooth" });
+      nextLi.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
     }
   };
 
   return (
-    <section className="my-12">
+    <section className="my-10 px-4">
       <button
         onClick={toggleConversation}
-        className="px-6 py-4 mt-6 mb-10 rounded shadow text-xl sticky top-0"
+        className="w-full px-6 py-4 mt-6 mb-10 rounded shadow text-xl sticky top-0 bg-accent-2-light text-accent-1-light  dark:bg-accent-2-dark dark:text-accent-1-dark"
       >
         {isPlaying ? "Pause Conversation" : "Start Conversation"}
       </button>
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
-      <ul className="px-4">
+      <ul>
         {dialog.map((dialog, index) => (
           <li
             key={dialog.id}
