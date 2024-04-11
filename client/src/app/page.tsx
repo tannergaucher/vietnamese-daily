@@ -1,8 +1,8 @@
-import { prisma } from "../prisma";
 import Link from "next/link";
 import Image from "next/image";
 
 import { conversationImageBucket, getSignedUrl } from "../storage";
+import { prisma } from "../prisma";
 
 export default async function Home() {
   let conversations = await prisma.conversation.findMany({
@@ -42,7 +42,6 @@ export default async function Home() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {conversations.map((conversation) => {
           console.log(conversation.situation?.imageSrc);
-
           return (
             <Link
               href={`conversation/${conversation.id}`}

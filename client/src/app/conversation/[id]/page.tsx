@@ -42,28 +42,20 @@ export default async function Page({ params }: { params: { id: string } }) {
   const sortedDialogPromises = conversation.dialog
     .sort((a, b) => a.index - b.index)
     .map(async (dialog) => {
-      const [signedUrl] = await dialogAudioBucket
-        .file(`${conversation.id}/${dialog.id}.wav`)
-        .getSignedUrl({
-          action: "read",
-          expires: Date.now() + 1000 * 60 * 60,
-        });
-
       return {
         ...dialog,
-        audioSrc: signedUrl,
+        audioSrc: await getSignedUrl({
+          bucket: dialogAudioBucket,
+          filePath: `${conversation.id}/${dialog.id}.wav`,
+        }),
         words: await Promise.all(
           dialog.words.map(async (word) => {
-            const [signedUrl] = await wordAudioBucket
-              .file(`${dialog.gender}/${word.vietnamese}.wav`)
-              .getSignedUrl({
-                action: "read",
-                expires: Date.now() + 1000 * 60 * 60,
-              });
-
             return {
               ...word,
-              signedUrl,
+              signedUrl: await getSignedUrl({
+                bucket: wordAudioBucket,
+                filePath: `${dialog.gender}/${word.vietnamese}.wav`,
+              }),
             };
           })
         ),
