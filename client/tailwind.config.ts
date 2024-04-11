@@ -11,6 +11,26 @@ const config: Config = {
       fontFamily: {
         "eb-garamond": ['"EB Garamond"', "serif"],
       },
+      colors: {
+        "bg-1": {
+          light: "#fff5f5", // A very light red
+          dark: "#2c1a1a", // A very dark red
+        },
+        "bg-2": {
+          light: "#ff6060", // A darker red
+          dark: "#ff4040", // A darker red
+        },
+        "text-color": {
+          light: "#4b2c20", // A dark brown, softer than black
+          dark: "#ffd700", // Gold color for the star
+        },
+      },
+      variants: {
+        extend: {
+          backgroundColor: ["dark"],
+          textColor: ["dark"],
+        },
+      },
     },
   },
   plugins: [],

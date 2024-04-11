@@ -31,6 +31,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
   }, [currentDialogWordSrc]);
 
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
+
   const liRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
     <section className="my-12">
       <button
         onClick={toggleConversation}
-        className="w-full px-6 py-4 mt-6 mb-10 rounded shadow text-xl sticky top-0"
+        className="px-6 py-4 mt-6 mb-10 rounded shadow text-xl sticky top-0"
       >
         {isPlaying ? "Pause Conversation" : "Start Conversation"}
       </button>
@@ -101,7 +102,6 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
                     dialogWord.vietnamese ===
                     word.trim().toLowerCase().replace(/[.,]/g, "")
                 );
-
                 return (
                   <span
                     className="hover:underline cursor-pointer"

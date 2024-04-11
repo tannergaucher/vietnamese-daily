@@ -2,31 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg-1: #fff5f5; /* A very light red */
-  --bg-2: #ff6060; /* A darker red */
-  --text-color: #4b2c20; /* A dark brown, softer than black */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-1: #2c1a1a; /* A very dark red */
-    --bg-2: #ff4040; /* A darker red */
-    --text-color: #ffd700; /* Gold color for the star */
-  }
-}
-
-body {
-  color: var(--text-color);
-  background: var(--bg-1);
-}
-
-header,
-footer {
-  background: var(--bg-2);
-  color: var(--text-color);
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;

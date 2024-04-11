@@ -66,9 +66,11 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="max-w-[1000px] mx-auto">
-      <h5 className="p-4">{new Date(conversation.createdAt).toDateString()}</h5>
-      <h2 className="px-4 py-6 text-3xl font-semibold">{conversation.title}</h2>
-      <p className="px-4  mb-6">{conversation.situation?.text}</p>
+      <p className="mt-6 mx-4">
+        <time>{new Date(conversation.createdAt).toDateString()}</time>
+      </p>
+      <h2 className="px-4 py-6 text-3xl font-bold">{conversation.title}</h2>
+      <h3 className="px-4  mb-6 text-lg">{conversation.situation?.text}</h3>
       {conversation.situation?.imageSrc ? (
         <Image
           src={conversation.situation?.imageSrc}
@@ -77,7 +79,6 @@ export default async function Page({ params }: { params: { id: string } }) {
           alt="Situation image"
         />
       ) : null}
-
       <DialogList dialog={sortedDialog} />
     </main>
   );
