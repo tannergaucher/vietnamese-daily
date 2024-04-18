@@ -65,12 +65,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   const sortedDialog = await Promise.all(sortedDialogPromises);
 
   return (
-    <div className="container mx-auto mb-12">
-      <p className="mt-6 mx-4 text-gray-600 dark:text-gray-300 text-sm">
+    <div className="container mx-auto">
+      <p className="my-3 mx-3 text-gray-600 dark:text-gray-300 text-sm">
         <time>{new Date(conversation.createdAt).toDateString()}</time>
       </p>
-      <h2 className="px-4 py-6 text-4xl font-bold">{conversation.title}</h2>
-      <h3 className="px-4  mb-12 text-lg text-gray-600 dark:text-gray-300">
+      <h2 className="px-3 py-3 text-4xl font-bold">{conversation.title}</h2>
+      <h3 className="px-3 mt-3 mb-6 text-lg text-gray-600 dark:text-gray-300">
         {conversation.situation?.text}
       </h3>
       {conversation.situation?.imageSrc ? (
@@ -79,6 +79,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           width={1536}
           height={1536}
           alt="Situation image"
+          className="rounded-lg shadow-lg"
         />
       ) : null}
       <DialogList dialog={sortedDialog} />
