@@ -44,6 +44,7 @@ export default async function Home() {
         return (
           <Link href={`conversation/${conversation.id}`} key={conversation.id}>
             <Card
+              size="medium"
               image={
                 conversation.situation?.imageSrc
                   ? {

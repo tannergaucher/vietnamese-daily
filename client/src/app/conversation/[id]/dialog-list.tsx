@@ -78,7 +78,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
   };
 
   return (
-    <section className="my-10 px-4">
+    <section className="my-6">
       <button
         onClick={toggleConversation}
         className="w-full px-6 py-4 mt-6 mb-10 rounded shadow text-xl sticky top-0 bg-accent-2-light text-accent-1-light  dark:bg-accent-2-dark dark:text-accent-1-dark"
@@ -93,7 +93,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
             ref={(li) => {
               liRefs.current[index] = li;
             }}
-            className={`transition-colors duration-200 p-4 rounded-lg mb-4 
+            className={`transition-colors duration-200 py-3 rounded-lg mb-3 
           ${currentPlayingIndex === index ? "bg-gray-700 text-white" : ""}`}
           >
             <small className="text-slate-500">
