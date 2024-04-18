@@ -65,7 +65,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const sortedDialog = await Promise.all(sortedDialogPromises);
 
   return (
-    <main className="container mx-auto mb-12">
+    <div className="container mx-auto mb-12">
       <p className="mt-6 mx-4 text-gray-600 dark:text-gray-300 text-sm">
         <time>{new Date(conversation.createdAt).toDateString()}</time>
       </p>
@@ -82,6 +82,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         />
       ) : null}
       <DialogList dialog={sortedDialog} />
-    </main>
+    </div>
   );
 }
