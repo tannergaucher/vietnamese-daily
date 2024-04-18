@@ -5,7 +5,9 @@ import {
   getSignedUrl,
   conversationImageBucket,
 } from "@/storage";
-import Image from "next/image";
+
+import { Container } from "@/components/container";
+import { Card } from "@/components/card";
 
 import DialogList from "./dialog-list";
 
@@ -65,23 +67,25 @@ export default async function Page({ params }: { params: { id: string } }) {
   const sortedDialog = await Promise.all(sortedDialogPromises);
 
   return (
-    <main className="container mx-auto mb-12">
-      <p className="mt-6 mx-4 text-gray-600 dark:text-gray-300 text-sm">
-        <time>{new Date(conversation.createdAt).toDateString()}</time>
-      </p>
-      <h2 className="px-4 py-6 text-4xl font-bold">{conversation.title}</h2>
-      <h3 className="px-4  mb-12 text-lg text-gray-600 dark:text-gray-300">
-        {conversation.situation?.text}
-      </h3>
-      {conversation.situation?.imageSrc ? (
-        <Image
-          src={conversation.situation?.imageSrc}
-          width={1536}
-          height={1536}
-          alt="Situation image"
-        />
-      ) : null}
-      <DialogList dialog={sortedDialog} />
-    </main>
+    <Container>
+      <Card
+        size="large"
+        image={
+          conversation.situation?.imageSrc
+            ? {
+                src: conversation.situation.imageSrc,
+                width: 2000,
+                height: 2000,
+                alt: "Conversation Image",
+              }
+            : undefined
+        }
+        small={new Date(conversation.createdAt).toDateString()}
+        heading={conversation.title}
+        subHeading={conversation.situation?.text}
+      >
+        <DialogList dialog={sortedDialog} />
+      </Card>
+    </Container>
   );
 }
