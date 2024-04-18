@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-
 import { HandleEmailSignupRequestBody } from "cloud-function-events";
+
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 
 export function EmailForm() {
   const [email, setEmail] = useState("");
@@ -28,6 +30,7 @@ export function EmailForm() {
       throw new Error("Network response was not ok");
     }
   };
+
   return (
     <form
       className="flex flex-col items-center justify-center"
@@ -37,21 +40,14 @@ export function EmailForm() {
         Subscribe now for free daily Vietnamese conversations.
       </label>
       <div className="flex justify-evenly items-center">
-        <input
+        <Input
+          value={email}
           type="email"
-          id="email"
           name="email"
           placeholder="Your email address"
-          className="my-4 p-2 flex-grow rounded-l h-12 dark:bg-bg-2-light dark:text-accent-1-dark placeholder-dark border-t border-b border-l dark:border-accent-2-dark border-none"
-          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button
-          type="submit"
-          className="p-3 rounded-r shadow h-12 bg-accent-2-light hover:bg-accent-1-light text-accent-1-light hover:text-accent-2-light dark:bg-accent-2-dark dark:hover:bg-accent-1-dark dark:text-accent-1-dark dark:hover:text-accent-2-dark border-t border-b border-r dark:border-accent-2-dark border-none"
-        >
-          Sign Up
-        </button>
+        <Button text="Subscribe" />
       </div>
     </form>
   );

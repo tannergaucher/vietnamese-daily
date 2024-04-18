@@ -1,6 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 
+import { Card } from "@/components/card";
+import { Grid } from "@/components/grid";
 import { conversationImageBucket, getSignedUrl } from "../storage";
 import { prisma } from "../prisma";
 
@@ -38,40 +39,28 @@ export default async function Home() {
   );
 
   return (
-    <div className="container mx-auto">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-2">
-        {conversations.map((conversation) => {
-          console.log(conversation.situation?.imageSrc);
-          return (
-            <Link
-              href={`conversation/${conversation.id}`}
-              key={conversation.id}
-              className="hover:text-accent-2-light dark:hover:text-accent-1-dark"
-            >
-              <div className="border border-bg-1-light dark:border-accent-1-dark dark:hover:border-accent-1-dark rounded-lg p-3 box-border shadow-lg h-auto">
-                {conversation.situation?.imageSrc ? (
-                  <Image
-                    src={conversation.situation.imageSrc}
-                    width={1000}
-                    height={1000}
-                    alt="Conversation Image"
-                    className="rounded-lg"
-                  />
-                ) : null}
-                <small className="block  mt-3 mb-2 text-gray-600 dark:text-gray-300">
-                  {conversation.createdAt.toDateString()}
-                </small>
-                <h2 className="text-2xl font-semibold mb-2">
-                  {conversation.title}
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {conversation.situation?.text}
-                </p>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    </div>
+    <Grid>
+      {conversations.map((conversation) => {
+        return (
+          <Link href={`conversation/${conversation.id}`} key={conversation.id}>
+            <Card
+              image={
+                conversation.situation?.imageSrc
+                  ? {
+                      src: conversation.situation.imageSrc,
+                      width: 1000,
+                      height: 1000,
+                      alt: "Conversation Image",
+                    }
+                  : undefined
+              }
+              small={conversation.createdAt.toDateString()}
+              heading={conversation.title}
+              subHeading={conversation.situation?.text}
+            />
+          </Link>
+        );
+      })}
+    </Grid>
   );
 }
