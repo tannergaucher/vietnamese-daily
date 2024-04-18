@@ -93,7 +93,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
             ref={(li) => {
               liRefs.current[index] = li;
             }}
-            className={`transition-colors duration-200 p-4 rounded-lg shadow-md mb-4 
+            className={`transition-colors duration-200 p-4 rounded-lg mb-4 
           ${currentPlayingIndex === index ? "bg-gray-700 text-white" : ""}`}
           >
             <small className="text-slate-500">
@@ -111,7 +111,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
                     className="hover:underline cursor-pointer"
                     key={index}
                     onClick={() => {
-                      if (currentDialogWord) {
+                      if (currentDialogWord && !isPlaying) {
                         setCurrentDialogWordSrc(currentDialogWord.signedUrl);
                       }
                     }}
