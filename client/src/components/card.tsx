@@ -35,8 +35,8 @@ export function Card({
 
   const marginY = {
     small: "my-1",
-    medium: "my-3",
-    large: "my-9",
+    medium: "my-2",
+    large: "my-6",
   };
 
   return (
@@ -47,7 +47,7 @@ export function Card({
           width={image.width}
           height={image.height}
           alt={image.alt}
-          className="rounded-lg shadow-lg"
+          className="rounded-lg shadow-lg mb-3"
         />
       ) : null}
       {small ? (
