@@ -36,7 +36,7 @@ export default function RootLayout({
             <h1>{metadata.title?.toString()}</h1>
           </Link>
         </header>
-        <main className="my-12">{children}</main>
+        <main className="my-6">{children}</main>
         <footer className="p-12 bg-bg-2-light dark:bg-bg-2-dark">
           <EmailForm />
         </footer>
