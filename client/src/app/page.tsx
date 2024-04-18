@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { Card } from "@/components/card";
-import { Grid } from "@/components/grid";
+import { Card } from "@/app/components/card";
+import { Grid } from "@/app/components/grid";
 import { conversationImageBucket, getSignedUrl } from "../storage";
 import { prisma } from "../prisma";
 

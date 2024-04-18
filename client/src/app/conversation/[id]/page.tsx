@@ -6,8 +6,8 @@ import {
   conversationImageBucket,
 } from "@/storage";
 
-import { Container } from "@/components/container";
-import { Card } from "@/components/card";
+import { Container } from "@/app/components/container";
+import { Card } from "@/app/components/card";
 
 import DialogList from "./dialog-list";
 
