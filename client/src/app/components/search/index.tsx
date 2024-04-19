@@ -1,12 +1,18 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Combobox } from "@headlessui/react";
 import { ContentHit } from "@functional-vietnamese/cloud-function-events";
+import { useRouter } from "next/navigation";
 
 import { INPUT_CLASSES } from "@/app/components/input";
 
 export function Search() {
+  const [selected, setSelected] = useState<ContentHit | null>(null);
   const [search, setSearch] = useState("");
   const [options, setOptions] = useState<ContentHit[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     fetch(
@@ -16,10 +22,28 @@ export function Search() {
       .then((data) => setOptions(data));
   }, [search]);
 
+  console.log(selected, "selected");
+
+  useEffect(() => {
+    if (selected) {
+      setSearch("");
+
+      router.push(`/conversation/${selected.objectID}`);
+    }
+  }, [router, selected]);
+
   return (
     <>
       <div className="relative">
-        <Combobox>
+        <Combobox
+          onChange={(value) => {
+            const option = options.find((option) => option.title === value);
+
+            if (option) {
+              setSelected(option);
+            }
+          }}
+        >
           <Combobox.Input
             placeholder="Search content"
             className={INPUT_CLASSES}
@@ -32,6 +56,7 @@ export function Search() {
                 <Combobox.Option
                   key={option.objectID}
                   value={option.title}
+                  onClick={() => setSelected(option)}
                   className={({ active }) =>
                     `cursor-pointer select-none relative py-2 pl-10 pr-4 ${
                       active
