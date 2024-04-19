@@ -70,8 +70,8 @@ export async function indexContent({
     title: conversation.title,
     date: conversation.createdAt,
     situation: conversation.situation?.text,
+    situationId: conversation.situation?.id,
     type: conversation.situation?.type,
-    imageSrc: conversation.situation?.imageSrc,
     text: conversation.dialog.map((d) => d.vietnamese).join(" "),
     speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
   };
