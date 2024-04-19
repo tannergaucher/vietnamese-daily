@@ -1,9 +1,11 @@
 import * as functions from "@google-cloud/functions-framework";
+import { PubSub } from "@google-cloud/pubsub";
 import algoliasearch, { SearchClient } from "algoliasearch";
 import {
   CloudEventData,
   parseCloudEventData,
   IndexContentEvent,
+  FetchUsersForDailyEmailEvent,
 } from "@functional-vietnamese/cloud-function-events";
 
 import { PrismaClient } from "./generated";
@@ -26,10 +28,16 @@ functions.cloudEvent(
       process.env.ALGOLIA_API_KEY
     );
 
+    const pubsub = new PubSub({
+      projectId: "daily-vietnamese",
+      keyFilename: "./service-account.json",
+    });
+
     await indexContent({
       conversationId,
       prisma,
       algolia,
+      pubsub,
     });
 
     return { conversationId };
@@ -40,10 +48,12 @@ export async function indexContent({
   conversationId,
   prisma,
   algolia,
+  pubsub,
 }: {
   conversationId: string;
   prisma: PrismaClient;
   algolia: SearchClient;
+  pubsub: PubSub;
 }) {
   const conversation = await prisma.conversation.findUniqueOrThrow({
     where: {
@@ -60,6 +70,7 @@ export async function indexContent({
     title: conversation.title,
     date: conversation.createdAt,
     situation: conversation.situation?.text,
+    type: conversation.situation?.type,
     imageSrc: conversation.situation?.imageSrc,
     text: conversation.dialog.map((d) => d.vietnamese).join(" "),
     speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
@@ -71,6 +82,14 @@ export async function indexContent({
     .saveObject(contentRecord)
     .then(({ objectID }) => {
       console.log("Saved object", objectID);
+
+      const json: FetchUsersForDailyEmailEvent = {
+        conversationId,
+      };
+
+      pubsub.topic("fetch-users-for-daily-email").publishMessage({
+        json,
+      });
     })
     .catch((error) => {
       console.error("Error saving object", error);

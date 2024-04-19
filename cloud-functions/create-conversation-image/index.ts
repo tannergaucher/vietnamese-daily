@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as util from "util";
 import * as functions from "@google-cloud/functions-framework";
-import { PubSub } from "@google-cloud/pubsub";
 import { Storage } from "@google-cloud/storage";
 import OpenAI from "openai";
 
@@ -33,17 +32,11 @@ functions.cloudEvent(
       keyFilename: "./service-account.json",
     });
 
-    const pubsub = new PubSub({
-      projectId: "daily-vietnamese",
-      keyFilename: "./service-account.json",
-    });
-
     await createConversationImage({
       conversationSituationId,
       prisma,
       openai,
       storage,
-      pubsub,
     });
   }
 );
@@ -53,13 +46,11 @@ export async function createConversationImage({
   prisma,
   openai,
   storage,
-  pubsub,
 }: {
   conversationSituationId: string;
   prisma: PrismaClient;
   openai: OpenAI;
   storage: Storage;
-  pubsub: PubSub;
 }) {
   const conversationSituation =
     await prisma.conversationSituation.findUniqueOrThrow({
@@ -120,14 +111,6 @@ export async function createConversationImage({
       data: {
         imageSrc: gcsUri,
       },
-    });
-
-    const json: IndexContentEvent = {
-      conversationId: conversationSituation.conversationId,
-    };
-
-    pubsub.topic("index-content").publishMessage({
-      json,
     });
   }
 }

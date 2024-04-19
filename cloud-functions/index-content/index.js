@@ -37,6 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.indexContent = void 0;
 const functions = __importStar(require("@google-cloud/functions-framework"));
+const pubsub_1 = require("@google-cloud/pubsub");
 const algoliasearch_1 = __importDefault(require("algoliasearch"));
 const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const generated_1 = require("./generated");
@@ -49,16 +50,21 @@ functions.cloudEvent("indexContent", (cloudEvent) => __awaiter(void 0, void 0, v
     });
     const prisma = new generated_1.PrismaClient();
     const algolia = (0, algoliasearch_1.default)(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
+    const pubsub = new pubsub_1.PubSub({
+        projectId: "daily-vietnamese",
+        keyFilename: "./service-account.json",
+    });
     yield indexContent({
         conversationId,
         prisma,
         algolia,
+        pubsub,
     });
     return { conversationId };
 }));
 function indexContent(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ conversationId, prisma, algolia, }) {
-        var _b, _c;
+    return __awaiter(this, arguments, void 0, function* ({ conversationId, prisma, algolia, pubsub, }) {
+        var _b, _c, _d;
         const conversation = yield prisma.conversation.findUniqueOrThrow({
             where: {
                 id: conversationId,
@@ -71,8 +77,10 @@ function indexContent(_a) {
         const contentRecord = {
             objectID: conversation.id,
             title: conversation.title,
+            date: conversation.createdAt,
             situation: (_b = conversation.situation) === null || _b === void 0 ? void 0 : _b.text,
-            imageSrc: (_c = conversation.situation) === null || _c === void 0 ? void 0 : _c.imageSrc,
+            type: (_c = conversation.situation) === null || _c === void 0 ? void 0 : _c.type,
+            imageSrc: (_d = conversation.situation) === null || _d === void 0 ? void 0 : _d.imageSrc,
             text: conversation.dialog.map((d) => d.vietnamese).join(" "),
             speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
         };
@@ -81,6 +89,12 @@ function indexContent(_a) {
             .saveObject(contentRecord)
             .then(({ objectID }) => {
             console.log("Saved object", objectID);
+            const json = {
+                conversationId,
+            };
+            pubsub.topic("fetch-users-for-daily-email").publishMessage({
+                json,
+            });
         })
             .catch((error) => {
             console.error("Error saving object", error);

@@ -2298,6 +2298,7 @@ export namespace Prisma {
   export type ConversationSituationMinAggregateOutputType = {
     id: string | null
     text: string | null
+    type: string | null
     conversationId: string | null
     imageSrc: string | null
   }
@@ -2305,6 +2306,7 @@ export namespace Prisma {
   export type ConversationSituationMaxAggregateOutputType = {
     id: string | null
     text: string | null
+    type: string | null
     conversationId: string | null
     imageSrc: string | null
   }
@@ -2312,6 +2314,7 @@ export namespace Prisma {
   export type ConversationSituationCountAggregateOutputType = {
     id: number
     text: number
+    type: number
     conversationId: number
     imageSrc: number
     _all: number
@@ -2321,6 +2324,7 @@ export namespace Prisma {
   export type ConversationSituationMinAggregateInputType = {
     id?: true
     text?: true
+    type?: true
     conversationId?: true
     imageSrc?: true
   }
@@ -2328,6 +2332,7 @@ export namespace Prisma {
   export type ConversationSituationMaxAggregateInputType = {
     id?: true
     text?: true
+    type?: true
     conversationId?: true
     imageSrc?: true
   }
@@ -2335,6 +2340,7 @@ export namespace Prisma {
   export type ConversationSituationCountAggregateInputType = {
     id?: true
     text?: true
+    type?: true
     conversationId?: true
     imageSrc?: true
     _all?: true
@@ -2415,6 +2421,7 @@ export namespace Prisma {
   export type ConversationSituationGroupByOutputType = {
     id: string
     text: string
+    type: string
     conversationId: string | null
     imageSrc: string | null
     _count: ConversationSituationCountAggregateOutputType | null
@@ -2439,6 +2446,7 @@ export namespace Prisma {
   export type ConversationSituationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     text?: boolean
+    type?: boolean
     conversationId?: boolean
     imageSrc?: boolean
     conversation?: boolean | ConversationSituation$conversationArgs<ExtArgs>
@@ -2447,6 +2455,7 @@ export namespace Prisma {
   export type ConversationSituationSelectScalar = {
     id?: boolean
     text?: boolean
+    type?: boolean
     conversationId?: boolean
     imageSrc?: boolean
   }
@@ -2464,6 +2473,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       text: string
+      type: string
       conversationId: string | null
       imageSrc: string | null
     }, ExtArgs["result"]["conversationSituation"]>
@@ -2863,6 +2873,7 @@ export namespace Prisma {
   interface ConversationSituationFieldRefs {
     readonly id: FieldRef<"ConversationSituation", 'String'>
     readonly text: FieldRef<"ConversationSituation", 'String'>
+    readonly type: FieldRef<"ConversationSituation", 'String'>
     readonly conversationId: FieldRef<"ConversationSituation", 'String'>
     readonly imageSrc: FieldRef<"ConversationSituation", 'String'>
   }
@@ -6003,6 +6014,7 @@ export namespace Prisma {
   export const ConversationSituationScalarFieldEnum: {
     id: 'id',
     text: 'text',
+    type: 'type',
     conversationId: 'conversationId',
     imageSrc: 'imageSrc'
   };
@@ -6219,6 +6231,7 @@ export namespace Prisma {
     NOT?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
     id?: StringFilter<"ConversationSituation"> | string
     text?: StringFilter<"ConversationSituation"> | string
+    type?: StringFilter<"ConversationSituation"> | string
     conversationId?: StringNullableFilter<"ConversationSituation"> | string | null
     imageSrc?: StringNullableFilter<"ConversationSituation"> | string | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
@@ -6227,6 +6240,7 @@ export namespace Prisma {
   export type ConversationSituationOrderByWithRelationInput = {
     id?: SortOrder
     text?: SortOrder
+    type?: SortOrder
     conversationId?: SortOrderInput | SortOrder
     imageSrc?: SortOrderInput | SortOrder
     conversation?: ConversationOrderByWithRelationInput
@@ -6239,6 +6253,7 @@ export namespace Prisma {
     AND?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
     OR?: ConversationSituationWhereInput[]
     NOT?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
+    type?: StringFilter<"ConversationSituation"> | string
     imageSrc?: StringNullableFilter<"ConversationSituation"> | string | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
   }, "id" | "text" | "conversationId">
@@ -6246,6 +6261,7 @@ export namespace Prisma {
   export type ConversationSituationOrderByWithAggregationInput = {
     id?: SortOrder
     text?: SortOrder
+    type?: SortOrder
     conversationId?: SortOrderInput | SortOrder
     imageSrc?: SortOrderInput | SortOrder
     _count?: ConversationSituationCountOrderByAggregateInput
@@ -6259,6 +6275,7 @@ export namespace Prisma {
     NOT?: ConversationSituationScalarWhereWithAggregatesInput | ConversationSituationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ConversationSituation"> | string
     text?: StringWithAggregatesFilter<"ConversationSituation"> | string
+    type?: StringWithAggregatesFilter<"ConversationSituation"> | string
     conversationId?: StringNullableWithAggregatesFilter<"ConversationSituation"> | string | null
     imageSrc?: StringNullableWithAggregatesFilter<"ConversationSituation"> | string | null
   }
@@ -6494,6 +6511,7 @@ export namespace Prisma {
   export type ConversationSituationCreateInput = {
     id?: string
     text: string
+    type: string
     imageSrc?: string | null
     conversation?: ConversationCreateNestedOneWithoutSituationInput
   }
@@ -6501,6 +6519,7 @@ export namespace Prisma {
   export type ConversationSituationUncheckedCreateInput = {
     id?: string
     text: string
+    type: string
     conversationId?: string | null
     imageSrc?: string | null
   }
@@ -6508,6 +6527,7 @@ export namespace Prisma {
   export type ConversationSituationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
     conversation?: ConversationUpdateOneWithoutSituationNestedInput
   }
@@ -6515,6 +6535,7 @@ export namespace Prisma {
   export type ConversationSituationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -6522,6 +6543,7 @@ export namespace Prisma {
   export type ConversationSituationCreateManyInput = {
     id?: string
     text: string
+    type: string
     conversationId?: string | null
     imageSrc?: string | null
   }
@@ -6529,12 +6551,14 @@ export namespace Prisma {
   export type ConversationSituationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConversationSituationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -6866,6 +6890,7 @@ export namespace Prisma {
   export type ConversationSituationCountOrderByAggregateInput = {
     id?: SortOrder
     text?: SortOrder
+    type?: SortOrder
     conversationId?: SortOrder
     imageSrc?: SortOrder
   }
@@ -6873,6 +6898,7 @@ export namespace Prisma {
   export type ConversationSituationMaxOrderByAggregateInput = {
     id?: SortOrder
     text?: SortOrder
+    type?: SortOrder
     conversationId?: SortOrder
     imageSrc?: SortOrder
   }
@@ -6880,6 +6906,7 @@ export namespace Prisma {
   export type ConversationSituationMinOrderByAggregateInput = {
     id?: SortOrder
     text?: SortOrder
+    type?: SortOrder
     conversationId?: SortOrder
     imageSrc?: SortOrder
   }
@@ -7473,12 +7500,14 @@ export namespace Prisma {
   export type ConversationSituationCreateWithoutConversationInput = {
     id?: string
     text: string
+    type: string
     imageSrc?: string | null
   }
 
   export type ConversationSituationUncheckedCreateWithoutConversationInput = {
     id?: string
     text: string
+    type: string
     imageSrc?: string | null
   }
 
@@ -7531,12 +7560,14 @@ export namespace Prisma {
   export type ConversationSituationUpdateWithoutConversationInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConversationSituationUncheckedUpdateWithoutConversationInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

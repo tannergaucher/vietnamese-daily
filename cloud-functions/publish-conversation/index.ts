@@ -6,7 +6,7 @@ import { PrismaClient } from "./generated";
 import {
   CloudEventData,
   PublishConversationEvent,
-  FetchUsersForDailyEmailEvent,
+  IndexContentEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
 
@@ -89,11 +89,11 @@ export async function publishConversation({
     },
   });
 
-  const json: FetchUsersForDailyEmailEvent = {
+  const json: IndexContentEvent = {
     conversationId,
   };
 
-  pubsub.topic("fetch-users-for-daily-email").publishMessage({
+  pubsub.topic("index-content").publishMessage({
     json,
   });
 }
