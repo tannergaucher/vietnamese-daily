@@ -15,7 +15,7 @@ type ContentHit = {
   type: string;
   text: string;
 } & {
-  imageSrc?: string;
+  signedUrl?: string;
 };
 
 export default async function Home({
@@ -25,8 +25,10 @@ export default async function Home({
     page?: string;
   };
 }) {
-  let { hits } = await contentIndex.search<ContentHit>("", {
-    hitsPerPage: 10,
+  const hitsPerPage = 9;
+
+  let { hits, nbHits } = await contentIndex.search<ContentHit>("", {
+    hitsPerPage,
     page: parseInt(searchParams.page || "0"),
   });
 
@@ -38,7 +40,7 @@ export default async function Home({
       });
       return {
         ...hit,
-        imageSrc: signedUrl,
+        signedUrl,
       };
     })
   );
@@ -52,9 +54,9 @@ export default async function Home({
               <Card
                 size="medium"
                 image={
-                  hit.imageSrc
+                  hit.signedUrl
                     ? {
-                        src: hit.imageSrc,
+                        src: hit.signedUrl,
                         width: 1000,
                         height: 1000,
                         alt: `Vibrant Vietnamese folk painting of ${hit.situation}`,
@@ -69,7 +71,7 @@ export default async function Home({
           );
         })}
       </Grid>
-      <Pagination />
+      <Pagination nbHits={nbHits} hitsPerPage={9} />
     </div>
   );
 }

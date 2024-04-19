@@ -4,7 +4,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/app/components/button";
 
-export function Pagination() {
+export function Pagination({
+  nbHits,
+  hitsPerPage,
+}: {
+  nbHits: number;
+  hitsPerPage: number;
+}) {
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -17,8 +23,15 @@ export function Pagination() {
 
   return (
     <div>
-      <Button onClick={() => goToPage(page - 1)}>Previous</Button>
-      <Button onClick={() => goToPage(page + 1)}>Next</Button>
+      <Button disabled={page === 0} onClick={() => goToPage(page - 1)}>
+        Previous
+      </Button>
+      <Button
+        disabled={nbHits <= hitsPerPage}
+        onClick={() => goToPage(page + 1)}
+      >
+        Next
+      </Button>
     </div>
   );
 }
