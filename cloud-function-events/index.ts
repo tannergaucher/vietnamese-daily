@@ -102,6 +102,10 @@ export interface CreateConversationImageEvent {
   conversationSituationId: string;
 }
 
+export interface IndexContentEvent {
+  conversationId: string;
+}
+
 export function parseCloudEventData<T>({
   cloudEvent,
 }: {

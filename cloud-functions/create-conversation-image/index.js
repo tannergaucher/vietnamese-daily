@@ -39,8 +39,9 @@ exports.createConversationImage = void 0;
 const fs = __importStar(require("fs"));
 const util = __importStar(require("util"));
 const functions = __importStar(require("@google-cloud/functions-framework"));
-const openai_1 = __importDefault(require("openai"));
+const pubsub_1 = require("@google-cloud/pubsub");
 const storage_1 = require("@google-cloud/storage");
+const openai_1 = __importDefault(require("openai"));
 const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationImage", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
@@ -55,15 +56,20 @@ functions.cloudEvent("createConversationImage", (cloudEvent) => __awaiter(void 0
         projectId: "daily-vietnamese",
         keyFilename: "./service-account.json",
     });
+    const pubsub = new pubsub_1.PubSub({
+        projectId: "daily-vietnamese",
+        keyFilename: "./service-account.json",
+    });
     yield createConversationImage({
         conversationSituationId,
         prisma,
         openai,
         storage,
+        pubsub,
     });
 }));
 function createConversationImage(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ conversationSituationId, prisma, openai, storage, }) {
+    return __awaiter(this, arguments, void 0, function* ({ conversationSituationId, prisma, openai, storage, pubsub, }) {
         const conversationSituation = yield prisma.conversationSituation.findUniqueOrThrow({
             where: {
                 id: conversationSituationId,
@@ -71,8 +77,12 @@ function createConversationImage(_a) {
             select: {
                 text: true,
                 imageSrc: true,
+                conversationId: true,
             },
         });
+        if (!conversationSituation.conversationId) {
+            throw new Error("ConversationSituation does not have a conversationId");
+        }
         if (conversationSituation.imageSrc) {
             return;
         }
@@ -103,6 +113,13 @@ function createConversationImage(_a) {
                 data: {
                     imageSrc: gcsUri,
                 },
+            });
+            // now publish to the index content event
+            const json = {
+                conversationId: conversationSituation.conversationId,
+            };
+            pubsub.topic("index-content").publishMessage({
+                json,
             });
         }
     });

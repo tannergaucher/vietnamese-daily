@@ -1,13 +1,15 @@
 import * as fs from "fs";
 import * as util from "util";
 import * as functions from "@google-cloud/functions-framework";
-import OpenAI from "openai";
+import { PubSub } from "@google-cloud/pubsub";
 import { Storage } from "@google-cloud/storage";
+import OpenAI from "openai";
 
 import {
   CloudEventData,
   CreateConversationImageEvent,
   parseCloudEventData,
+  IndexContentEvent,
 } from "@functional-vietnamese/cloud-function-events";
 
 import { PrismaClient } from "./generated";
@@ -31,11 +33,17 @@ functions.cloudEvent(
       keyFilename: "./service-account.json",
     });
 
+    const pubsub = new PubSub({
+      projectId: "daily-vietnamese",
+      keyFilename: "./service-account.json",
+    });
+
     await createConversationImage({
       conversationSituationId,
       prisma,
       openai,
       storage,
+      pubsub,
     });
   }
 );
@@ -45,11 +53,13 @@ export async function createConversationImage({
   prisma,
   openai,
   storage,
+  pubsub,
 }: {
   conversationSituationId: string;
   prisma: PrismaClient;
   openai: OpenAI;
   storage: Storage;
+  pubsub: PubSub;
 }) {
   const conversationSituation =
     await prisma.conversationSituation.findUniqueOrThrow({
@@ -59,8 +69,13 @@ export async function createConversationImage({
       select: {
         text: true,
         imageSrc: true,
+        conversationId: true,
       },
     });
+
+  if (!conversationSituation.conversationId) {
+    throw new Error("ConversationSituation does not have a conversationId");
+  }
 
   if (conversationSituation.imageSrc) {
     return;
@@ -105,6 +120,14 @@ export async function createConversationImage({
       data: {
         imageSrc: gcsUri,
       },
+    });
+
+    const json: IndexContentEvent = {
+      conversationId: conversationSituation.conversationId,
+    };
+
+    pubsub.topic("index-content").publishMessage({
+      json,
     });
   }
 }
