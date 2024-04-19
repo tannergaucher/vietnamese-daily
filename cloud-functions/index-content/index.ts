@@ -61,7 +61,7 @@ export async function indexContent({
     situation: conversation.situation?.text,
     imageSrc: conversation.situation?.imageSrc,
     text: conversation.dialog.map((d) => d.vietnamese).join(" "),
-    speakers: conversation.dialog.map((d) => d.speaker),
+    speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
   };
 
   const index = algolia.initIndex("dev_daily_vietnamese");
