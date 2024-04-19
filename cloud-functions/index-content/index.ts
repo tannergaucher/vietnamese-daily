@@ -64,9 +64,14 @@ export async function indexContent({
     speakers: conversation.dialog.map((d) => d.speaker),
   };
 
-  const index = algolia.initIndex("post_content");
+  const index = algolia.initIndex("dev_daily_vietnamese");
 
-  index.saveObject(contentRecord).then(({ objectID }) => {
-    console.log("Saved object", objectID);
-  });
+  index
+    .saveObject(contentRecord)
+    .then(({ objectID }) => {
+      console.log("Saved object", objectID);
+    })
+    .catch((error) => {
+      console.error("Error saving object", error);
+    });
 }
