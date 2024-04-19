@@ -18,7 +18,7 @@ export function Header({ title }: { title: string }) {
       <div>
         <Search />
       </div>
-      <Button text="Filter" />
+      <Button>Filter</Button>
     </header>
   );
 }

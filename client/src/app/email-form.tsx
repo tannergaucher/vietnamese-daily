@@ -47,7 +47,7 @@ export function EmailForm() {
           placeholder="Your email address"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Button text="Subscribe" />
+        <Button>Subscribe</Button>
       </div>
     </form>
   );

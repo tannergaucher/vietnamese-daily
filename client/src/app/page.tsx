@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { Card } from "@/app/components/card";
 import { Grid } from "@/app/components/grid";
+import { Pagination } from "@/app/components/pagination";
 import { conversationImageBucket, getSignedUrl } from "../storage";
 import { contentIndex } from "../algolia";
 
@@ -18,9 +18,16 @@ type ContentHit = {
   imageSrc?: string;
 };
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: {
+    page?: string;
+  };
+}) {
   let { hits } = await contentIndex.search<ContentHit>("", {
     hitsPerPage: 10,
+    page: parseInt(searchParams.page || "0"),
   });
 
   hits = await Promise.all(
@@ -37,29 +44,32 @@ export default async function Home() {
   );
 
   return (
-    <Grid>
-      {hits.map((hit) => {
-        return (
-          <Link href={`conversation/${hit.objectID}`} key={hit.objectID}>
-            <Card
-              size="medium"
-              image={
-                hit.imageSrc
-                  ? {
-                      src: hit.imageSrc,
-                      width: 1000,
-                      height: 1000,
-                      alt: `Vibrant Vietnamese folk painting of ${hit.situation}`,
-                    }
-                  : undefined
-              }
-              small={new Date(hit.date).toDateString()}
-              heading={hit.title}
-              subHeading={hit.situation}
-            />
-          </Link>
-        );
-      })}
-    </Grid>
+    <div>
+      <Grid>
+        {hits.map((hit) => {
+          return (
+            <Link href={`conversation/${hit.objectID}`} key={hit.objectID}>
+              <Card
+                size="medium"
+                image={
+                  hit.imageSrc
+                    ? {
+                        src: hit.imageSrc,
+                        width: 1000,
+                        height: 1000,
+                        alt: `Vibrant Vietnamese folk painting of ${hit.situation}`,
+                      }
+                    : undefined
+                }
+                small={new Date(hit.date).toDateString()}
+                heading={hit.title}
+                subHeading={hit.situation}
+              />
+            </Link>
+          );
+        })}
+      </Grid>
+      <Pagination />
+    </div>
   );
 }
