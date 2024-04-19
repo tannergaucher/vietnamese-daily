@@ -80,7 +80,7 @@ export async function createConversationImage({
 
     const writeFile = util.promisify(fs.writeFile);
 
-    const imageFile = `${conversationSituationId}.jpg`;
+    const imageFile = `${conversationSituationId}.webp`;
 
     const buffer = await blob.arrayBuffer();
 
@@ -93,10 +93,10 @@ export async function createConversationImage({
     const bucket = storage.bucket(bucketName);
 
     await bucket.upload(imageFile, {
-      destination: `${conversationSituationId}.jpg`,
+      destination: `${conversationSituationId}.webp`,
     });
 
-    const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.jpg`;
+    const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.webp`;
 
     await prisma.conversationSituation.update({
       where: {
