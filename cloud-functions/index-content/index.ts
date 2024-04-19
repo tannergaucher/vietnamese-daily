@@ -58,6 +58,7 @@ export async function indexContent({
   const contentRecord = {
     objectID: conversation.id,
     title: conversation.title,
+    date: conversation.date,
     situation: conversation.situation?.text,
     imageSrc: conversation.situation?.imageSrc,
     text: conversation.dialog.map((d) => d.vietnamese).join(" "),

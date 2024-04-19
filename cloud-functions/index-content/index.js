@@ -74,7 +74,7 @@ function indexContent(_a) {
             situation: (_b = conversation.situation) === null || _b === void 0 ? void 0 : _b.text,
             imageSrc: (_c = conversation.situation) === null || _c === void 0 ? void 0 : _c.imageSrc,
             text: conversation.dialog.map((d) => d.vietnamese).join(" "),
-            speakers: conversation.dialog.map((d) => d.speaker),
+            speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
         };
         const index = algolia.initIndex("dev_daily_vietnamese");
         index
