@@ -1,0 +1,23 @@
+{
+  "steps": [
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "args": [
+        "gcloud",
+        "functions",
+        "deploy",
+        "searchContent",
+        "--gen2",
+        "--region=us-east1",
+        "--source=.",
+        "--trigger-http",
+        "--runtime=nodejs18",
+        "--allow-unauthenticated",
+        "--entry-point=searchContent"
+      ]
+    }
+  ],
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
+}

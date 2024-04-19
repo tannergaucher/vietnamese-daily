@@ -5,18 +5,9 @@ import { Grid } from "@/app/components/grid";
 import { Pagination } from "@/app/components/pagination";
 import { conversationImageBucket, getSignedUrl } from "../storage";
 import { contentIndex } from "../algolia";
+import { ContentHit } from "@functional-vietnamese/cloud-function-events";
 
-type ContentHit = {
-  objectID: string;
-  title: string;
-  date: string;
-  situation: string;
-  situationId: string;
-  type: string;
-  text: string;
-} & {
-  signedUrl?: string;
-};
+type ContentHitWithSignedUrl = ContentHit & { signedUrl: string };
 
 export default async function Home({
   searchParams,
@@ -27,10 +18,13 @@ export default async function Home({
 }) {
   const hitsPerPage = 9;
 
-  let { hits, nbHits } = await contentIndex.search<ContentHit>("", {
-    hitsPerPage,
-    page: parseInt(searchParams.page || "0"),
-  });
+  let { hits, nbHits } = await contentIndex.search<ContentHitWithSignedUrl>(
+    "",
+    {
+      hitsPerPage,
+      page: parseInt(searchParams.page || "0"),
+    }
+  );
 
   hits = await Promise.all(
     hits.map(async (hit) => {
