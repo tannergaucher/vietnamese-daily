@@ -46,7 +46,7 @@ export function Search() {
         >
           <Combobox.Input
             placeholder="Search content"
-            className={INPUT_CLASSES}
+            className={`${INPUT_CLASSES} w-full`}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />

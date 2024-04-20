@@ -23,12 +23,17 @@ export function Pagination({
 
   return (
     <div>
-      <Button disabled={page === 0} onClick={() => goToPage(page - 1)}>
+      <Button
+        disabled={page === 0}
+        onClick={() => goToPage(page - 1)}
+        secondary
+      >
         Previous
       </Button>
       <Button
         disabled={nbHits <= hitsPerPage}
         onClick={() => goToPage(page + 1)}
+        secondary
       >
         Next
       </Button>

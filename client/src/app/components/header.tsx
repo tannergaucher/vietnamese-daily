@@ -3,8 +3,8 @@
 import Link from "next/link";
 
 import { Button } from "./button";
-
 import { Search } from "./search";
+import { Filters } from "./filters";
 
 export function Header({ title }: { title: string }) {
   return (
@@ -18,7 +18,7 @@ export function Header({ title }: { title: string }) {
       <div>
         <Search />
       </div>
-      <Button>Filter</Button>
+      <Filters />
     </header>
   );
 }
