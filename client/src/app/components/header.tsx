@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-import { Button } from "./button";
 import { Search } from "./search";
 import { Filters } from "./filters";
 

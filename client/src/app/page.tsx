@@ -14,15 +14,24 @@ export default async function Home({
 }: {
   searchParams: {
     page?: string;
+    type?: string | string[];
   };
 }) {
   const hitsPerPage = 9;
+
+  let typeFilters =
+    searchParams.type && !Array.isArray(searchParams.type)
+      ? `type:${`'${searchParams.type}'`}`
+      : Array.isArray(searchParams.type)
+      ? searchParams.type.map((type) => `type:${`'${type}'`}`).join(" OR ")
+      : undefined;
 
   let { hits, nbHits } = await contentIndex.search<ContentHitWithSignedUrl>(
     "",
     {
       hitsPerPage,
       page: parseInt(searchParams.page || "0"),
+      filters: typeFilters ? `${typeFilters}` : undefined,
     }
   );
 

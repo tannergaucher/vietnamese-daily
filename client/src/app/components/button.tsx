@@ -9,18 +9,20 @@ export function Button({
   children,
   disabled,
   secondary,
+  className,
 }: {
   onClick?: () => void;
   disabled?: boolean;
   children: React.ReactNode;
   secondary?: boolean;
+  className?: string;
 }) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       type="submit"
-      className={`rounded p-3 shadow h-12 text-lg font-semibold ${
+      className={`${className} rounded p-3 shadow h-12 text-lg font-semibold ${
         secondary ? SECONDARY : PRIMARY
       }
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}

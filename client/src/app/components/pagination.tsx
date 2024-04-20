@@ -22,17 +22,19 @@ export function Pagination({
   };
 
   return (
-    <div>
+    <div className="flex justify-center mt-6">
       <Button
         disabled={page === 0}
         onClick={() => goToPage(page - 1)}
         secondary
+        className="mr-1"
       >
         Previous
       </Button>
       <Button
         disabled={nbHits <= hitsPerPage}
         onClick={() => goToPage(page + 1)}
+        className="ml-1"
         secondary
       >
         Next
