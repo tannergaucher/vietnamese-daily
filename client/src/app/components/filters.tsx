@@ -29,6 +29,8 @@ export function Filters() {
 
   const typeParams = searchParams.getAll("type");
 
+  console.log(typeParams);
+
   const handleFilterClick = (filterOption: string) => {
     const encodedFilterOption = encodeURIComponent(filterOption);
 
@@ -63,6 +65,7 @@ export function Filters() {
                 <Button
                   className="w-full my-2"
                   secondary
+                  selected={typeParams.includes(filterOption)}
                   onClick={() => handleFilterClick(filterOption)}
                 >
                   {filterOption}

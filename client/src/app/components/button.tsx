@@ -10,12 +10,14 @@ export function Button({
   disabled,
   secondary,
   className,
+  selected,
 }: {
   onClick?: () => void;
   disabled?: boolean;
   children: React.ReactNode;
   secondary?: boolean;
   className?: string;
+  selected?: boolean;
 }) {
   return (
     <button
@@ -26,6 +28,7 @@ export function Button({
         secondary ? SECONDARY : PRIMARY
       }
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+      ${selected ? "dark:bg-accent-1-dark dark:text-bg-1-dark" : ""}
       `}
     >
       {children}
