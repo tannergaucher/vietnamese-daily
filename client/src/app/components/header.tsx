@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Search } from "./search";
 import { Filters } from "./filters";
 
 export function Header({ title }: { title: string }) {
+  const pathname = usePathname();
+
   return (
     <header className="p-4 bg-bg-2-light dark:bg-bg-2-dark grid grid-cols-3 items-center">
       <Link
@@ -17,7 +20,7 @@ export function Header({ title }: { title: string }) {
       <div>
         <Search />
       </div>
-      <Filters />
+      {pathname === "/" && <Filters />}
     </header>
   );
 }
