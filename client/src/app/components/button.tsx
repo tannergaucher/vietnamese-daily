@@ -22,7 +22,7 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       type="submit"
-      className={`${className} rounded p-3 shadow h-12 text-lg font-semibold ${
+      className={`${className} rounded p-3 shadow h-12 text-lg font-semibold leading-none ${
         secondary ? SECONDARY : PRIMARY
       }
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}
