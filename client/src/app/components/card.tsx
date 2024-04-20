@@ -77,8 +77,8 @@ export function Card({
             {subHeading}
           </p>
         ) : null}
-        {children}
       </div>
+      {children}
     </div>
   );
 }
