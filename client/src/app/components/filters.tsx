@@ -29,10 +29,23 @@ export function Filters() {
 
   const typeParams = searchParams.getAll("type");
 
-  console.log(typeParams);
-
   const handleFilterClick = (filterOption: string) => {
     const encodedFilterOption = encodeURIComponent(filterOption);
+
+    if (typeParams.includes(decodeURIComponent(encodedFilterOption))) {
+      const newTypeParams = typeParams.filter(
+        (param) => param !== decodeURIComponent(encodedFilterOption)
+      );
+
+      if (newTypeParams.length === 0) {
+        router.push("/");
+        return;
+      }
+
+      router.push(`?type=${newTypeParams.join("&type=")}`);
+
+      return;
+    }
 
     router.push(`?type=${[...typeParams, encodedFilterOption].join("&type=")}`);
   };
