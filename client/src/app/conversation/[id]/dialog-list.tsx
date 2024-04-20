@@ -130,7 +130,9 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
                 onEnded={() => playNext(index)}
               ></audio>
             </li>
-            {index === dialog.length - 1 ? null : <hr />}
+            {index === dialog.length - 1 ? null : (
+              <hr className="dark:border-accent-1-dark" />
+            )}
           </>
         ))}
       </ul>
