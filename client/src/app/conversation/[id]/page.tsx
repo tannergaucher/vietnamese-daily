@@ -84,7 +84,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         heading={conversation.title}
         subHeading={conversation.situation?.text}
       >
-        <hr />
+        <hr className="dark:border-accent-1-dark" />
         <DialogList dialog={sortedDialog} />
       </Card>
     </Container>
