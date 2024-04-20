@@ -22,8 +22,6 @@ export function Search() {
       .then((data) => setOptions(data));
   }, [search]);
 
-  console.log(selected, "selected");
-
   useEffect(() => {
     if (selected) {
       setSearch("");

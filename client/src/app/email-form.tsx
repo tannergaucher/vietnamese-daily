@@ -12,8 +12,6 @@ export function EmailForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(process.env);
-
     if (!process.env.NEXT_PUBLIC_EMAIL_SIGNUP_URL) {
       throw new Error("EMAIL_SIGNUP_URL is required");
     }

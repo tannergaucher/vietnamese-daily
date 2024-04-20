@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 
 import { Header } from "@/app/components/header";
-import { PrelineScript } from "@/app/components/preline";
 import { EmailForm } from "./email-form";
 import "./globals.css";
 
@@ -34,7 +33,6 @@ export default function RootLayout({
         <footer className="p-12 bg-bg-2-light dark:bg-bg-2-dark">
           <EmailForm />
         </footer>
-        <PrelineScript />
       </body>
     </html>
   );
