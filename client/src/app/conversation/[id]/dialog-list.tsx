@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 
 import { Dialog as DialogModel, Word as WordModel } from "@/generated";
+import { Button } from "@/app/components/button";
 
 type Word = WordModel & { signedUrl: string };
 
@@ -79,12 +80,9 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
 
   return (
     <section>
-      <button
-        onClick={toggleConversation}
-        className="w-full px-6 py-4 mt-2 mb-4 rounded shadow text-xl sticky top-0 bg-accent-2-light text-accent-1-light  dark:bg-accent-2-dark dark:text-accent-1-dark"
-      >
+      <Button onClick={toggleConversation} className="w-full h-20 my-4">
         {isPlaying ? "Pause Conversation" : "Start Conversation"}
-      </button>
+      </Button>
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
       <ul>
         {dialog.map((dialog, index) => (
@@ -94,9 +92,13 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
               liRefs.current[index] = li;
             }}
             className={`transition-colors duration-200 py-3 px-1 rounded-lg mb-3 
-          ${currentPlayingIndex === index ? "bg-gray-700 text-white" : ""}`}
+          ${
+            currentPlayingIndex === index
+              ? "bg-bg-2-light text-white dark:bg-bg-2-dark dark:text-text-color-dark"
+              : ""
+          }`}
           >
-            <small className="text-slate-500">
+            <small className="dark:text-slate-200">
               <em>{dialog.speaker}</em>
             </small>{" "}
             <p className="text-2xl">
