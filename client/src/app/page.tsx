@@ -50,7 +50,7 @@ export default async function Home({
   );
 
   return (
-    <Suspense>
+    <div>
       <Grid>
         {hits.map((hit) => {
           return (
@@ -75,7 +75,9 @@ export default async function Home({
           );
         })}
       </Grid>
-      <Pagination nbHits={nbHits} hitsPerPage={9} />
-    </Suspense>
+      <Suspense>
+        <Pagination nbHits={nbHits} hitsPerPage={9} />
+      </Suspense>
+    </div>
   );
 }

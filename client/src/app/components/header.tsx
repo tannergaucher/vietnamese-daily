@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,7 +21,7 @@ export function Header({ title }: { title: string }) {
       <div>
         <Search />
       </div>
-      {pathname === "/" && <Filters />}
+      <Suspense>{pathname === "/" && <Filters />}</Suspense>
     </header>
   );
 }
