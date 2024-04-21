@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, RefObject } from "react";
+import { useState, useEffect, useRef, RefObject, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Transition } from "@headlessui/react";
 
@@ -13,6 +13,8 @@ export function Filters() {
 
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+
   const filterOptions = [
     "at the restaurant",
     "at the cafe",
@@ -24,8 +26,6 @@ export function Filters() {
     "at the hotel",
     "shopping at a store",
   ];
-
-  const searchParams = useSearchParams();
 
   const typeParams = searchParams.getAll("type");
 
@@ -51,7 +51,7 @@ export function Filters() {
   };
 
   return (
-    <>
+    <Suspense>
       <Button
         onClick={() => setIsShowing((isShowing) => !isShowing)}
         className="w-fit justify-self-end"
@@ -97,7 +97,7 @@ export function Filters() {
           </ul>
         </div>
       </Transition>
-    </>
+    </Suspense>
   );
 }
 
