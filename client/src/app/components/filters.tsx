@@ -73,6 +73,15 @@ export function Filters() {
           ref={ref}
         >
           <ul>
+            <li>
+              <Button
+                disabled={typeParams.length === 0}
+                className="w-full my-2"
+                onClick={() => router.push("/")}
+              >
+                Clear filters
+              </Button>
+            </li>
             {filterOptions.map((filterOption) => (
               <li key={filterOption}>
                 <Button
