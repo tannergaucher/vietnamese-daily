@@ -21,7 +21,11 @@ export function Header({ title }: { title: string }) {
       <div>
         <Search />
       </div>
-      <Suspense>{pathname === "/" && <Filters />}</Suspense>
+      {pathname === "/" ? (
+        <Suspense>
+          <Filters />
+        </Suspense>
+      ) : null}
     </header>
   );
 }
