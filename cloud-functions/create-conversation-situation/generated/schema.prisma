@@ -93,6 +93,12 @@ generator createConversationImage {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+generator indexContent {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/index-content/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 enum Gender {
   male
   female
@@ -112,6 +118,7 @@ model Conversation {
 model ConversationSituation {
   id             String        @id @default(uuid())
   text           String        @unique
+  type           String
   conversationId String?       @unique
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   imageSrc       String?

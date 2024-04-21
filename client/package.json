@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@functional-vietnamese/cloud-function-events": "0.0.3",
+    "@functional-vietnamese/cloud-function-events": "0.0.6",
     "@google-cloud/storage": "^7.9.0",
+    "@headlessui/react": "^1.7.19",
+    "algoliasearch": "^4.23.3",
     "cloud-function-events": "^0.0.2",
     "next": "14.1.4",
     "react": "^18",

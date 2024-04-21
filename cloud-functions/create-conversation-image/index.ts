@@ -1,13 +1,14 @@
 import * as fs from "fs";
 import * as util from "util";
 import * as functions from "@google-cloud/functions-framework";
-import OpenAI from "openai";
 import { Storage } from "@google-cloud/storage";
+import OpenAI from "openai";
 
 import {
   CloudEventData,
   CreateConversationImageEvent,
   parseCloudEventData,
+  IndexContentEvent,
 } from "@functional-vietnamese/cloud-function-events";
 
 import { PrismaClient } from "./generated";
@@ -59,8 +60,13 @@ export async function createConversationImage({
       select: {
         text: true,
         imageSrc: true,
+        conversationId: true,
       },
     });
+
+  if (!conversationSituation.conversationId) {
+    throw new Error("ConversationSituation does not have a conversationId");
+  }
 
   if (conversationSituation.imageSrc) {
     return;

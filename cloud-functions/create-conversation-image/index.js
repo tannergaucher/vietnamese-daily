@@ -39,8 +39,8 @@ exports.createConversationImage = void 0;
 const fs = __importStar(require("fs"));
 const util = __importStar(require("util"));
 const functions = __importStar(require("@google-cloud/functions-framework"));
-const openai_1 = __importDefault(require("openai"));
 const storage_1 = require("@google-cloud/storage");
+const openai_1 = __importDefault(require("openai"));
 const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationImage", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
@@ -71,8 +71,12 @@ function createConversationImage(_a) {
             select: {
                 text: true,
                 imageSrc: true,
+                conversationId: true,
             },
         });
+        if (!conversationSituation.conversationId) {
+            throw new Error("ConversationSituation does not have a conversationId");
+        }
         if (conversationSituation.imageSrc) {
             return;
         }

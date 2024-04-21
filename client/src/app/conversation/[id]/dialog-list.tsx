@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 
 import { Dialog as DialogModel, Word as WordModel } from "@/generated";
+import { Button } from "@/app/components/button";
 
 type Word = WordModel & { signedUrl: string };
 
@@ -79,59 +80,68 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
 
   return (
     <section>
-      <button
-        onClick={toggleConversation}
-        className="w-full px-6 py-4 mt-2 mb-4 rounded shadow text-xl sticky top-0 bg-accent-2-light text-accent-1-light  dark:bg-accent-2-dark dark:text-accent-1-dark"
-      >
-        {isPlaying ? "Pause Conversation" : "Start Conversation"}
-      </button>
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
       <ul>
-        {dialog.map((dialog, index) => (
-          <li
-            key={dialog.id}
-            ref={(li) => {
-              liRefs.current[index] = li;
-            }}
-            className={`transition-colors duration-200 py-3 px-1 rounded-lg mb-3 
-          ${currentPlayingIndex === index ? "bg-gray-700 text-white" : ""}`}
-          >
-            <small className="text-slate-500">
-              <em>{dialog.speaker}</em>
-            </small>{" "}
-            <p className="text-2xl">
-              {dialog.vietnamese.split(" ").map((word, index) => {
-                const currentDialogWord = dialog.words.find(
-                  (dialogWord) =>
-                    dialogWord.vietnamese ===
-                    word.trim().toLowerCase().replace(/[.,]/g, "")
-                );
-                return (
-                  <span
-                    className="hover:underline cursor-pointer"
-                    key={index}
-                    onClick={() => {
-                      if (currentDialogWord && !isPlaying) {
-                        setCurrentDialogWordSrc(currentDialogWord.signedUrl);
-                      }
-                    }}
-                  >
-                    {word}{" "}
-                  </span>
-                );
-              })}
-            </p>
-            <audio
-              ref={(audio) => {
-                audioRefs.current[index] = audio;
+        {dialog.map((d, index) => (
+          <>
+            <li
+              key={d.id}
+              ref={(li) => {
+                liRefs.current[index] = li;
               }}
-              src={dialog.audioSrc}
-              preload="auto"
-              onEnded={() => playNext(index)}
-            ></audio>
-          </li>
+              className={`transition-colors duration-200 py-4 px-3
+          ${
+            currentPlayingIndex === index
+              ? "bg-bg-2-light text-white dark:bg-bg-2-dark dark:text-text-color-dark"
+              : ""
+          }`}
+            >
+              <small className="dark:text-slate-200">
+                <em>{d.speaker}</em>
+              </small>{" "}
+              <p className="text-2xl">
+                {d.vietnamese.split(" ").map((word, index) => {
+                  const currentDialogWord = d.words.find(
+                    (dialogWord) =>
+                      dialogWord.vietnamese ===
+                      word.trim().toLowerCase().replace(/[.,]/g, "")
+                  );
+                  return (
+                    <span
+                      className="hover:underline cursor-pointer"
+                      key={index}
+                      onClick={() => {
+                        if (currentDialogWord && !isPlaying) {
+                          setCurrentDialogWordSrc(currentDialogWord.signedUrl);
+                        }
+                      }}
+                    >
+                      {word}{" "}
+                    </span>
+                  );
+                })}
+              </p>
+              <audio
+                ref={(audio) => {
+                  audioRefs.current[index] = audio;
+                }}
+                src={d.audioSrc}
+                preload="auto"
+                onEnded={() => playNext(index)}
+              ></audio>
+            </li>
+            {index === dialog.length - 1 ? null : (
+              <hr className="dark:border-accent-1-dark" />
+            )}
+          </>
         ))}
       </ul>
+      <Button
+        onClick={toggleConversation}
+        className="w-full h-20 rounded-lg rounded-tl-none rounded-tr-none"
+      >
+        {isPlaying ? "Pause Conversation" : "Start Conversation"}
+      </Button>
     </section>
   );
 }

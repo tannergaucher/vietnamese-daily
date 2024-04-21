@@ -3,16 +3,14 @@
 import React, { useState } from "react";
 import { HandleEmailSignupRequestBody } from "cloud-function-events";
 
-import { Button } from "@/components/button";
-import { Input } from "@/components/input";
+import { Button } from "@/app/components/button";
+import { Input } from "@/app/components/input";
 
 export function EmailForm() {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log(process.env);
 
     if (!process.env.NEXT_PUBLIC_EMAIL_SIGNUP_URL) {
       throw new Error("EMAIL_SIGNUP_URL is required");
@@ -47,7 +45,7 @@ export function EmailForm() {
           placeholder="Your email address"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Button text="Subscribe" />
+        <Button>Subscribe</Button>
       </div>
     </form>
   );

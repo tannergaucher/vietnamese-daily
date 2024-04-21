@@ -6,8 +6,8 @@ import {
   conversationImageBucket,
 } from "@/storage";
 
-import { Container } from "@/components/container";
-import { Card } from "@/components/card";
+import { Container } from "@/app/components/container";
+import { Card } from "@/app/components/card";
 
 import DialogList from "./dialog-list";
 
@@ -84,6 +84,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         heading={conversation.title}
         subHeading={conversation.situation?.text}
       >
+        <hr className="dark:border-accent-1-dark" />
         <DialogList dialog={sortedDialog} />
       </Card>
     </Container>
