@@ -17,8 +17,22 @@ export function Pagination({
 
   const page = parseInt(searchParams.get("page") || "0");
 
+  const typeParams =
+    searchParams.getAll("type").length === 1
+      ? searchParams.get("type")
+      : searchParams.getAll("type");
+
   const goToPage = (pageNumber: number) => {
-    router.push(`?page=${pageNumber}`);
+    let path = `?page=${pageNumber}`;
+
+    if (typeParams) {
+      const types = Array.isArray(typeParams) ? typeParams : [typeParams];
+      types.forEach((type) => {
+        path += `&type=${encodeURIComponent(type)}`;
+      });
+    }
+
+    router.push(path);
   };
 
   return (
@@ -32,7 +46,7 @@ export function Pagination({
         Previous
       </Button>
       <Button
-        disabled={nbHits <= hitsPerPage}
+        disabled={nbHits <= hitsPerPage * (page + 1)}
         onClick={() => goToPage(page + 1)}
         className="ml-1"
         secondary
