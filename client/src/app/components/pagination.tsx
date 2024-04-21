@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/app/components/button";
@@ -36,23 +37,25 @@ export function Pagination({
   };
 
   return (
-    <div className="flex justify-center mt-6">
-      <Button
-        disabled={page === 0}
-        onClick={() => goToPage(page - 1)}
-        secondary
-        className="mr-1"
-      >
-        Previous
-      </Button>
-      <Button
-        disabled={nbHits <= hitsPerPage * (page + 1)}
-        onClick={() => goToPage(page + 1)}
-        className="ml-1"
-        secondary
-      >
-        Next
-      </Button>
-    </div>
+    <Suspense>
+      <div className="flex justify-center mt-6">
+        <Button
+          disabled={page === 0}
+          onClick={() => goToPage(page - 1)}
+          secondary
+          className="mr-1"
+        >
+          Previous
+        </Button>
+        <Button
+          disabled={nbHits <= hitsPerPage * (page + 1)}
+          onClick={() => goToPage(page + 1)}
+          className="ml-1"
+          secondary
+        >
+          Next
+        </Button>
+      </div>
+    </Suspense>
   );
 }

@@ -28,7 +28,7 @@ export function Button({
         secondary ? SECONDARY : PRIMARY
       }
       ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-      ${selected ? "dark:bg-text-color-dark dark:text-bg-1-dark" : ""}
+      ${selected ? "dark:bg-accent-1-dark dark:text-bg-1-dark" : ""}
       `}
     >
       {children}
