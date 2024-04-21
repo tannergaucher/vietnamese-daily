@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 
 import { Card } from "@/app/components/card";
@@ -49,7 +50,7 @@ export default async function Home({
   );
 
   return (
-    <div>
+    <Suspense>
       <Grid>
         {hits.map((hit) => {
           return (
@@ -75,6 +76,6 @@ export default async function Home({
         })}
       </Grid>
       <Pagination nbHits={nbHits} hitsPerPage={9} />
-    </div>
+    </Suspense>
   );
 }
