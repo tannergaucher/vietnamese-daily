@@ -80,7 +80,7 @@ functions.cloudEvent("createWordAudio", function (cloudEvent) { return __awaiter
 }); });
 function createWordAudio(_a) {
     return __awaiter(this, arguments, void 0, function (_b) {
-        var maleResponse, writeFile, maleAudioFile, bucketName, bucket, maleGcsUri, femaleResponse, femaleAudioFile, femaleGcsUri, dialog, json;
+        var maleResponse, writeFile, maleAudioFile, bucketName, bucket, maleGcsUri, femaleResponse, femaleAudioFile, femaleGcsUri;
         var vietnamese = _b.vietnamese, dialogId = _b.dialogId, prisma = _b.prisma, textToSpeech = _b.textToSpeech, storage = _b.storage, pubsub = _b.pubsub;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -155,22 +155,6 @@ function createWordAudio(_a) {
                         })];
                 case 6:
                     _c.sent();
-                    return [4 /*yield*/, prisma.dialog.findUniqueOrThrow({
-                            where: {
-                                id: dialogId,
-                            },
-                            select: {
-                                conversationId: true,
-                            },
-                        })];
-                case 7:
-                    dialog = _c.sent();
-                    json = {
-                        conversationId: dialog.conversationId,
-                    };
-                    pubsub.topic("publish-conversation").publishMessage({
-                        json: json,
-                    });
                     return [2 /*return*/];
             }
         });

@@ -9,7 +9,6 @@ import { Storage } from "@google-cloud/storage";
 import {
   CloudEventData,
   CreateWordAudioEvent,
-  PublishConversationEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
 
@@ -140,22 +139,5 @@ export async function createWordAudio({
     data: {
       femaleSrc: femaleGcsUri,
     },
-  });
-
-  const dialog = await prisma.dialog.findUniqueOrThrow({
-    where: {
-      id: dialogId,
-    },
-    select: {
-      conversationId: true,
-    },
-  });
-
-  const json: PublishConversationEvent = {
-    conversationId: dialog.conversationId,
-  };
-
-  pubsub.topic("publish-conversation").publishMessage({
-    json,
   });
 }
