@@ -4,12 +4,14 @@ import * as functions from "@google-cloud/functions-framework";
 import * as TextToSpeech from "@google-cloud/text-to-speech";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import { Storage } from "@google-cloud/storage";
+import { PubSub } from "@google-cloud/pubsub";
 
 import { Gender, PrismaClient } from "./generated";
 
 import {
   CloudEventData,
   CreateDialogAudioEvent,
+  PublishConversationEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
 
@@ -32,11 +34,17 @@ functions.cloudEvent(
       keyFilename: "./service-account.json",
     });
 
+    const pubsub = new PubSub({
+      projectId: "daily-vietnamese",
+      keyFilename: "./service-account.json",
+    });
+
     await createDialogAudio({
       dialogId,
       textToSpeech,
       prisma,
       storage,
+      pubsub,
     });
   }
 );
@@ -45,6 +53,7 @@ type CreateDialogAudioParams = CreateDialogAudioEvent & {
   textToSpeech: TextToSpeechClient;
   prisma: PrismaClient;
   storage: Storage;
+  pubsub: PubSub;
 };
 
 export async function createDialogAudio({
@@ -52,6 +61,7 @@ export async function createDialogAudio({
   textToSpeech,
   prisma,
   storage,
+  pubsub,
 }: CreateDialogAudioParams) {
   const dialog = await prisma.dialog.findUniqueOrThrow({
     where: {
@@ -109,4 +119,27 @@ export async function createDialogAudio({
       audioSrc: gcsUri,
     },
   });
+
+  const conversation = await prisma.conversation.findUniqueOrThrow({
+    where: {
+      id: dialog.conversationId,
+    },
+    select: {
+      dialog: {
+        select: {
+          audioSrc: true,
+        },
+      },
+    },
+  });
+
+  if (conversation.dialog.every((d) => d.audioSrc !== null)) {
+    const json: PublishConversationEvent = {
+      conversationId: dialog.conversationId,
+    };
+
+    pubsub.topic("publish-conversation").publishMessage({
+      json,
+    });
+  }
 }
