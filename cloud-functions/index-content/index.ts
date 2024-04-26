@@ -69,6 +69,7 @@ export async function indexContent({
     objectID: conversation.id,
     title: conversation.title,
     date: conversation.createdAt,
+    epochDate: conversation.createdAt.getTime(),
     situation: conversation.situation?.text,
     situationId: conversation.situation?.id,
     type: conversation.situation?.type,
