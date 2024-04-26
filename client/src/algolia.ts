@@ -9,4 +9,4 @@ const client = algoliasearch(
   process.env.ALGOLIA_API_KEY
 );
 
-export const contentIndex = client.initIndex("dev_daily_vietnamese");
+export const contentIndex = client.initIndex("dev_daily_vietnamese_date_desc");

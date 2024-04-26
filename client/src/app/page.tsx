@@ -33,7 +33,6 @@ export default async function Home({
       hitsPerPage,
       page: parseInt(searchParams.page || "0"),
       filters: typeFilters ? `${typeFilters}` : undefined,
-      numericFilters: ["date<=" + Date.now()], // sort by date
     }
   );
 
