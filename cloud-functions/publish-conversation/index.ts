@@ -42,44 +42,6 @@ export async function publishConversation({
   prisma,
   pubsub,
 }: PublishConversationParams) {
-  const dialogWords = await prisma.word.findMany({
-    where: {
-      dialog: {
-        every: {
-          conversationId: conversationId,
-        },
-      },
-    },
-  });
-
-  const dialogWordsWithAudioSrc = await prisma.word.findMany({
-    where: {
-      AND: [
-        {
-          dialog: {
-            every: {
-              conversationId: conversationId,
-            },
-          },
-        },
-        {
-          maleSrc: {
-            not: null,
-          },
-        },
-        {
-          femaleSrc: {
-            not: null,
-          },
-        },
-      ],
-    },
-  });
-
-  if (dialogWords.length !== dialogWordsWithAudioSrc.length) {
-    return;
-  }
-
   await prisma.conversation.update({
     where: {
       id: conversationId,

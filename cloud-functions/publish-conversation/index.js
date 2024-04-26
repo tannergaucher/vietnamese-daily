@@ -54,41 +54,6 @@ functions.cloudEvent("publishConversation", (cloudEvent) => __awaiter(void 0, vo
 }));
 function publishConversation(_a) {
     return __awaiter(this, arguments, void 0, function* ({ conversationId, prisma, pubsub, }) {
-        const dialogWords = yield prisma.word.findMany({
-            where: {
-                dialog: {
-                    every: {
-                        conversationId: conversationId,
-                    },
-                },
-            },
-        });
-        const dialogWordsWithAudioSrc = yield prisma.word.findMany({
-            where: {
-                AND: [
-                    {
-                        dialog: {
-                            every: {
-                                conversationId: conversationId,
-                            },
-                        },
-                    },
-                    {
-                        maleSrc: {
-                            not: null,
-                        },
-                    },
-                    {
-                        femaleSrc: {
-                            not: null,
-                        },
-                    },
-                ],
-            },
-        });
-        if (dialogWords.length !== dialogWordsWithAudioSrc.length) {
-            return;
-        }
         yield prisma.conversation.update({
             where: {
                 id: conversationId,
@@ -100,7 +65,7 @@ function publishConversation(_a) {
         const json = {
             conversationId,
         };
-        pubsub.topic("fetch-users-for-daily-email").publishMessage({
+        pubsub.topic("index-content").publishMessage({
             json,
         });
     });

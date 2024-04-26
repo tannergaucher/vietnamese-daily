@@ -78,6 +78,7 @@ function indexContent(_a) {
             objectID: conversation.id,
             title: conversation.title,
             date: conversation.createdAt,
+            epochDate: conversation.createdAt.getTime(),
             situation: (_b = conversation.situation) === null || _b === void 0 ? void 0 : _b.text,
             situationId: (_c = conversation.situation) === null || _c === void 0 ? void 0 : _c.id,
             type: (_d = conversation.situation) === null || _d === void 0 ? void 0 : _d.type,
