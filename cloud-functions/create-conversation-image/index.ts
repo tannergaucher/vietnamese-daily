@@ -8,7 +8,6 @@ import {
   CloudEventData,
   CreateConversationImageEvent,
   parseCloudEventData,
-  IndexContentEvent,
 } from "@functional-vietnamese/cloud-function-events";
 
 import { PrismaClient } from "./generated";
