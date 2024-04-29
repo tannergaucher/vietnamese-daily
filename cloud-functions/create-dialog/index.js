@@ -71,7 +71,7 @@ function createDialog({ situationId, model, prisma, pubsub, }) {
             },
         });
         const response = yield translator.translate(`Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text} Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting.`);
-        if (response.success) {
+        if (response.success && response.data.conversation.dialog.length > 0) {
             const conversation = yield prisma.conversation.create({
                 data: {
                     title: response.data.conversation.title,
