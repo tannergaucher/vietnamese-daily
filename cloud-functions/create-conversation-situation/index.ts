@@ -65,8 +65,6 @@ export async function createConversationSituation({
   );
 
   if (response.success) {
-    console.log(response.data.text, response.data.type);
-
     await prisma.conversationSituation.create({
       data: {
         text: response.data.text,
