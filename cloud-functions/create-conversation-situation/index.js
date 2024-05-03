@@ -39,16 +39,21 @@ exports.createConversationSituation = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const typechat_1 = require("typechat");
+const pubsub_1 = require("@google-cloud/pubsub");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationSituation", () => __awaiter(void 0, void 0, void 0, function* () {
     const model = (0, typechat_1.createLanguageModel)(process.env);
     const prisma = new generated_1.PrismaClient();
-    const response = yield createConversationSituation({ prisma, model });
+    const pubsub = new pubsub_1.PubSub({
+        projectId: "daily-vietnamese",
+        keyFilename: "./service-account.json",
+    });
+    const response = yield createConversationSituation({ prisma, model, pubsub });
     return response;
 }));
 function createConversationSituation(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ prisma, model, }) {
+    return __awaiter(this, arguments, void 0, function* ({ prisma, model, pubsub, }) {
         const schema = fs_1.default.readFileSync(path_1.default.join(__dirname, "conversationSituation.ts"), "utf-8");
         const translator = (0, typechat_1.createJsonTranslator)(model, schema, "ConversationSituationResponse");
         const prevConversations = yield prisma.conversationSituation.findMany();
@@ -69,12 +74,16 @@ function createConversationSituation(_a) {
             .map((c) => c.text)
             .join(", ")}.`);
         if (response.success) {
-            console.log(response.data.text, response.data.type);
-            yield prisma.conversationSituation.create({
+            yield prisma.conversationSituation
+                .create({
                 data: {
                     text: response.data.text,
                     type: conversationSituationType,
                 },
+            })
+                .catch(() => {
+                console.log("collision on text, trying again");
+                pubsub.topic("create-conversation-situation").publishMessage({});
             });
         }
     });

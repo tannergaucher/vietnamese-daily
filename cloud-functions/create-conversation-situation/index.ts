@@ -5,6 +5,7 @@ import {
   createJsonTranslator,
   TypeChatLanguageModel,
 } from "typechat";
+import { PubSub } from "@google-cloud/pubsub";
 import * as functions from "@google-cloud/functions-framework";
 
 import { PrismaClient } from "./generated";
@@ -14,7 +15,12 @@ functions.cloudEvent("createConversationSituation", async () => {
   const model = createLanguageModel(process.env);
   const prisma = new PrismaClient();
 
-  const response = await createConversationSituation({ prisma, model });
+  const pubsub = new PubSub({
+    projectId: "daily-vietnamese",
+    keyFilename: "./service-account.json",
+  });
+
+  const response = await createConversationSituation({ prisma, model, pubsub });
 
   return response;
 });
@@ -22,9 +28,11 @@ functions.cloudEvent("createConversationSituation", async () => {
 export async function createConversationSituation({
   prisma,
   model,
+  pubsub,
 }: {
   prisma: PrismaClient;
   model: TypeChatLanguageModel;
+  pubsub: PubSub;
 }) {
   const schema = fs.readFileSync(
     path.join(__dirname, "conversationSituation.ts"),
@@ -65,11 +73,16 @@ export async function createConversationSituation({
   );
 
   if (response.success) {
-    await prisma.conversationSituation.create({
-      data: {
-        text: response.data.text,
-        type: conversationSituationType,
-      },
-    });
+    await prisma.conversationSituation
+      .create({
+        data: {
+          text: response.data.text,
+          type: conversationSituationType,
+        },
+      })
+      .catch(() => {
+        console.log("collision on text, trying again");
+        pubsub.topic("create-conversation-situation").publishMessage({});
+      });
   }
 }
