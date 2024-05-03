@@ -39,16 +39,21 @@ exports.createConversationSituation = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const typechat_1 = require("typechat");
+const pubsub_1 = require("@google-cloud/pubsub");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationSituation", () => __awaiter(void 0, void 0, void 0, function* () {
     const model = (0, typechat_1.createLanguageModel)(process.env);
     const prisma = new generated_1.PrismaClient();
-    const response = yield createConversationSituation({ prisma, model });
+    const pubsub = new pubsub_1.PubSub({
+        projectId: "daily-vietnamese",
+        keyFilename: "./service-account.json",
+    });
+    const response = yield createConversationSituation({ prisma, model, pubsub });
     return response;
 }));
 function createConversationSituation(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ prisma, model, }) {
+    return __awaiter(this, arguments, void 0, function* ({ prisma, model, pubsub, }) {
         const schema = fs_1.default.readFileSync(path_1.default.join(__dirname, "conversationSituation.ts"), "utf-8");
         const translator = (0, typechat_1.createJsonTranslator)(model, schema, "ConversationSituationResponse");
         const prevConversations = yield prisma.conversationSituation.findMany();
@@ -65,15 +70,20 @@ function createConversationSituation(_a) {
         ];
         const randomIndex = Math.floor(Math.random() * conversationSituationTypes.length);
         const conversationSituationType = conversationSituationTypes[randomIndex];
-        const response = yield translator.translate(`Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for type: at the restaurant, the text could be sometging like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The conversation situation should be unique and not a duplicate of any existing conversation situation. Here are the previously created conversation situations. Please do not repeat these! ${prevConversations
+        const response = yield translator.translate(`Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for type: at the restaurant, the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The conversation situation should be unique and not a duplicate of any existing conversation situation. Here are the previously created conversation situations. Please do not repeat these! ${prevConversations
             .map((c) => c.text)
             .join(", ")}.`);
         if (response.success) {
-            console.log(response.data.text, response.data.type);
-            yield prisma.conversationSituation.create({
+            yield prisma.conversationSituation
+                .create({
                 data: {
                     text: response.data.text,
+                    type: conversationSituationType,
                 },
+            })
+                .catch(() => {
+                console.log("collision on text, trying again");
+                pubsub.topic("create-conversation-situation").publishMessage({});
             });
         }
     });

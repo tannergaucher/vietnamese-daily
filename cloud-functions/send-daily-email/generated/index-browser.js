@@ -130,7 +130,8 @@ exports.Prisma.ConversationSituationScalarFieldEnum = {
   text: 'text',
   type: 'type',
   conversationId: 'conversationId',
-  imageSrc: 'imageSrc'
+  imageSrc: 'imageSrc',
+  needsAmendment: 'needsAmendment'
 };
 
 exports.Prisma.DialogScalarFieldEnum = {

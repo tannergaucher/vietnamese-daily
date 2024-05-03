@@ -138,5 +138,19 @@ export async function createDialog({
     };
   }
 
+  // if we have failed to create a dialog,
+  await prisma.conversationSituation.update({
+    where: {
+      id: situationId,
+    },
+    data: {
+      needsAmendment: true,
+    },
+  });
+
+  // and publish to the amend-conversation-situation topic
+
+  // and then call create-dialog again
+
   throw new Error("Failed to generate conversation dialog");
 }

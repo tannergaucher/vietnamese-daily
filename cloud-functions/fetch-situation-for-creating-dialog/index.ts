@@ -25,18 +25,16 @@ export async function fetchSituationForCreatingDialog({
   prisma: PrismaClient;
   pubsub: PubSub;
 }) {
-  const situationToCreateDialog = await prisma.conversationSituation.findFirst({
-    where: {
-      conversationId: null,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (!situationToCreateDialog) {
-    throw new Error("No situation to create dialog from");
-  }
+  const situationToCreateDialog =
+    await prisma.conversationSituation.findFirstOrThrow({
+      where: {
+        conversationId: null,
+        needsAmendment: false,
+      },
+      select: {
+        id: true,
+      },
+    });
 
   const json: CreateDialogEvent = {
     situationId: situationToCreateDialog.id,
