@@ -122,7 +122,6 @@ model ConversationSituation {
   conversationId String?       @unique
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   imageSrc       String?
-  needsAmendment Boolean       @default(false)
 }
 
 model Dialog {
