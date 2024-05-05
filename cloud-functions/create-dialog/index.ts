@@ -138,19 +138,31 @@ export async function createDialog({
     };
   }
 
-  // if we have failed to create a dialog,
-  await prisma.conversationSituation.update({
+  await prisma.conversationSituation.delete({
     where: {
       id: situationId,
     },
-    data: {
-      needsAmendment: true,
-    },
   });
 
-  // and publish to the amend-conversation-situation topic
+  await pubsub.topic("create-conversation-situation").publishMessage({});
 
-  // and then call create-dialog again
+  const newConversationSituation =
+    await prisma.conversationSituation.findFirstOrThrow({
+      where: {
+        conversationId: null,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+  const json: CreateDialogEvent = {
+    situationId: newConversationSituation.id,
+  };
+
+  await pubsub.topic("create-dialog").publishMessage({
+    json,
+  });
 
   throw new Error("Failed to generate conversation dialog");
 }
