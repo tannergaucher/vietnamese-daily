@@ -16,8 +16,6 @@ jobs:
 
       - name: Install Dependencies
         run: cd client && npm ci
-          cd ../cloud-functions && npm ci
-          cd ../cloud-function-events && npm ci
 
       - name: Run Typecheck
         run: npx tsc --noEmit
