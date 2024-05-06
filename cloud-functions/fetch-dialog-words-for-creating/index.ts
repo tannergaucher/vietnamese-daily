@@ -1,14 +1,13 @@
-import * as functions from "@google-cloud/functions-framework";
-import { PubSub } from "@google-cloud/pubsub";
-
-import { PrismaClient } from "./generated";
-
 import {
   CloudEventData,
   FetchDialogWordsForCreatingEvent,
   CreateWordEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
+import * as functions from "@google-cloud/functions-framework";
+import { PubSub } from "@google-cloud/pubsub";
+
+import { PrismaClient } from "./generated";
 
 functions.cloudEvent(
   "fetchDialogWordsForCreating",

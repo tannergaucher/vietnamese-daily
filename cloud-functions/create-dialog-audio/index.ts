@@ -1,12 +1,5 @@
 import * as fs from "fs";
 import * as util from "util";
-import * as functions from "@google-cloud/functions-framework";
-import * as TextToSpeech from "@google-cloud/text-to-speech";
-import { TextToSpeechClient } from "@google-cloud/text-to-speech";
-import { Storage } from "@google-cloud/storage";
-import { PubSub } from "@google-cloud/pubsub";
-
-import { Gender, PrismaClient } from "./generated";
 
 import {
   CloudEventData,
@@ -14,6 +7,13 @@ import {
   PublishConversationEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
+import * as functions from "@google-cloud/functions-framework";
+import { PubSub } from "@google-cloud/pubsub";
+import { Storage } from "@google-cloud/storage";
+import * as TextToSpeech from "@google-cloud/text-to-speech";
+import { TextToSpeechClient } from "@google-cloud/text-to-speech";
+
+import { Gender, PrismaClient } from "./generated";
 
 functions.cloudEvent(
   "createDialogAudio",
