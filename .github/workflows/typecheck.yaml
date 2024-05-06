@@ -15,7 +15,7 @@ jobs:
           node-version: "14"
 
       - name: Install Dependencies
-        run: cd cloud-functions && npm ci
+        run: npm install
 
       - name: Run Typecheck
-        run: cd cloud-functions && npx tsc --noEmit
+        run: npx tsc --noEmit
