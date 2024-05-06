@@ -144,11 +144,11 @@ export async function createDialog({
     },
   });
 
-  await pubsub.topic("create-conversation-situation").publishMessage({
+  pubsub.topic("create-conversation-situation").publishMessage({
     json: {},
   });
 
-  await pubsub.topic("fetch-situation-for-creating-dialog").publishMessage({
+  pubsub.topic("fetch-situation-for-creating-dialog").publishMessage({
     json: {},
   });
 
