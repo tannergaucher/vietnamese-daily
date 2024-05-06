@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
+import React from "react";
 
 import { SECONDARY } from "./button";
 
