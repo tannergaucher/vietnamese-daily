@@ -14,8 +14,16 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install Dependencies
+      - name: Install Client Dependencies
         run: npm install && cd ./client && npm install
+
+      - name: Install Cloud Function Dependencies
+        run: |
+          for dir in ./cloud-functions/*; do
+            if [ -d "$dir" ]; then
+              cd "$dir" && npm install && cd ../..
+            fi
+          done
 
       - name: Run Typecheck
         run: npx tsc --noEmit
