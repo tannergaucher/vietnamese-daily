@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
-import { Dialog as DialogModel, Word as WordModel } from "@/generated";
 import { Button } from "@/app/components/button";
+import { Dialog as DialogModel, Word as WordModel } from "@/generated";
 
 type Word = WordModel & { signedUrl: string };
 

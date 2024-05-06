@@ -1,11 +1,11 @@
 "use client";
 
-import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React, { Suspense } from "react";
 
-import { Search } from "./search";
 import { Filters } from "./filters";
+import { Search } from "./search";
 
 export function Header({ title }: { title: string }) {
   const pathname = usePathname();
