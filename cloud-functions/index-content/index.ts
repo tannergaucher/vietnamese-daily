@@ -1,12 +1,12 @@
-import * as functions from "@google-cloud/functions-framework";
-import { PubSub } from "@google-cloud/pubsub";
-import algoliasearch, { SearchClient } from "algoliasearch";
 import {
   CloudEventData,
   parseCloudEventData,
   IndexContentEvent,
   FetchUsersForDailyEmailEvent,
 } from "@functional-vietnamese/cloud-function-events";
+import * as functions from "@google-cloud/functions-framework";
+import { PubSub } from "@google-cloud/pubsub";
+import algoliasearch, { SearchClient } from "algoliasearch";
 
 import { PrismaClient } from "./generated";
 

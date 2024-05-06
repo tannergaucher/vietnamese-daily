@@ -1,13 +1,12 @@
-import * as functions from "@google-cloud/functions-framework";
-import sgMail from "@sendgrid/mail";
-
-import { PrismaClient } from "./generated";
-
 import {
   CloudEventData,
   SendDailyEmailEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
+import * as functions from "@google-cloud/functions-framework";
+import sgMail from "@sendgrid/mail";
+
+import { PrismaClient } from "./generated";
 
 functions.cloudEvent(
   "sendDailyEmail",

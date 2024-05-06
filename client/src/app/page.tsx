@@ -1,12 +1,13 @@
-import { Suspense } from "react";
+import { ContentHit } from "@functional-vietnamese/cloud-function-events";
 import Link from "next/link";
+import React, { Suspense } from "react";
+
+import { contentIndex } from "../algolia";
+import { conversationImageBucket, getSignedUrl } from "../storage";
 
 import { Card } from "@/app/components/card";
 import { Grid } from "@/app/components/grid";
 import { Pagination } from "@/app/components/pagination";
-import { conversationImageBucket, getSignedUrl } from "../storage";
-import { contentIndex } from "../algolia";
-import { ContentHit } from "@functional-vietnamese/cloud-function-events";
 
 type ContentHitWithSignedUrl = ContentHit & { signedUrl: string };
 
@@ -20,7 +21,7 @@ export default async function Home({
 }) {
   const hitsPerPage = 9;
 
-  let typeFilters =
+  const typeFilters =
     searchParams.type && !Array.isArray(searchParams.type)
       ? `type:${`'${searchParams.type}'`}`
       : Array.isArray(searchParams.type)

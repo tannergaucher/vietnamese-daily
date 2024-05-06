@@ -1,3 +1,9 @@
+import React from "react";
+
+import DialogList from "./dialog-list";
+
+import { Card } from "@/app/components/card";
+import { Container } from "@/app/components/container";
 import { prisma } from "@/prisma";
 import {
   dialogAudioBucket,
@@ -5,11 +11,6 @@ import {
   getSignedUrl,
   conversationImageBucket,
 } from "@/storage";
-
-import { Container } from "@/app/components/container";
-import { Card } from "@/app/components/card";
-
-import DialogList from "./dialog-list";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const conversation = await prisma.conversation.findUnique({

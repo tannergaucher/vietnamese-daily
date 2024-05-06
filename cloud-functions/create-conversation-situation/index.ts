@@ -1,15 +1,16 @@
 import fs from "fs";
 import path from "path";
+
+import * as functions from "@google-cloud/functions-framework";
+import { PubSub } from "@google-cloud/pubsub";
 import {
   createLanguageModel,
   createJsonTranslator,
   TypeChatLanguageModel,
 } from "typechat";
-import { PubSub } from "@google-cloud/pubsub";
-import * as functions from "@google-cloud/functions-framework";
 
-import { PrismaClient } from "./generated";
 import { ConversationSituationResponse } from "./conversationSituation";
+import { PrismaClient } from "./generated";
 
 functions.cloudEvent("createConversationSituation", async () => {
   const model = createLanguageModel(process.env);

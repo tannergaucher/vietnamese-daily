@@ -1,3 +1,5 @@
+import React from "react";
+
 export const PRIMARY =
   "transition-all duration-200 ease-in-out bg-accent-2-light hover:bg-accent-1-light focus:bg-accent-1-light text-accent-1-light hover:text-accent-2-light focus:text-accent-2-light dark:bg-accent-2-dark dark:hover:bg-accent-1-dark dark:focus:bg-accent-1-dark dark:text-accent-1-dark dark:hover:text-accent-2-dark dark:focus:text-accent-2-dark dark:border-accent-2-dark";
 

@@ -29,7 +29,6 @@ export async function fetchSituationForCreatingDialog({
     await prisma.conversationSituation.findFirstOrThrow({
       where: {
         conversationId: null,
-        needsAmendment: false,
       },
       select: {
         id: true,

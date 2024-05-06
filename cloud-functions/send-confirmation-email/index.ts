@@ -1,11 +1,10 @@
-import * as functions from "@google-cloud/functions-framework";
-import sgMail from "@sendgrid/mail";
-
 import {
   CloudEventData,
   SendConfirmationEmailEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
+import * as functions from "@google-cloud/functions-framework";
+import sgMail from "@sendgrid/mail";
 
 functions.cloudEvent(
   "sendConfirmationEmail",

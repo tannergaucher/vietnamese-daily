@@ -1,16 +1,16 @@
 import * as fs from "fs";
 import * as util from "util";
 
-import * as functions from "@google-cloud/functions-framework";
-import * as TextToSpeech from "@google-cloud/text-to-speech";
-import { TextToSpeechClient } from "@google-cloud/text-to-speech";
-import { PubSub } from "@google-cloud/pubsub";
-import { Storage } from "@google-cloud/storage";
 import {
   CloudEventData,
   CreateWordAudioEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
+import * as functions from "@google-cloud/functions-framework";
+import { PubSub } from "@google-cloud/pubsub";
+import { Storage } from "@google-cloud/storage";
+import * as TextToSpeech from "@google-cloud/text-to-speech";
+import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 
 import { PrismaClient } from "./generated";
 
@@ -55,11 +55,9 @@ type CreateWordAudioParams = CreateWordAudioEvent & {
 
 export async function createWordAudio({
   vietnamese,
-  dialogId,
   prisma,
   textToSpeech,
   storage,
-  pubsub,
 }: CreateWordAudioParams) {
   const [maleResponse] = await textToSpeech.synthesizeSpeech({
     input: { text: vietnamese },
