@@ -15,7 +15,10 @@ jobs:
           node-version: "18"
 
       - name: Install Client Dependencies
-        run: npm install && cd ./client && npm install
+        run: npm install && cd ./client && npm
+
+      - name: Install Cloud Function Events Dependencies
+        run: cd ./cloud-function-events && npm install
 
       - name: Install Cloud Function Dependencies
         run: |
