@@ -35,11 +35,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createDialog = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-const pubsub_1 = require("@google-cloud/pubsub");
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const functions = __importStar(require("@google-cloud/functions-framework"));
+const pubsub_1 = require("@google-cloud/pubsub");
 const typechat_1 = require("typechat");
 const generated_1 = require("./generated");
-const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 functions.cloudEvent("createDialog", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
     const { situationId } = (0, cloud_function_events_1.parseCloudEventData)({
         cloudEvent,
@@ -117,6 +117,28 @@ function createDialog({ situationId, model, prisma, pubsub, }) {
                 conversation,
             };
         }
+        yield prisma.conversationSituation.delete({
+            where: {
+                id: situationId,
+            },
+        });
+        yield pubsub.topic("create-conversation-situation").publishMessage({
+            json: {},
+        });
+        const newConversationSituation = yield prisma.conversationSituation.findFirstOrThrow({
+            where: {
+                conversationId: null,
+            },
+            select: {
+                id: true,
+            },
+        });
+        const json = {
+            situationId: newConversationSituation.id,
+        };
+        yield pubsub.topic("create-dialog").publishMessage({
+            json,
+        });
         throw new Error("Failed to generate conversation dialog");
     });
 }
