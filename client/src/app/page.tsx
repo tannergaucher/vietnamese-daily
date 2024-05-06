@@ -8,6 +8,7 @@ import { conversationImageBucket, getSignedUrl } from "../storage";
 import { Card } from "@/app/components/card";
 import { Grid } from "@/app/components/grid";
 import { Pagination } from "@/app/components/pagination";
+import { RemoveFilterButtons } from "@/app/components/remove-filter-buttons";
 
 type ContentHitWithSignedUrl = ContentHit & { signedUrl: string };
 
@@ -52,6 +53,7 @@ export default async function Home({
 
   return (
     <div>
+      <RemoveFilterButtons />
       <Grid>
         {hits.map((hit) => {
           return (
