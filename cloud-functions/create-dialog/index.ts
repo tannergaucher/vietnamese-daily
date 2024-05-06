@@ -144,7 +144,9 @@ export async function createDialog({
     },
   });
 
-  await pubsub.topic("create-conversation-situation").publishMessage({});
+  await pubsub.topic("create-conversation-situation").publishMessage({
+    json: {},
+  });
 
   const newConversationSituation =
     await prisma.conversationSituation.findFirstOrThrow({
