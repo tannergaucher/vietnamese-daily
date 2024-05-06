@@ -122,10 +122,10 @@ function createDialog({ situationId, model, prisma, pubsub, }) {
                 id: situationId,
             },
         });
-        yield pubsub.topic("create-conversation-situation").publishMessage({
+        pubsub.topic("create-conversation-situation").publishMessage({
             json: {},
         });
-        yield pubsub.topic("fetch-situation-for-creating-dialog").publishMessage({
+        pubsub.topic("fetch-situation-for-creating-dialog").publishMessage({
             json: {},
         });
         throw new Error("Failed to generate conversation dialog");
