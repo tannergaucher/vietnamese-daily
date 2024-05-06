@@ -20,6 +20,9 @@ jobs:
       - name: Install Cloud Function Events Dependencies
         run: cd ./cloud-function-events && npm install
 
+      - name: Install scripts dependencies
+        run: cd ./scripts && npm install
+
       - name: Install Cloud Function Dependencies
         run: |
           for dir in ./cloud-functions/*; do
