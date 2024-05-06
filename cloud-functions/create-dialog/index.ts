@@ -144,26 +144,12 @@ export async function createDialog({
     },
   });
 
-  await pubsub.topic("create-conversation-situation").publishMessage({
+  pubsub.topic("create-conversation-situation").publishMessage({
     json: {},
   });
 
-  const newConversationSituation =
-    await prisma.conversationSituation.findFirstOrThrow({
-      where: {
-        conversationId: null,
-      },
-      select: {
-        id: true,
-      },
-    });
-
-  const json: CreateDialogEvent = {
-    situationId: newConversationSituation.id,
-  };
-
-  await pubsub.topic("create-dialog").publishMessage({
-    json,
+  pubsub.topic("fetch-situation-for-creating-dialog").publishMessage({
+    json: {},
   });
 
   throw new Error("Failed to generate conversation dialog");
