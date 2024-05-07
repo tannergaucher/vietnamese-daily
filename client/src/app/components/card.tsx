@@ -68,14 +68,12 @@ export function Card({
               {small}
             </small>
           ) : null}
-
           {badge ? (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-2-light text-accent-1-light dark:bg-bg-2-dark dark:text-text-dark">
               {badge}
             </span>
           ) : null}
         </div>
-
         <h2
           className={`${fonts[size].heading} ${marginY[size]}  font-semibold`}
         >
