@@ -73,6 +73,7 @@ export default async function Home({
                 small={new Date(hit.date).toDateString()}
                 heading={hit.title}
                 subHeading={hit.situation}
+                badge={hit.type}
               />
             </Link>
           );

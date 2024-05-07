@@ -7,6 +7,7 @@ export function Card({
   small,
   heading,
   subHeading,
+  badge,
   children,
 }: {
   size: "small" | "medium" | "large";
@@ -14,6 +15,7 @@ export function Card({
   small?: string;
   heading: string;
   subHeading?: string;
+  badge?: string;
   children?: React.ReactNode;
 }) {
   const fonts = {
@@ -34,15 +36,9 @@ export function Card({
     },
   };
 
-  const marginY = {
-    small: "my-1",
-    medium: "my-2",
-    large: "my-6",
-  };
-
   const marginB = {
     small: "mb-1",
-    medium: "mb-2",
+    medium: "mb-3",
     large: "mb-6",
   };
 
@@ -54,26 +50,34 @@ export function Card({
           width={image.width}
           height={image.height}
           alt={image.alt}
-          className={`rounded-lg shadow-lg ${marginB[size]}`}
+          className={`rounded-t-lg shadow-lg ${marginB[size]}`}
         />
       ) : null}
       <div className="px-3">
-        {small ? (
-          <small
-            className={`${fonts[size].small} block ${marginY[size]} text-gray-600 dark:text-gray-300`}
-          >
-            {small}
-          </small>
-        ) : null}
-
+        <div
+          className={`flex items-center justify-between space-x-2 ${marginB[size]}`}
+        >
+          {small ? (
+            <small
+              className={`${fonts[size].small} block text-gray-600 dark:text-gray-300`}
+            >
+              {small}
+            </small>
+          ) : null}
+          {badge ? (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-2-light text-accent-1-light dark:bg-bg-2-dark dark:text-text-dark">
+              {badge}
+            </span>
+          ) : null}
+        </div>
         <h2
-          className={`${fonts[size].heading} ${marginY[size]}  font-semibold`}
+          className={`${fonts[size].heading} ${marginB[size]}  font-semibold`}
         >
           {heading}
         </h2>
         {subHeading ? (
           <p
-            className={`${fonts[size].subHeading} ${marginY[size]} text-gray-600 dark:text-gray-300`}
+            className={`${fonts[size].subHeading} ${marginB[size]} text-gray-600 dark:text-gray-300`}
           >
             {subHeading}
           </p>
