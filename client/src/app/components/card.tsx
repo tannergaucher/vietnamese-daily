@@ -7,6 +7,7 @@ export function Card({
   small,
   heading,
   subHeading,
+  badge,
   children,
 }: {
   size: "small" | "medium" | "large";
@@ -14,6 +15,7 @@ export function Card({
   small?: string;
   heading: string;
   subHeading?: string;
+  badge?: string;
   children?: React.ReactNode;
 }) {
   const fonts = {
@@ -58,13 +60,21 @@ export function Card({
         />
       ) : null}
       <div className="px-3">
-        {small ? (
-          <small
-            className={`${fonts[size].small} block ${marginY[size]} text-gray-600 dark:text-gray-300`}
-          >
-            {small}
-          </small>
-        ) : null}
+        <div className="flex items-center justify-between space-x-2">
+          {small ? (
+            <small
+              className={`${fonts[size].small} block ${marginY[size]} text-gray-600 dark:text-gray-300`}
+            >
+              {small}
+            </small>
+          ) : null}
+
+          {badge ? (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-2-light text-accent-1-light dark:bg-bg-2-dark dark:text-text-dark">
+              {badge}
+            </span>
+          ) : null}
+        </div>
 
         <h2
           className={`${fonts[size].heading} ${marginY[size]}  font-semibold`}
