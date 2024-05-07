@@ -42,7 +42,7 @@ export function RemoveFilterButtons() {
 
 function X() {
   return (
-    <div className="ml-1">
+    <div className="ml-1 dark:text-gray-300 text-gray-500">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
