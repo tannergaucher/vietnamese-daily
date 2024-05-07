@@ -36,15 +36,9 @@ export function Card({
     },
   };
 
-  const marginY = {
-    small: "my-1",
-    medium: "my-2",
-    large: "my-6",
-  };
-
   const marginB = {
     small: "mb-1",
-    medium: "mb-2",
+    medium: "mb-3",
     large: "mb-6",
   };
 
@@ -60,10 +54,12 @@ export function Card({
         />
       ) : null}
       <div className="px-3">
-        <div className="flex items-center justify-between space-x-2">
+        <div
+          className={`flex items-center justify-between space-x-2 ${marginB[size]}`}
+        >
           {small ? (
             <small
-              className={`${fonts[size].small} block ${marginY[size]} text-gray-600 dark:text-gray-300`}
+              className={`${fonts[size].small} block text-gray-600 dark:text-gray-300`}
             >
               {small}
             </small>
@@ -75,13 +71,13 @@ export function Card({
           ) : null}
         </div>
         <h2
-          className={`${fonts[size].heading} ${marginY[size]}  font-semibold`}
+          className={`${fonts[size].heading} ${marginB[size]}  font-semibold`}
         >
           {heading}
         </h2>
         {subHeading ? (
           <p
-            className={`${fonts[size].subHeading} ${marginY[size]} text-gray-600 dark:text-gray-300`}
+            className={`${fonts[size].subHeading} ${marginB[size]} text-gray-600 dark:text-gray-300`}
           >
             {subHeading}
           </p>
