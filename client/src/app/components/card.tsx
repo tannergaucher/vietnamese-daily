@@ -56,7 +56,7 @@ export function Card({
           width={image.width}
           height={image.height}
           alt={image.alt}
-          className={`rounded-lg shadow-lg ${marginB[size]}`}
+          className={`rounded-t-lg shadow-lg ${marginB[size]}`}
         />
       ) : null}
       <div className="px-3">
