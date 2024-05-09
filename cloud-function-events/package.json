@@ -1,6 +1,6 @@
 {
   "name": "@functional-vietnamese/cloud-function-events",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "description": "",
   "author": "",
   "license": "ISC",
@@ -10,8 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.3.0",
-    "cloud-function-events": "0.0.2"
+    "@google-cloud/functions-framework": "^3.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",

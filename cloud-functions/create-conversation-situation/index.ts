@@ -1,6 +1,10 @@
 import fs from "fs";
 import path from "path";
 
+import {
+  CreateConversationSituationEvent,
+  CreateDialogEvent,
+} from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
 import {
@@ -26,15 +30,18 @@ functions.cloudEvent("createConversationSituation", async () => {
   return response;
 });
 
+type CreateConversationSituationParams = CreateConversationSituationEvent & {
+  prisma: PrismaClient;
+  model: TypeChatLanguageModel;
+  pubsub: PubSub;
+};
+
 export async function createConversationSituation({
   prisma,
   model,
   pubsub,
-}: {
-  prisma: PrismaClient;
-  model: TypeChatLanguageModel;
-  pubsub: PubSub;
-}) {
+  fromFetchFail,
+}: CreateConversationSituationParams) {
   const schema = fs.readFileSync(
     path.join(__dirname, "conversationSituation.ts"),
     "utf-8"
@@ -74,7 +81,7 @@ export async function createConversationSituation({
   );
 
   if (response.success) {
-    await prisma.conversationSituation
+    const conversationSituation = await prisma.conversationSituation
       .create({
         data: {
           text: response.data.text,
@@ -85,5 +92,15 @@ export async function createConversationSituation({
         console.log("collision on text, trying again");
         pubsub.topic("create-conversation-situation").publishMessage({});
       });
+
+    if (fromFetchFail && conversationSituation) {
+      const json: CreateDialogEvent = {
+        situationId: conversationSituation.id,
+      };
+
+      pubsub.topic("create-dialog").publishMessage({
+        json,
+      });
+    }
   }
 }
