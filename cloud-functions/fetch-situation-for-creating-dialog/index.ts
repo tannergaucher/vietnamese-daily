@@ -1,6 +1,9 @@
+import {
+  CreateDialogEvent,
+  CreateConversationSituationEvent,
+} from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
-import { CreateDialogEvent } from "cloud-function-events";
 
 import { PrismaClient } from "./generated";
 
@@ -25,15 +28,24 @@ export async function fetchSituationForCreatingDialog({
   prisma: PrismaClient;
   pubsub: PubSub;
 }) {
-  const situationToCreateDialog =
-    await prisma.conversationSituation.findFirstOrThrow({
-      where: {
-        conversationId: null,
-      },
-      select: {
-        id: true,
-      },
-    });
+  const situationToCreateDialog = await prisma.conversationSituation.findFirst({
+    where: {
+      conversationId: null,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!situationToCreateDialog) {
+    const json: CreateConversationSituationEvent = {
+      fromFetchFail: true,
+    };
+
+    pubsub.topic("create-conversation-situation").publishMessage({ json });
+
+    return;
+  }
 
   const json: CreateDialogEvent = {
     situationId: situationToCreateDialog.id,

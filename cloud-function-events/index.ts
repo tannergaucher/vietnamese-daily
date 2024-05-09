@@ -86,6 +86,10 @@ export interface CreateDialogEvent {
   situationId: string;
 }
 
+export interface CreateConversationSituationEvent {
+  fromFetchFail?: boolean;
+}
+
 export interface CreateDialogAudioEvent {
   dialogId: string;
 }
