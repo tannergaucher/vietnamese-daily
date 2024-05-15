@@ -78,38 +78,40 @@ export async function createConversationImage({
     size: "1024x1024",
   });
 
-  if (completion.data[0].url) {
-    const response = await fetch(completion.data[0].url);
-
-    const blob = await response.blob();
-
-    const writeFile = util.promisify(fs.writeFile);
-
-    const imageFile = `${conversationSituationId}.webp`;
-
-    const buffer = await blob.arrayBuffer();
-
-    const uint8Array = new Uint8Array(buffer);
-
-    writeFile(imageFile, uint8Array, "binary");
-
-    const bucketName = `conversation-dalee-images`;
-
-    const bucket = storage.bucket(bucketName);
-
-    await bucket.upload(imageFile, {
-      destination: `${conversationSituationId}.webp`,
-    });
-
-    const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.webp`;
-
-    await prisma.conversationSituation.update({
-      where: {
-        id: conversationSituationId,
-      },
-      data: {
-        imageSrc: gcsUri,
-      },
-    });
+  if (!completion.data[0].url) {
+    throw new Error("No image returned from OpenAI");
   }
+
+  const response = await fetch(completion.data[0].url);
+
+  const blob = await response.blob();
+
+  const writeFile = util.promisify(fs.writeFile);
+
+  const imageFile = `${conversationSituationId}.webp`;
+
+  const buffer = await blob.arrayBuffer();
+
+  const uint8Array = new Uint8Array(buffer);
+
+  writeFile(imageFile, uint8Array, "binary");
+
+  const bucketName = `conversation-dalee-images`;
+
+  const bucket = storage.bucket(bucketName);
+
+  await bucket.upload(imageFile, {
+    destination: `${conversationSituationId}.webp`,
+  });
+
+  const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.webp`;
+
+  await prisma.conversationSituation.update({
+    where: {
+      id: conversationSituationId,
+    },
+    data: {
+      imageSrc: gcsUri,
+    },
+  });
 }

@@ -38,10 +38,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createConversationImage = void 0;
 const fs = __importStar(require("fs"));
 const util = __importStar(require("util"));
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const storage_1 = require("@google-cloud/storage");
 const openai_1 = __importDefault(require("openai"));
-const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationImage", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
     const { conversationSituationId } = (0, cloud_function_events_1.parseCloudEventData)({
@@ -86,6 +86,9 @@ function createConversationImage(_a) {
             n: 1,
             size: "1024x1024",
         });
+        if (!completion.data[0].url) {
+            throw new Error("No image returned from OpenAI");
+        }
         if (completion.data[0].url) {
             const response = yield fetch(completion.data[0].url);
             const blob = yield response.blob();
