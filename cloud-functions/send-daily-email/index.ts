@@ -50,6 +50,7 @@ export async function sendDailyEmail({
       id: conversationId,
     },
     select: {
+      id: true,
       dialog: true,
       title: true,
     },
@@ -63,9 +64,13 @@ export async function sendDailyEmail({
       .sort((a, b) => a.index - b.index)
       .map((dialog) => dialog.vietnamese)
       .join("\n"),
-    html: conversation.dialog
+    html: `
+      <h1>${conversation.title}</h1>
+      <a href=${`https://vietnamesedaily.vercel.app/conversation/${conversation.id}`}>Open Conversation</a>
+    ${conversation.dialog
       .map((dialog) => `<p>${dialog.vietnamese}</p>`)
-      .join("\n"),
+      .join("\n")}
+    `,
   };
 
   try {
