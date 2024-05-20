@@ -2,6 +2,7 @@
 
 import { ContentHit } from "@functional-vietnamese/cloud-function-events";
 import { Combobox } from "@headlessui/react";
+import { XIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
@@ -48,6 +49,14 @@ export function Search() {
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
+          {search && (
+            <div
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" // Position the icon on the right
+              onClick={() => setSearch("")} // Clear the search term when the icon is clicked
+            >
+              <XIcon className="h-5 w-5 text-gray-400" />
+            </div>
+          )}
           <Combobox.Options className="absolute z-10 mt-1 w-full rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 overflow-auto bg-bg-1-light dark:bg-bg-1-dark">
             {options.map((option) => {
               return (
