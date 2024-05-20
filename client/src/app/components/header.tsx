@@ -11,7 +11,7 @@ export function Header({ title }: { title: string }) {
   const pathname = usePathname();
 
   return (
-    <header className="p-4 bg-bg-2-light dark:bg-bg-2-dark grid grid-cols-3 items-center">
+    <header className="p-4 bg-bg-2-light dark:bg-bg-2-dark grid grid-cols-3 items-center sticky top-0 w-full">
       <Link
         href="/"
         className="text-2xl font-bold hover:text-accent-1-light dark:hover:text-accent-1-dark"
