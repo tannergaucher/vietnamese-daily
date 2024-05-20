@@ -21,7 +21,9 @@ functions.cloudEvent(
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient({
+      log: ["info"],
+    });
 
     sendDailyEmail({
       email,

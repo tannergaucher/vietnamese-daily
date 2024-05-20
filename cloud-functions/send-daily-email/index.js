@@ -36,10 +36,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendDailyEmail = void 0;
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const mail_1 = __importDefault(require("@sendgrid/mail"));
 const generated_1 = require("./generated");
-const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 functions.cloudEvent("sendDailyEmail", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, conversationId } = (0, cloud_function_events_1.parseCloudEventData)({
         cloudEvent,
@@ -48,7 +48,9 @@ functions.cloudEvent("sendDailyEmail", (cloudEvent) => __awaiter(void 0, void 0,
         throw new Error("SENDGRID_API_KEY is required");
     }
     mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
-    const prisma = new generated_1.PrismaClient();
+    const prisma = new generated_1.PrismaClient({
+        log: ["info"],
+    });
     sendDailyEmail({
         email,
         conversationId,
