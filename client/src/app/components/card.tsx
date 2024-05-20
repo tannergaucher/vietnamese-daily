@@ -38,7 +38,7 @@ export function Card({
 
   const marginB = {
     small: "mb-1",
-    medium: "mb-3",
+    medium: "mb-4",
     large: "mb-6",
   };
 
