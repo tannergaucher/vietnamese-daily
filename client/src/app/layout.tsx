@@ -1,8 +1,9 @@
-import React from "react";
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
+import React from "react";
 
 import { Header } from "@/app/components/header";
+
 import { EmailForm } from "./email-form";
 import "./globals.css";
 
