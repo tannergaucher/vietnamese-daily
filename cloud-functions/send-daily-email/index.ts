@@ -51,14 +51,18 @@ export async function sendDailyEmail({
     },
     select: {
       dialog: true,
+      title: true,
     },
   });
 
   const msg = {
     to: email,
     from: "tannermichaelgaucher@gmail.com",
-    subject: "You are now a member of Vietnamese Daily!",
-    text: conversation.dialog.map((dialog) => dialog.vietnamese).join("\n"),
+    subject: conversation.title,
+    text: conversation.dialog
+      .sort((a, b) => a.index - b.index)
+      .map((dialog) => dialog.vietnamese)
+      .join("\n"),
     html: conversation.dialog
       .map((dialog) => `<p>${dialog.vietnamese}</p>`)
       .join("\n"),
