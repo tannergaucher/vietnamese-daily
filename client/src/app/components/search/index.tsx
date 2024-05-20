@@ -51,8 +51,8 @@ export function Search() {
           />
           {search && (
             <div
-              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" // Position the icon on the right
-              onClick={() => setSearch("")} // Clear the search term when the icon is clicked
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+              onClick={() => setSearch("")}
             >
               <XIcon className="h-5 w-5 text-gray-400" />
             </div>
