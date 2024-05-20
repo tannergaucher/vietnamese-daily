@@ -36,9 +36,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendConfirmationEmail = void 0;
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const mail_1 = __importDefault(require("@sendgrid/mail"));
-const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 functions.cloudEvent("sendConfirmationEmail", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = (0, cloud_function_events_1.parseCloudEventData)({
         cloudEvent,

@@ -21,7 +21,9 @@ functions.cloudEvent(
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient({
+      log: ["info"],
+    });
 
     sendDailyEmail({
       email,
@@ -48,18 +50,27 @@ export async function sendDailyEmail({
       id: conversationId,
     },
     select: {
+      id: true,
       dialog: true,
+      title: true,
     },
   });
 
   const msg = {
     to: email,
     from: "tannermichaelgaucher@gmail.com",
-    subject: "You are now a member of Vietnamese Daily!",
-    text: conversation.dialog.map((dialog) => dialog.vietnamese).join("\n"),
-    html: conversation.dialog
-      .map((dialog) => `<p>${dialog.vietnamese}</p>`)
+    subject: conversation.title,
+    text: conversation.dialog
+      .sort((a, b) => a.index - b.index)
+      .map((dialog) => dialog.vietnamese)
       .join("\n"),
+    html: `
+      <h1>${conversation.title}</h1>
+      <a href=${`https://vietnamesedaily.vercel.app/conversation/${conversation.id}`}>Open Conversation</a>
+    ${conversation.dialog
+      .map((dialog) => `<p>${dialog.vietnamese}</p>`)
+      .join("\n")}
+    `,
   };
 
   try {
