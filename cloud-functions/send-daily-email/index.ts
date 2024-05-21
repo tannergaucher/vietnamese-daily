@@ -53,13 +53,14 @@ export async function sendDailyEmail({
       id: true,
       dialog: true,
       title: true,
+      situation: true,
     },
   });
 
   const msg = {
     to: email,
     from: "tannermichaelgaucher@gmail.com",
-    subject: conversation.title,
+    subject: conversation.situation?.text || "Daily Vietnamese Conversation",
     text: conversation.dialog
       .sort((a, b) => a.index - b.index)
       .map((dialog) => dialog.vietnamese)
