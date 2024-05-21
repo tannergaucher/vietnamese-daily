@@ -51,7 +51,7 @@ export function Card({
           width={image.width}
           height={image.height}
           alt={image.alt}
-          className={`rounded-t-lg shadow-lg ${marginB[size]}`}
+          className={`rounded-t-lg ${marginB[size]}`}
         />
       ) : null}
       <div className="px-3">
@@ -66,7 +66,7 @@ export function Card({
             </small>
           ) : null}
           {badge ? (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-2-light text-accent-1-light dark:bg-bg-2-dark dark:text-text-dark">
+            <span className="inline-flex items-center w-fit px-2.5 py-1 rounded-full text-xs text-right font-medium bg-gray-300 text-text-light dark:bg-bg-2-dark dark:text-text-dark">
               {badge}
             </span>
           ) : null}

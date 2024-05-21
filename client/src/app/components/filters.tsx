@@ -79,7 +79,7 @@ export function Filters() {
                     ? "text-amber-900 bg-amber-100"
                     : "text-gray-900 dark:text-text-color-dark"
                 }
-                        cursor-default select-none hover:accent-2-light dark:hover:bg-accent-2-dark relative py-2 pl-10 pr-4`}
+                        cursor-default select-none hover:bg-accent-1-light dark:hover:bg-accent-2-dark relative py-2 pl-10 pr-4`}
               >
                 {() => (
                   <>

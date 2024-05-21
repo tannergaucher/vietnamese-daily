@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
@@ -43,17 +44,17 @@ export function Pagination({
           disabled={page === 0}
           onClick={() => goToPage(page - 1)}
           secondary
-          className="mr-1"
+          className="mr-1 flex items-center"
         >
-          Previous
+          <ChevronLeftIcon className="h-5 w-10 mr-1" />
         </Button>
         <Button
           disabled={nbHits <= hitsPerPage * (page + 1)}
           onClick={() => goToPage(page + 1)}
-          className="ml-1"
+          className="ml-1 flex items-center"
           secondary
         >
-          Next
+          <ChevronRightIcon className="h-5 w-10 ml-1" />
         </Button>
       </div>
     </>
