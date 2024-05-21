@@ -53,20 +53,27 @@ export async function sendDailyEmail({
       id: true,
       dialog: true,
       title: true,
+      situation: true,
     },
   });
 
   const msg = {
     to: email,
     from: "tannermichaelgaucher@gmail.com",
-    subject: conversation.title,
+    subject: conversation.situation?.text || "Daily Vietnamese Conversation",
     text: conversation.dialog
       .sort((a, b) => a.index - b.index)
       .map((dialog) => dialog.vietnamese)
       .join("\n"),
     html: `
       <h1>${conversation.title}</h1>
-      <a href=${`https://vietnamesedaily.vercel.app/conversation/${conversation.id}`}>Open Conversation</a>
+      <a href={https://vietnamesedaily.vercel.app/conversation/${
+        conversation.id
+      }}>
+      <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px;">
+        Open Conversation
+      </button>
+    </a>
     ${conversation.dialog
       .map((dialog) => `<p>${dialog.vietnamese}</p>`)
       .join("\n")}
