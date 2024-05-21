@@ -2,7 +2,7 @@
 
 import { ContentHit } from "@functional-vietnamese/cloud-function-events";
 import { Combobox } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/solid";
+import { XIcon, SearchIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
@@ -44,12 +44,19 @@ export function Search() {
           }}
         >
           <Combobox.Input
-            placeholder="Search content"
+            placeholder="Search"
             className={`${INPUT_CLASSES} w-full`}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
-          {search && (
+          {!search ? (
+            <div
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+              onClick={() => setSearch("search")}
+            >
+              <SearchIcon className="h-5 w-5 text-gray-400" />
+            </div>
+          ) : (
             <div
               className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
               onClick={() => setSearch("")}
