@@ -46,7 +46,6 @@ export function Card({
     <div className="border border-bg-1-light dark:border-accent-1-dark dark:hover:border-accent-1-dark rounded-lg box-border shadow-lg h-auto">
       {image ? (
         <Image
-          unoptimized
           src={image.src}
           width={image.width}
           height={image.height}

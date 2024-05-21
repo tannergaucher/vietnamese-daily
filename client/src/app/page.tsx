@@ -2,13 +2,13 @@ import { ContentHit } from "@functional-vietnamese/cloud-function-events";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
-import { contentIndex } from "../algolia";
-import { conversationImageBucket, getSignedUrl } from "../storage";
-
 import { Card } from "@/app/components/card";
 import { Grid } from "@/app/components/grid";
 import { Pagination } from "@/app/components/pagination";
 import { RemoveFilterButtons } from "@/app/components/remove-filter-buttons";
+
+import { contentIndex } from "../algolia";
+import { conversationImageBucket, getSignedUrl } from "../storage";
 
 type ContentHitWithSignedUrl = ContentHit & { signedUrl: string };
 
