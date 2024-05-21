@@ -1,6 +1,6 @@
 "use client";
 
-import { Disclosure } from "@headlessui/react";
+import { Disclosure, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { Suspense } from "react";
@@ -39,7 +39,7 @@ export function Header({ title }: { title: string }) {
 function MobileMenu() {
   return (
     <Disclosure>
-      {({}) => (
+      {({ open }) => (
         <>
           <Disclosure.Button className="p-2 text-xl hover:text-accent-1-light dark:hover:text-accent-1-dark">
             <svg
@@ -57,15 +57,25 @@ function MobileMenu() {
               />
             </svg>
           </Disclosure.Button>
-          <Disclosure.Panel>
-            <div className="py-">
-              <h2>Search Content</h2>
-              <Search />
-              <h2>Filter Content</h2>
-              <br />
-              <Filters mobile />
-            </div>
-          </Disclosure.Panel>
+          <Transition
+            show={open}
+            enter="transition ease-out duration-100 transform"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="transition ease-in duration-75 transform"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <Disclosure.Panel>
+              <div className="py-">
+                <h2>Search Content</h2>
+                <Search />
+                <h2>Filter Content</h2>
+                <br />
+                <Filters mobile />
+              </div>
+            </Disclosure.Panel>
+          </Transition>
         </>
       )}
     </Disclosure>
