@@ -60,6 +60,7 @@ functions.cloudEvent("sendDailyEmail", (cloudEvent) => __awaiter(void 0, void 0,
 }));
 function sendDailyEmail(_a) {
     return __awaiter(this, arguments, void 0, function* ({ conversationId, email, prisma, sgMail, }) {
+        var _b;
         const conversation = yield prisma.conversation.findUniqueOrThrow({
             where: {
                 id: conversationId,
@@ -68,12 +69,13 @@ function sendDailyEmail(_a) {
                 id: true,
                 dialog: true,
                 title: true,
+                situation: true,
             },
         });
         const msg = {
             to: email,
             from: "tannermichaelgaucher@gmail.com",
-            subject: conversation.title,
+            subject: ((_b = conversation.situation) === null || _b === void 0 ? void 0 : _b.text) || "Daily Vietnamese Conversation",
             text: conversation.dialog
                 .sort((a, b) => a.index - b.index)
                 .map((dialog) => dialog.vietnamese)
