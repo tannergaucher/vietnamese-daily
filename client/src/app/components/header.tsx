@@ -42,7 +42,9 @@ function MobileMenu({ title }: { title: string }) {
       {({ open }) => (
         <>
           <div className="flex justify-between items-center">
-            <h2 className="font-black">{title}</h2>
+            <Link href="/">
+              <h2 className="font-black">{title}</h2>
+            </Link>
             <Disclosure.Button className="p-2 text-xl hover:text-accent-1-light dark:hover:text-accent-1-dark">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
