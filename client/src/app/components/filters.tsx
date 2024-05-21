@@ -14,7 +14,7 @@ const options = [
   "shopping at a store",
 ];
 
-export function Filters() {
+export function Filters({ mobile }: { mobile?: boolean }) {
   const searchParams = useSearchParams();
 
   const router = useRouter();
@@ -46,6 +46,26 @@ export function Filters() {
   const isActive = (option: string) => {
     return typeParams.includes(option);
   };
+
+  if (mobile) {
+    return (
+      <div className="flex flex-wrap justify-center gap-2">
+        {options.map((option) => (
+          <button
+            key={option}
+            onClick={() => handleFilterClick(option)}
+            className={`${
+              isActive(option)
+                ? "bg-amber-100 text-amber-900"
+                : "bg-accent-1-light dark:bg-accent-2-dark text-text-color-light dark:text-text-color-dark"
+            } px-3 py-1 rounded-lg`}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full">
