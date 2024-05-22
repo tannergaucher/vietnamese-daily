@@ -9,6 +9,12 @@ generator client {
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
+generator cloudFunctionEvents {
+  provider      = "prisma-client-js"
+  output        = "../cloud-function-events/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 generator createDialog {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/create-dialog/generated"

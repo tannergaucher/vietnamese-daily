@@ -1,31 +1,9 @@
+import { getConversationTypeFromEnum } from "@functional-vietnamese/cloud-function-events";
 import { Listbox } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 import { ConversationSituationType } from "@/generated";
-
-function getConversationTypeFromEnum(type: ConversationSituationType) {
-  switch (type) {
-    case ConversationSituationType.AT_THE_RESTAURANT:
-      return "at the restaurant";
-    case ConversationSituationType.AT_THE_CAFE:
-      return "at the cafe";
-    case ConversationSituationType.AT_THE_STREET_FOOD_VENDOR_STALL:
-      return "at the street food vendor stall";
-    case ConversationSituationType.AT_THE_MARKET:
-      return "at the market";
-    case ConversationSituationType.ASKING_A_LOCAL_FOR_DIRECTIONS:
-      return "asking a local for directions";
-    case ConversationSituationType.A_HEALTH_RELATED_SITUATION:
-      return "a health related situation";
-    case ConversationSituationType.AN_EMERGENCY_SITUATION:
-      return "an emergency situation";
-    case ConversationSituationType.AT_THE_HOTEL:
-      return "at the hotel";
-    case ConversationSituationType.SHOPPING_AT_A_STORE:
-      return "shopping at a store";
-  }
-}
 
 const options = Object.values(ConversationSituationType).map((type) =>
   getConversationTypeFromEnum(type)
