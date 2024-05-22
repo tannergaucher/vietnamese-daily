@@ -14,7 +14,7 @@ import {
 } from "typechat";
 
 import { ConversationSituationResponse } from "./conversationSituation";
-import { PrismaClient } from "./generated";
+import { PrismaClient, ConversationSituationType } from "./generated";
 
 functions.cloudEvent("createConversationSituation", async () => {
   const model = createLanguageModel(process.env);
@@ -55,24 +55,15 @@ export async function createConversationSituation({
 
   const prevConversations = await prisma.conversationSituation.findMany();
 
-  const conversationSituationTypes: ConversationSituationResponse["type"][] = [
-    "at the restaurant",
-    "at the cafe",
-    "at the street food vendor stall",
-    "at the market",
-    "asking a local for directions",
-    "a health related situation",
-    "an emergency situation",
-    "at the hotel",
-    "shopping at a store",
-  ];
+  const conversationSituationTypes: ConversationSituationType[] = Object.values(
+    ConversationSituationType
+  );
 
   const randomIndex = Math.floor(
     Math.random() * conversationSituationTypes.length
   );
 
-  const conversationSituationType: ConversationSituationResponse["type"] =
-    conversationSituationTypes[randomIndex];
+  const conversationSituationType = conversationSituationTypes[randomIndex];
 
   const response = await translator.translate(
     `Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for type: at the restaurant, the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The conversation situation should be unique and not a duplicate of any existing conversation situation. Here are the previously created conversation situations. Please do not repeat these! ${prevConversations

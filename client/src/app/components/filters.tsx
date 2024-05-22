@@ -1,18 +1,13 @@
+import { getConversationTypeFromEnum } from "@functional-vietnamese/cloud-function-events";
 import { Listbox } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-const options = [
-  "at the restaurant",
-  "at the cafe",
-  "at the street food vendor stall",
-  "at the market",
-  "asking a local for directions",
-  "a health related situation",
-  "an emergency situation",
-  "at the hotel",
-  "shopping at a store",
-];
+import { ConversationSituationType } from "@/generated";
+
+const options = Object.values(ConversationSituationType).map((type) =>
+  getConversationTypeFromEnum(type)
+);
 
 export function Filters({ mobile }: { mobile?: boolean }) {
   const searchParams = useSearchParams();

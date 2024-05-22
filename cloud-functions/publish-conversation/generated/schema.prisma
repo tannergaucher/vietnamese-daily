@@ -9,6 +9,12 @@ generator client {
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
+generator cloudFunctionEvents {
+  provider      = "prisma-client-js"
+  output        = "../cloud-function-events/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 generator createDialog {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/create-dialog/generated"
@@ -115,12 +121,24 @@ model Conversation {
   situation ConversationSituation?
 }
 
+enum ConversationSituationType {
+  AT_THE_RESTAURANT
+  AT_THE_CAFE
+  AT_THE_STREET_FOOD_VENDOR_STALL
+  AT_THE_MARKET
+  ASKING_A_LOCAL_FOR_DIRECTIONS
+  A_HEALTH_RELATED_SITUATION
+  AN_EMERGENCY_SITUATION
+  AT_THE_HOTEL
+  SHOPPING_AT_A_STORE
+}
+
 model ConversationSituation {
-  id             String        @id @default(uuid())
-  text           String        @unique
-  type           String
-  conversationId String?       @unique
-  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  id             String                    @id @default(uuid())
+  text           String                    @unique
+  type           ConversationSituationType
+  conversationId String?                   @unique
+  conversation   Conversation?             @relation(fields: [conversationId], references: [id])
   imageSrc       String?
 }
 

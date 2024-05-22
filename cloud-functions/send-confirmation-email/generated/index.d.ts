@@ -43,7 +43,22 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * Enums
  */
 export namespace $Enums {
-  export const Gender: {
+  export const ConversationSituationType: {
+  AT_THE_RESTAURANT: 'AT_THE_RESTAURANT',
+  AT_THE_CAFE: 'AT_THE_CAFE',
+  AT_THE_STREET_FOOD_VENDOR_STALL: 'AT_THE_STREET_FOOD_VENDOR_STALL',
+  AT_THE_MARKET: 'AT_THE_MARKET',
+  ASKING_A_LOCAL_FOR_DIRECTIONS: 'ASKING_A_LOCAL_FOR_DIRECTIONS',
+  A_HEALTH_RELATED_SITUATION: 'A_HEALTH_RELATED_SITUATION',
+  AN_EMERGENCY_SITUATION: 'AN_EMERGENCY_SITUATION',
+  AT_THE_HOTEL: 'AT_THE_HOTEL',
+  SHOPPING_AT_A_STORE: 'SHOPPING_AT_A_STORE'
+};
+
+export type ConversationSituationType = (typeof ConversationSituationType)[keyof typeof ConversationSituationType]
+
+
+export const Gender: {
   male: 'male',
   female: 'female'
 };
@@ -51,6 +66,10 @@ export namespace $Enums {
 export type Gender = (typeof Gender)[keyof typeof Gender]
 
 }
+
+export type ConversationSituationType = $Enums.ConversationSituationType
+
+export const ConversationSituationType: typeof $Enums.ConversationSituationType
 
 export type Gender = $Enums.Gender
 
@@ -2298,7 +2317,7 @@ export namespace Prisma {
   export type ConversationSituationMinAggregateOutputType = {
     id: string | null
     text: string | null
-    type: string | null
+    type: $Enums.ConversationSituationType | null
     conversationId: string | null
     imageSrc: string | null
   }
@@ -2306,7 +2325,7 @@ export namespace Prisma {
   export type ConversationSituationMaxAggregateOutputType = {
     id: string | null
     text: string | null
-    type: string | null
+    type: $Enums.ConversationSituationType | null
     conversationId: string | null
     imageSrc: string | null
   }
@@ -2421,7 +2440,7 @@ export namespace Prisma {
   export type ConversationSituationGroupByOutputType = {
     id: string
     text: string
-    type: string
+    type: $Enums.ConversationSituationType
     conversationId: string | null
     imageSrc: string | null
     _count: ConversationSituationCountAggregateOutputType | null
@@ -2473,7 +2492,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       text: string
-      type: string
+      type: $Enums.ConversationSituationType
       conversationId: string | null
       imageSrc: string | null
     }, ExtArgs["result"]["conversationSituation"]>
@@ -2873,7 +2892,7 @@ export namespace Prisma {
   interface ConversationSituationFieldRefs {
     readonly id: FieldRef<"ConversationSituation", 'String'>
     readonly text: FieldRef<"ConversationSituation", 'String'>
-    readonly type: FieldRef<"ConversationSituation", 'String'>
+    readonly type: FieldRef<"ConversationSituation", 'ConversationSituationType'>
     readonly conversationId: FieldRef<"ConversationSituation", 'String'>
     readonly imageSrc: FieldRef<"ConversationSituation", 'String'>
   }
@@ -6118,6 +6137,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ConversationSituationType'
+   */
+  export type EnumConversationSituationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConversationSituationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ConversationSituationType[]'
+   */
+  export type ListEnumConversationSituationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConversationSituationType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -6231,7 +6264,7 @@ export namespace Prisma {
     NOT?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
     id?: StringFilter<"ConversationSituation"> | string
     text?: StringFilter<"ConversationSituation"> | string
-    type?: StringFilter<"ConversationSituation"> | string
+    type?: EnumConversationSituationTypeFilter<"ConversationSituation"> | $Enums.ConversationSituationType
     conversationId?: StringNullableFilter<"ConversationSituation"> | string | null
     imageSrc?: StringNullableFilter<"ConversationSituation"> | string | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
@@ -6253,7 +6286,7 @@ export namespace Prisma {
     AND?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
     OR?: ConversationSituationWhereInput[]
     NOT?: ConversationSituationWhereInput | ConversationSituationWhereInput[]
-    type?: StringFilter<"ConversationSituation"> | string
+    type?: EnumConversationSituationTypeFilter<"ConversationSituation"> | $Enums.ConversationSituationType
     imageSrc?: StringNullableFilter<"ConversationSituation"> | string | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
   }, "id" | "text" | "conversationId">
@@ -6275,7 +6308,7 @@ export namespace Prisma {
     NOT?: ConversationSituationScalarWhereWithAggregatesInput | ConversationSituationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ConversationSituation"> | string
     text?: StringWithAggregatesFilter<"ConversationSituation"> | string
-    type?: StringWithAggregatesFilter<"ConversationSituation"> | string
+    type?: EnumConversationSituationTypeWithAggregatesFilter<"ConversationSituation"> | $Enums.ConversationSituationType
     conversationId?: StringNullableWithAggregatesFilter<"ConversationSituation"> | string | null
     imageSrc?: StringNullableWithAggregatesFilter<"ConversationSituation"> | string | null
   }
@@ -6511,7 +6544,7 @@ export namespace Prisma {
   export type ConversationSituationCreateInput = {
     id?: string
     text: string
-    type: string
+    type: $Enums.ConversationSituationType
     imageSrc?: string | null
     conversation?: ConversationCreateNestedOneWithoutSituationInput
   }
@@ -6519,7 +6552,7 @@ export namespace Prisma {
   export type ConversationSituationUncheckedCreateInput = {
     id?: string
     text: string
-    type: string
+    type: $Enums.ConversationSituationType
     conversationId?: string | null
     imageSrc?: string | null
   }
@@ -6527,7 +6560,7 @@ export namespace Prisma {
   export type ConversationSituationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumConversationSituationTypeFieldUpdateOperationsInput | $Enums.ConversationSituationType
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
     conversation?: ConversationUpdateOneWithoutSituationNestedInput
   }
@@ -6535,7 +6568,7 @@ export namespace Prisma {
   export type ConversationSituationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumConversationSituationTypeFieldUpdateOperationsInput | $Enums.ConversationSituationType
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -6543,7 +6576,7 @@ export namespace Prisma {
   export type ConversationSituationCreateManyInput = {
     id?: string
     text: string
-    type: string
+    type: $Enums.ConversationSituationType
     conversationId?: string | null
     imageSrc?: string | null
   }
@@ -6551,14 +6584,14 @@ export namespace Prisma {
   export type ConversationSituationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumConversationSituationTypeFieldUpdateOperationsInput | $Enums.ConversationSituationType
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConversationSituationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumConversationSituationTypeFieldUpdateOperationsInput | $Enums.ConversationSituationType
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -6867,6 +6900,13 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type EnumConversationSituationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationSituationType | EnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationSituationTypeFilter<$PrismaModel> | $Enums.ConversationSituationType
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6909,6 +6949,16 @@ export namespace Prisma {
     type?: SortOrder
     conversationId?: SortOrder
     imageSrc?: SortOrder
+  }
+
+  export type EnumConversationSituationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationSituationType | EnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationSituationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConversationSituationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConversationSituationTypeFilter<$PrismaModel>
+    _max?: NestedEnumConversationSituationTypeFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -7158,6 +7208,10 @@ export namespace Prisma {
     connect?: ConversationWhereUniqueInput
   }
 
+  export type EnumConversationSituationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ConversationSituationType
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -7390,6 +7444,13 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumConversationSituationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationSituationType | EnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationSituationTypeFilter<$PrismaModel> | $Enums.ConversationSituationType
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7402,6 +7463,16 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedEnumConversationSituationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConversationSituationType | EnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConversationSituationType[] | ListEnumConversationSituationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConversationSituationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConversationSituationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConversationSituationTypeFilter<$PrismaModel>
+    _max?: NestedEnumConversationSituationTypeFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -7500,14 +7571,14 @@ export namespace Prisma {
   export type ConversationSituationCreateWithoutConversationInput = {
     id?: string
     text: string
-    type: string
+    type: $Enums.ConversationSituationType
     imageSrc?: string | null
   }
 
   export type ConversationSituationUncheckedCreateWithoutConversationInput = {
     id?: string
     text: string
-    type: string
+    type: $Enums.ConversationSituationType
     imageSrc?: string | null
   }
 
@@ -7560,14 +7631,14 @@ export namespace Prisma {
   export type ConversationSituationUpdateWithoutConversationInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumConversationSituationTypeFieldUpdateOperationsInput | $Enums.ConversationSituationType
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConversationSituationUncheckedUpdateWithoutConversationInput = {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumConversationSituationTypeFieldUpdateOperationsInput | $Enums.ConversationSituationType
     imageSrc?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
