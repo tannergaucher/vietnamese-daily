@@ -81,7 +81,9 @@ export async function createConversationSituation({
       })
       .catch(() => {
         console.log("collision on text, trying again");
-        pubsub.topic("create-conversation-situation").publishMessage({});
+        pubsub.topic("create-conversation-situation").publishMessage({
+          json: {},
+        });
       });
 
     if (fromFetchFail && conversationSituation) {

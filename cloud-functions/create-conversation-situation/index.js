@@ -38,9 +38,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createConversationSituation = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const typechat_1 = require("typechat");
-const pubsub_1 = require("@google-cloud/pubsub");
 const functions = __importStar(require("@google-cloud/functions-framework"));
+const pubsub_1 = require("@google-cloud/pubsub");
+const typechat_1 = require("typechat");
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationSituation", () => __awaiter(void 0, void 0, void 0, function* () {
     const model = (0, typechat_1.createLanguageModel)(process.env);
@@ -53,28 +53,18 @@ functions.cloudEvent("createConversationSituation", () => __awaiter(void 0, void
     return response;
 }));
 function createConversationSituation(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ prisma, model, pubsub, }) {
+    return __awaiter(this, arguments, void 0, function* ({ prisma, model, pubsub, fromFetchFail, }) {
         const schema = fs_1.default.readFileSync(path_1.default.join(__dirname, "conversationSituation.ts"), "utf-8");
         const translator = (0, typechat_1.createJsonTranslator)(model, schema, "ConversationSituationResponse");
         const prevConversations = yield prisma.conversationSituation.findMany();
-        const conversationSituationTypes = [
-            "at the restaurant",
-            "at the cafe",
-            "at the street food vendor stall",
-            "at the market",
-            "asking a local for directions",
-            "a health related situation",
-            "an emergency situation",
-            "at the hotel",
-            "shopping at a store",
-        ];
+        const conversationSituationTypes = Object.values(generated_1.ConversationSituationType);
         const randomIndex = Math.floor(Math.random() * conversationSituationTypes.length);
         const conversationSituationType = conversationSituationTypes[randomIndex];
         const response = yield translator.translate(`Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for type: at the restaurant, the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The conversation situation should be unique and not a duplicate of any existing conversation situation. Here are the previously created conversation situations. Please do not repeat these! ${prevConversations
             .map((c) => c.text)
             .join(", ")}.`);
         if (response.success) {
-            yield prisma.conversationSituation
+            const conversationSituation = yield prisma.conversationSituation
                 .create({
                 data: {
                     text: response.data.text,
@@ -83,8 +73,18 @@ function createConversationSituation(_a) {
             })
                 .catch(() => {
                 console.log("collision on text, trying again");
-                pubsub.topic("create-conversation-situation").publishMessage({});
+                pubsub.topic("create-conversation-situation").publishMessage({
+                    json: {},
+                });
             });
+            if (fromFetchFail && conversationSituation) {
+                const json = {
+                    situationId: conversationSituation.id,
+                };
+                pubsub.topic("create-dialog").publishMessage({
+                    json,
+                });
+            }
         }
     });
 }
