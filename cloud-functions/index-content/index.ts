@@ -3,6 +3,8 @@ import {
   parseCloudEventData,
   IndexContentEvent,
   FetchUsersForDailyEmailEvent,
+  getConversationTypeFromEnum,
+  ConversationSituationType,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
@@ -72,7 +74,11 @@ export async function indexContent({
     epochDate: conversation.createdAt.getTime(),
     situation: conversation.situation?.text,
     situationId: conversation.situation?.id,
-    type: conversation.situation?.type,
+    type: conversation.situation?.type
+      ? getConversationTypeFromEnum(
+          conversation.situation.type as ConversationSituationType
+        )
+      : "General",
     text: conversation.dialog.map((d) => d.vietnamese).join(" "),
     speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
   };

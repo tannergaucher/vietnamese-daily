@@ -134,7 +134,7 @@ export function parseCloudEventData<T>({
   ) as T;
 }
 
-type ConversationSituationType =
+export type ConversationSituationType =
   | "AT_THE_CAFE"
   | "AT_THE_RESTAURANT"
   | "AT_THE_STREET_FOOD_VENDOR_STALL"

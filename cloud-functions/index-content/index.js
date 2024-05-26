@@ -36,10 +36,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.indexContent = void 0;
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const pubsub_1 = require("@google-cloud/pubsub");
 const algoliasearch_1 = __importDefault(require("algoliasearch"));
-const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const generated_1 = require("./generated");
 functions.cloudEvent("indexContent", (cloudEvent) => __awaiter(void 0, void 0, void 0, function* () {
     if (!process.env.ALGOLIA_APPLICATION_ID || !process.env.ALGOLIA_API_KEY) {
@@ -81,7 +81,9 @@ function indexContent(_a) {
             epochDate: conversation.createdAt.getTime(),
             situation: (_b = conversation.situation) === null || _b === void 0 ? void 0 : _b.text,
             situationId: (_c = conversation.situation) === null || _c === void 0 ? void 0 : _c.id,
-            type: (_d = conversation.situation) === null || _d === void 0 ? void 0 : _d.type,
+            type: ((_d = conversation.situation) === null || _d === void 0 ? void 0 : _d.type)
+                ? (0, cloud_function_events_1.getConversationTypeFromEnum)(conversation.situation.type)
+                : "General",
             text: conversation.dialog.map((d) => d.vietnamese).join(" "),
             speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
         };
