@@ -36,6 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createConversationSituation = void 0;
+const cloud_function_events_1 = require("@functional-vietnamese/cloud-function-events");
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const pubsub_1 = require("@google-cloud/pubsub");
 const openai_1 = __importDefault(require("openai"));
@@ -58,14 +59,13 @@ functions.cloudEvent("createConversationSituation", () => __awaiter(void 0, void
 }));
 function createConversationSituation(_a) {
     return __awaiter(this, arguments, void 0, function* ({ prisma, pubsub, openai, fromFetchFail, }) {
-        const conversationSituationTypes = Object.values(generated_1.ConversationSituationType);
-        const randomIndex = Math.floor(Math.random() * conversationSituationTypes.length);
-        const conversationSituationType = conversationSituationTypes[randomIndex];
+        const randomIndex = Math.floor(Math.random() * cloud_function_events_1.CONVERSATION_SITUATION_TYPES.length);
+        const conversationSituationType = cloud_function_events_1.CONVERSATION_SITUATION_TYPES[randomIndex];
         const situationCompletion = yield openai.chat.completions.create({
             messages: [
                 {
                     role: "user",
-                    content: `Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation type: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for situation type: "at the restaurant", the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The situation should only be one sentence long.`,
+                    content: `Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation type: ${(0, cloud_function_events_1.getConversationTypeFromEnum)(conversationSituationType)}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for situation type: "at the restaurant", the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The situation should only be one sentence long.`,
                 },
             ],
             model: "gpt-3.5-turbo",

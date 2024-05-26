@@ -23,10 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getConversationTypeFromEnum = exports.parseCloudEventData = exports.functions = void 0;
+exports.getConversationTypeFromEnum = exports.CONVERSATION_SITUATION_TYPES = exports.parseCloudEventData = exports.functions = void 0;
 const functions = __importStar(require("@google-cloud/functions-framework"));
 exports.functions = functions;
-const generated_1 = require("./generated");
 function parseCloudEventData({ cloudEvent, }) {
     var _a, _b;
     if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {
@@ -35,25 +34,36 @@ function parseCloudEventData({ cloudEvent, }) {
     return JSON.parse(Buffer.from(cloudEvent.data.message.data, "base64").toString("utf8"));
 }
 exports.parseCloudEventData = parseCloudEventData;
+exports.CONVERSATION_SITUATION_TYPES = [
+    "AT_THE_CAFE",
+    "AT_THE_RESTAURANT",
+    "AT_THE_STREET_FOOD_VENDOR_STALL",
+    "AT_THE_MARKET",
+    "ASKING_A_LOCAL_FOR_DIRECTIONS",
+    "A_HEALTH_RELATED_SITUATION",
+    "AN_EMERGENCY_SITUATION",
+    "AT_THE_HOTEL",
+    "SHOPPING_AT_A_STORE",
+];
 function getConversationTypeFromEnum(type) {
     switch (type) {
-        case generated_1.ConversationSituationType.AT_THE_RESTAURANT:
+        case "AT_THE_RESTAURANT":
             return "at the restaurant";
-        case generated_1.ConversationSituationType.AT_THE_CAFE:
+        case "AT_THE_CAFE":
             return "at the cafe";
-        case generated_1.ConversationSituationType.AT_THE_STREET_FOOD_VENDOR_STALL:
+        case "AT_THE_STREET_FOOD_VENDOR_STALL":
             return "at the street food vendor stall";
-        case generated_1.ConversationSituationType.AT_THE_MARKET:
+        case "AT_THE_MARKET":
             return "at the market";
-        case generated_1.ConversationSituationType.ASKING_A_LOCAL_FOR_DIRECTIONS:
+        case "ASKING_A_LOCAL_FOR_DIRECTIONS":
             return "asking a local for directions";
-        case generated_1.ConversationSituationType.A_HEALTH_RELATED_SITUATION:
+        case "A_HEALTH_RELATED_SITUATION":
             return "a health related situation";
-        case generated_1.ConversationSituationType.AN_EMERGENCY_SITUATION:
+        case "AN_EMERGENCY_SITUATION":
             return "an emergency situation";
-        case generated_1.ConversationSituationType.AT_THE_HOTEL:
+        case "AT_THE_HOTEL":
             return "at the hotel";
-        case generated_1.ConversationSituationType.SHOPPING_AT_A_STORE:
+        case "SHOPPING_AT_A_STORE":
             return "shopping at a store";
     }
 }
