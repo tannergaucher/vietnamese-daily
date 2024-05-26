@@ -1,23 +1,16 @@
-import fs from "fs";
-import path from "path";
-
 import {
   CreateConversationSituationEvent,
   CreateDialogEvent,
+  CONVERSATION_SITUATION_TYPES,
+  getConversationTypeFromEnum,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
-import {
-  createLanguageModel,
-  createJsonTranslator,
-  TypeChatLanguageModel,
-} from "typechat";
+import OpenAi from "openai";
 
-import { ConversationSituationResponse } from "./conversationSituation";
-import { PrismaClient, ConversationSituationType } from "./generated";
+import { PrismaClient } from "./generated";
 
 functions.cloudEvent("createConversationSituation", async () => {
-  const model = createLanguageModel(process.env);
   const prisma = new PrismaClient();
 
   const pubsub = new PubSub({
@@ -25,65 +18,64 @@ functions.cloudEvent("createConversationSituation", async () => {
     keyFilename: "./service-account.json",
   });
 
-  const response = await createConversationSituation({ prisma, model, pubsub });
+  const openai = new OpenAi({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  const response = await createConversationSituation({
+    prisma,
+    openai,
+    pubsub,
+  });
 
   return response;
 });
 
 type CreateConversationSituationParams = CreateConversationSituationEvent & {
   prisma: PrismaClient;
-  model: TypeChatLanguageModel;
+  openai: OpenAi;
   pubsub: PubSub;
 };
 
 export async function createConversationSituation({
   prisma,
-  model,
   pubsub,
+  openai,
   fromFetchFail,
 }: CreateConversationSituationParams) {
-  const schema = fs.readFileSync(
-    path.join(__dirname, "conversationSituation.ts"),
-    "utf-8"
-  );
-
-  const translator = createJsonTranslator<ConversationSituationResponse>(
-    model,
-    schema,
-    "ConversationSituationResponse"
-  );
-
-  const prevConversations = await prisma.conversationSituation.findMany();
-
-  const conversationSituationTypes: ConversationSituationType[] = Object.values(
-    ConversationSituationType
-  );
-
   const randomIndex = Math.floor(
-    Math.random() * conversationSituationTypes.length
+    Math.random() * CONVERSATION_SITUATION_TYPES.length
   );
 
-  const conversationSituationType = conversationSituationTypes[randomIndex];
+  const conversationSituationType = CONVERSATION_SITUATION_TYPES[randomIndex];
 
-  const response = await translator.translate(
-    `Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for type: at the restaurant, the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The conversation situation should be unique and not a duplicate of any existing conversation situation. Here are the previously created conversation situations. Please do not repeat these! ${prevConversations
-      .map((c) => c.text)
-      .join(", ")}.`
-  );
+  const situationCompletion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: `Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation type: ${getConversationTypeFromEnum(
+          conversationSituationType
+        )}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for situation type: "at the restaurant", the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The situation should only be one sentence long.`,
+      },
+    ],
+    model: "gpt-3.5-turbo",
+  });
 
-  if (response.success) {
+  if (situationCompletion.choices[0].message.content) {
     const conversationSituation = await prisma.conversationSituation
       .create({
         data: {
-          text: response.data.text,
+          text: situationCompletion.choices[0].message.content,
           type: conversationSituationType,
         },
       })
-      .catch(() => {
-        console.log("collision on text, trying again");
-        pubsub.topic("create-conversation-situation").publishMessage({
-          json: {},
-        });
+      .catch((error) => {
+        console.error(error, "error");
+        console.error("Error creating conversation situation:", error.message);
+        console.error("Stack trace:", error.stack);
+        throw new Error(
+          `collision on text ${situationCompletion.choices[0].message.content} for type ${conversationSituationType}`
+        );
       });
 
     if (fromFetchFail && conversationSituation) {

@@ -1,7 +1,5 @@
 import * as functions from "@google-cloud/functions-framework";
 
-import { ConversationSituationType } from "./generated";
-
 export { functions };
 
 export interface CloudEventData {
@@ -136,25 +134,48 @@ export function parseCloudEventData<T>({
   ) as T;
 }
 
+export type ConversationSituationType =
+  | "AT_THE_CAFE"
+  | "AT_THE_RESTAURANT"
+  | "AT_THE_STREET_FOOD_VENDOR_STALL"
+  | "AT_THE_MARKET"
+  | "ASKING_A_LOCAL_FOR_DIRECTIONS"
+  | "A_HEALTH_RELATED_SITUATION"
+  | "AN_EMERGENCY_SITUATION"
+  | "AT_THE_HOTEL"
+  | "SHOPPING_AT_A_STORE";
+
+export const CONVERSATION_SITUATION_TYPES: ConversationSituationType[] = [
+  "AT_THE_CAFE",
+  "AT_THE_RESTAURANT",
+  "AT_THE_STREET_FOOD_VENDOR_STALL",
+  "AT_THE_MARKET",
+  "ASKING_A_LOCAL_FOR_DIRECTIONS",
+  "A_HEALTH_RELATED_SITUATION",
+  "AN_EMERGENCY_SITUATION",
+  "AT_THE_HOTEL",
+  "SHOPPING_AT_A_STORE",
+];
+
 export function getConversationTypeFromEnum(type: ConversationSituationType) {
   switch (type) {
-    case ConversationSituationType.AT_THE_RESTAURANT:
+    case "AT_THE_RESTAURANT":
       return "at the restaurant";
-    case ConversationSituationType.AT_THE_CAFE:
+    case "AT_THE_CAFE":
       return "at the cafe";
-    case ConversationSituationType.AT_THE_STREET_FOOD_VENDOR_STALL:
+    case "AT_THE_STREET_FOOD_VENDOR_STALL":
       return "at the street food vendor stall";
-    case ConversationSituationType.AT_THE_MARKET:
+    case "AT_THE_MARKET":
       return "at the market";
-    case ConversationSituationType.ASKING_A_LOCAL_FOR_DIRECTIONS:
+    case "ASKING_A_LOCAL_FOR_DIRECTIONS":
       return "asking a local for directions";
-    case ConversationSituationType.A_HEALTH_RELATED_SITUATION:
+    case "A_HEALTH_RELATED_SITUATION":
       return "a health related situation";
-    case ConversationSituationType.AN_EMERGENCY_SITUATION:
+    case "AN_EMERGENCY_SITUATION":
       return "an emergency situation";
-    case ConversationSituationType.AT_THE_HOTEL:
+    case "AT_THE_HOTEL":
       return "at the hotel";
-    case ConversationSituationType.SHOPPING_AT_A_STORE:
+    case "SHOPPING_AT_A_STORE":
       return "shopping at a store";
   }
 }

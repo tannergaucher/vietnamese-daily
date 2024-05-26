@@ -169,18 +169,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.ConversationSituationType = exports.$Enums.ConversationSituationType = {
-  AT_THE_RESTAURANT: 'AT_THE_RESTAURANT',
-  AT_THE_CAFE: 'AT_THE_CAFE',
-  AT_THE_STREET_FOOD_VENDOR_STALL: 'AT_THE_STREET_FOOD_VENDOR_STALL',
-  AT_THE_MARKET: 'AT_THE_MARKET',
-  ASKING_A_LOCAL_FOR_DIRECTIONS: 'ASKING_A_LOCAL_FOR_DIRECTIONS',
-  A_HEALTH_RELATED_SITUATION: 'A_HEALTH_RELATED_SITUATION',
-  AN_EMERGENCY_SITUATION: 'AN_EMERGENCY_SITUATION',
-  AT_THE_HOTEL: 'AT_THE_HOTEL',
-  SHOPPING_AT_A_STORE: 'SHOPPING_AT_A_STORE'
-};
-
 exports.Gender = exports.$Enums.Gender = {
   male: 'male',
   female: 'female'

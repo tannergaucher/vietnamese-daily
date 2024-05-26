@@ -1,11 +1,12 @@
-import { getConversationTypeFromEnum } from "@functional-vietnamese/cloud-function-events";
+import {
+  getConversationTypeFromEnum,
+  CONVERSATION_SITUATION_TYPES,
+} from "@functional-vietnamese/cloud-function-events";
 import { Listbox } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-import { ConversationSituationType } from "@/generated";
-
-const options = Object.values(ConversationSituationType).map((type) =>
+const options = CONVERSATION_SITUATION_TYPES.map((type) =>
   getConversationTypeFromEnum(type)
 );
 
