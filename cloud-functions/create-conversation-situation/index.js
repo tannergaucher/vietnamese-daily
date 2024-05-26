@@ -36,46 +36,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createConversationSituation = void 0;
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
 const functions = __importStar(require("@google-cloud/functions-framework"));
 const pubsub_1 = require("@google-cloud/pubsub");
-const typechat_1 = require("typechat");
+const openai_1 = __importDefault(require("openai"));
 const generated_1 = require("./generated");
 functions.cloudEvent("createConversationSituation", () => __awaiter(void 0, void 0, void 0, function* () {
-    const model = (0, typechat_1.createLanguageModel)(process.env);
     const prisma = new generated_1.PrismaClient();
     const pubsub = new pubsub_1.PubSub({
         projectId: "daily-vietnamese",
         keyFilename: "./service-account.json",
     });
-    const response = yield createConversationSituation({ prisma, model, pubsub });
+    const openai = new openai_1.default({
+        apiKey: process.env.OPENAI_API_KEY,
+    });
+    const response = yield createConversationSituation({
+        prisma,
+        openai,
+        pubsub,
+    });
     return response;
 }));
 function createConversationSituation(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ prisma, model, pubsub, fromFetchFail, }) {
-        const schema = fs_1.default.readFileSync(path_1.default.join(__dirname, "conversationSituation.ts"), "utf-8");
-        const translator = (0, typechat_1.createJsonTranslator)(model, schema, "ConversationSituationResponse");
-        const prevConversations = yield prisma.conversationSituation.findMany();
+    return __awaiter(this, arguments, void 0, function* ({ prisma, pubsub, openai, fromFetchFail, }) {
         const conversationSituationTypes = Object.values(generated_1.ConversationSituationType);
         const randomIndex = Math.floor(Math.random() * conversationSituationTypes.length);
         const conversationSituationType = conversationSituationTypes[randomIndex];
-        const response = yield translator.translate(`Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for type: at the restaurant, the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The conversation situation should be unique and not a duplicate of any existing conversation situation. Here are the previously created conversation situations. Please do not repeat these! ${prevConversations
-            .map((c) => c.text)
-            .join(", ")}.`);
-        if (response.success) {
+        const situationCompletion = yield openai.chat.completions.create({
+            messages: [
+                {
+                    role: "user",
+                    content: `Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation type: ${conversationSituationType}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for situation type: "at the restaurant", the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The situation should only be one sentence long.`,
+                },
+            ],
+            model: "gpt-3.5-turbo",
+        });
+        if (situationCompletion.choices[0].message.content) {
             const conversationSituation = yield prisma.conversationSituation
                 .create({
                 data: {
-                    text: response.data.text,
+                    text: situationCompletion.choices[0].message.content,
                     type: conversationSituationType,
                 },
             })
-                .catch(() => {
-                console.log("collision on text, trying again");
-                pubsub.topic("create-conversation-situation").publishMessage({
-                    json: {},
-                });
+                .catch((error) => {
+                console.error(error, "error");
+                console.error("Error creating conversation situation:", error.message);
+                console.error("Stack trace:", error.stack);
+                throw new Error(`collision on text ${situationCompletion.choices[0].message.content} for type ${conversationSituationType}`);
             });
             if (fromFetchFail && conversationSituation) {
                 const json = {
