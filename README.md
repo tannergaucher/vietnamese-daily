@@ -16,6 +16,7 @@ Daily Vietnamese is an autonomously posting LLM generated content application fo
 - [Prisma](https://www.prisma.io/), [Postgres](https://www.postgresql.org/), and [CockroachDB](https://www.cockroachlabs.com/) for modeling and storing application data
 - [Next.js](https://nextjs.org/) client and server components for rendering
 - [Tailwind CSS](https://tailwindcss.com/) for styling
+- [Vercel](https://vercel.com/) for hosting the client application
 
 ## Architecture
 
