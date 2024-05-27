@@ -1,6 +1,6 @@
 # Daily Vietnamese
 
-Daily Vietnamese is an autonomously posting application for Vietnamese language conversation practice. It leverages generative LLMs to generate conversation topics, and creates and posts a daily conversation dialog based on a topic.
+Daily Vietnamese is an autonomously posting LLM generated content application for Vietnamese language practice. It leverages generative LLMs to create conversation topics, and uses GCP cloud functions, text-to-speech API, Pub/Sub and cloud storage to asynchronously process the creation of conversation dialog audio files and images based on the given topics and publishes a new conversation post each day.
 
 ## Uses
 
