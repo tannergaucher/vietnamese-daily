@@ -4,17 +4,17 @@ Daily Vietnamese is an autonomously posting application for Vietnamese language 
 
 ## Uses
 
-- Typechat for topic and dialog generation
-- OpenAI for image generation based on the conversation topic
-- GCP text-to-speech for Vietnamese language audio generation
-- GCP Cloud Functions for serverless execution
-- GCP Cloud Storage for audio and image storage
-- GCP Pub/Sub for asynchronous processing and scheduling of tasks
-- Algolia for searching and filtering content
-- Sendgrid for emailing the daily conversation
-- Prisma, Postgres, and CockroachDB for modeling and storing application data
-- Next.js client and server components for rendering
-- Tailwind CSS for styling
+- [Typechat](https://github.com/microsoft/TypeChat) for topic and dialog generation
+- [OpenAI](https://platform.openai.com/docs/overview) for image generation based on the conversation topic
+- [GCP text-to-speech AI](https://cloud.google.com/text-to-speech) for Vietnamese language audio generation
+- [GCP Cloud Functions](https://cloud.google.com/functions) for serverless execution
+- [GCP Cloud Storage](https://cloud.google.com/storage) for audio and image storage
+- [GCP Pub/Sub](https://cloud.google.com/pubsub) for asynchronous processing and scheduling of tasks
+- [Algolia](https://www.algolia.com/) for searching and filtering content
+- [Sendgrid](https://sendgrid.com/) for emailing the daily conversation
+- [Prisma](https://www.prisma.io/), [Postgres](https://www.postgresql.org/), and [CockroachDB](https://www.cockroachlabs.com/) for modeling and storing application data
+- [Next.js](https://nextjs.org/) client and server components for rendering
+- [Tailwind CSS](https://tailwindcss.com/) for styling
 
 ## Architecture
 
