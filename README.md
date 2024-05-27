@@ -39,4 +39,4 @@ Daily Vietnamese is an autonomously posting LLM generated content application fo
 
 ## Roadmap
 
-- Add speach tonal analysis for pronunciation of Vietnamese tones. Give user visual feedback based on adherence to the tone curve compared to the reference audio.
+- Add speech tonal analysis for practicing pronunciation of Vietnamese tones. Give user visual feedback based on adherence to the tone curve as compared to the reference audio files.
