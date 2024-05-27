@@ -8,7 +8,8 @@ Daily Vietnamese is an autonomously posting LLM generated content application fo
 - [OpenAI](https://platform.openai.com/docs/overview) for image generation based on the conversation topic
 - [GCP text-to-speech AI](https://cloud.google.com/text-to-speech) for Vietnamese language audio generation
 - [GCP Cloud Functions](https://cloud.google.com/functions) for serverless execution
-- [GCP Pub/Sub](https://cloud.google.com/pubsub) for asynchronous processing and scheduling of tasks
+- [GCP Pub/Sub](https://cloud.google.com/pubsub) for asynchronous processing
+- [GCP Cloud Scheduler](https://cloud.google.com/scheduler) for scheduling the creation of new topics and posting a new conversation each day
 - [GCP Cloud Storage](https://cloud.google.com/storage) for audio and image storage
 - [Algolia](https://www.algolia.com/) for searching and filtering content
 - [Sendgrid](https://sendgrid.com/) for emailing the daily conversation
