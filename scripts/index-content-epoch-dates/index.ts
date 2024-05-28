@@ -1,6 +1,5 @@
-import algoliasearch, { SearchIndex } from "algoliasearch";
 import { ContentHit } from "@functional-vietnamese/cloud-function-events";
-
+import algoliasearch, { SearchIndex } from "algoliasearch";
 import dotenv from "dotenv";
 
 dotenv.config();
