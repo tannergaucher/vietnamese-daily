@@ -14,7 +14,6 @@ export enum Topic {
   FetchDialogWordsForCreating = "fetch-dialog-words-for-creating",
   FetchUsersForDailyEmail = "fetch-users-for-daily-email",
   IndexContent = "index-content",
-  PublishConversation = "publish-conversation",
   SendDailyEmail = "send-daily-email",
   SendConfirmationEmail = "send-confirmation-email",
 }
@@ -52,10 +51,6 @@ export interface FetchDialogWordsForCreatingEvent {
 }
 
 export interface FetchUsersForDailyEmailEvent {
-  conversationId: string;
-}
-
-export interface PublishConversationEvent {
   conversationId: string;
 }
 

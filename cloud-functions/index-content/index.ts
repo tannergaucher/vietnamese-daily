@@ -88,12 +88,21 @@ export async function indexContent({
 
   index
     .saveObject(contentRecord)
-    .then(({ objectID }) => {
+    .then(async ({ objectID }) => {
       console.log("Saved object", objectID);
 
       const json: FetchUsersForDailyEmailEvent = {
         conversationId,
       };
+
+      await prisma.conversation.update({
+        where: {
+          id: conversationId,
+        },
+        data: {
+          published: true,
+        },
+      });
 
       pubsub.topic(Topic.FetchUsersForDailyEmail).publishMessage({
         json,

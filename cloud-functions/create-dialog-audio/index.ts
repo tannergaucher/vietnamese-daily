@@ -5,7 +5,7 @@ import {
   Topic,
   CloudEventData,
   CreateDialogAudioEvent,
-  PublishConversationEvent,
+  IndexContentEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
@@ -135,11 +135,11 @@ export async function createDialogAudio({
   });
 
   if (conversation.dialog.every((d) => d.audioSrc !== null)) {
-    const json: PublishConversationEvent = {
+    const json: IndexContentEvent = {
       conversationId: dialog.conversationId,
     };
 
-    pubsub.topic(Topic.PublishConversation).publishMessage({
+    pubsub.topic(Topic.IndexContent).publishMessage({
       json,
     });
   }
