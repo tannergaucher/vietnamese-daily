@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
+import Head from "next/head";
 import React from "react";
 
 import { Header } from "@/app/components/header";
 
-import { EmailForm } from "./email-form";
+import { EmailForm } from "./components/email-form";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -26,6 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <body
         className={`flex flex-col justify-between min-h-screen ${beVietnamePro.className} bg-bg-1-light dark:bg-bg-1-dark text-text-color-light dark:text-text-color-dark`}
       >
