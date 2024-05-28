@@ -1,7 +1,7 @@
 "use client";
 
+import { HandleEmailSignupRequestBody } from "@functional-vietnamese/cloud-function-events";
 import React, { useState } from "react";
-import { HandleEmailSignupRequestBody } from "cloud-function-events";
 
 import { Button } from "@/app/components/button";
 import { Input } from "@/app/components/input";
