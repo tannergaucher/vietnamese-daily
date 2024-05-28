@@ -1,4 +1,5 @@
 import {
+  Topic,
   CloudEventData,
   CreateWordEvent,
   CreateWordAudioEvent,
@@ -87,7 +88,7 @@ export async function createWord({
     dialogId,
   };
 
-  pubsub.topic("create-word-audio").publishMessage({
+  pubsub.topic(Topic.CreateWordAudio).publishMessage({
     json,
   });
 }

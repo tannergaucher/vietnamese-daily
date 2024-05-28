@@ -1,4 +1,5 @@
 import {
+  Topic,
   CloudEventData,
   parseCloudEventData,
   IndexContentEvent,
@@ -94,7 +95,7 @@ export async function indexContent({
         conversationId,
       };
 
-      pubsub.topic("fetch-users-for-daily-email").publishMessage({
+      pubsub.topic(Topic.FetchUsersForDailyEmail).publishMessage({
         json,
       });
     })

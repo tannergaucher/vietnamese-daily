@@ -2,6 +2,23 @@ import * as functions from "@google-cloud/functions-framework";
 
 export { functions };
 
+export enum Topic {
+  CreateConversationImage = "create-conversation-image",
+  CreateConversationSituation = "create-conversation-situation",
+  CreateDialog = "create-dialog",
+  CreateDialogAudio = "create-dialog-audio",
+  CreateWord = "create-word",
+  CreateWordAudio = "create-word-audio",
+  FetchConversationDialogsForCreatingAudio = "fetch-conversation-dialogs-for-creating-audio",
+  FetchSituationForCreatingDialog = "fetch-situation-for-creating-dialog",
+  FetchDialogWordsForCreating = "fetch-dialog-words-for-creating",
+  FetchUsersForDailyEmail = "fetch-users-for-daily-email",
+  IndexContent = "index-content",
+  PublishConversation = "publish-conversation",
+  SendDailyEmail = "send-daily-email",
+  SendConfirmationEmail = "send-confirmation-email",
+}
+
 export interface CloudEventData {
   message: {
     data: string;

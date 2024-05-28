@@ -1,4 +1,5 @@
 import {
+  Topic,
   CloudEventData,
   PublishConversationEvent,
   IndexContentEvent,
@@ -54,7 +55,7 @@ export async function publishConversation({
     conversationId,
   };
 
-  pubsub.topic("index-content").publishMessage({
+  pubsub.topic(Topic.IndexContent).publishMessage({
     json,
   });
 }

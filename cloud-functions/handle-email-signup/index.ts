@@ -1,4 +1,5 @@
 import {
+  Topic,
   SendConfirmationEmailEvent,
   HandleEmailSignupRequestBody,
 } from "@functional-vietnamese/cloud-function-events";
@@ -62,7 +63,7 @@ export async function handleEmailSignup({
     email,
   };
 
-  pubsub.topic("send-confirmation-email").publishMessage({
+  pubsub.topic(Topic.SendConfirmationEmail).publishMessage({
     json,
   });
 }

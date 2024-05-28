@@ -3,6 +3,7 @@ import {
   CreateDialogEvent,
   CONVERSATION_SITUATION_TYPES,
   getConversationTypeFromEnum,
+  Topic,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
@@ -83,7 +84,7 @@ export async function createConversationSituation({
         situationId: conversationSituation.id,
       };
 
-      pubsub.topic("create-dialog").publishMessage({
+      pubsub.topic(Topic.CreateDialog).publishMessage({
         json,
       });
     }
