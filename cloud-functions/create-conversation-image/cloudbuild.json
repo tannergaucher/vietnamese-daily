@@ -2,7 +2,7 @@
   "steps": [
     {
       "name": "gcr.io/cloud-builders/docker",
-      "args": ["build", "-t", "createConversationImage:latest", "."]
+      "args": ["build", "-t", "create-conversation-image:latest", "."]
     },
     {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
