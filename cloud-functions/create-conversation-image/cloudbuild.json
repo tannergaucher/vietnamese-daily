@@ -2,12 +2,16 @@
   "steps": [
     {
       "name": "node:18",
-      "entrypoint": "npm",
-      "args": ["run", "build"]
+      "entrypoint": "sh",
+      "args": [
+        "-c",
+        "cd cloud-functions/create-conversation-image && npm install && npm run build"
+      ]
     },
     {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
       "args": [
+        "cd cloud-functions/create-conversation-image",
         "gcloud",
         "functions",
         "deploy",
