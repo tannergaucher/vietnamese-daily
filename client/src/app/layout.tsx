@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 import Head from "next/head";
@@ -30,6 +31,7 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Analytics />
       <body
         className={`flex flex-col justify-between min-h-screen ${beVietnamePro.className} bg-bg-1-light dark:bg-bg-1-dark text-text-color-light dark:text-text-color-dark`}
       >
