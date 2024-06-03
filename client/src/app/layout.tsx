@@ -11,7 +11,7 @@ import { EmailForm } from "./components/email-form";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Daily Vietnamese",
+  title: "Vietnamese Daily",
   description:
     "Learn Vietnamese with conversations delivered to your inbox every day.",
 };
