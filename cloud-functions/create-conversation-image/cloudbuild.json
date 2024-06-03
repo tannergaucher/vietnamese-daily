@@ -5,7 +5,7 @@
       "args": ["install"]
     },
     {
-      "name": "node:16",
+      "name": "node:18",
       "entrypoint": "tsc",
       "args": ["--outDir", "out"]
     },
