@@ -16,7 +16,7 @@ export function RemoveFilterButtons() {
     <div className="container mx-auto px-2 mb-6 flex justify-center items-center">
       {typeParams.map((typeParam) => (
         <button
-          className={`flex justify-center items-center rounded-xl p-1 sm:p-3 mx-1 shadow h-12 text-xs sm:text-lg font-semibold leading-none ${SECONDARY}`}
+          className={`flex justify-center items-center rounded-xl p-1 sm:p-3 mx-1 shadow h-12 text-xs sm:text-lg font-semibold leading-none ${SECONDARY} capitalize`}
           key={typeParam}
           onClick={() => {
             const newTypeParams = typeParams.filter(
