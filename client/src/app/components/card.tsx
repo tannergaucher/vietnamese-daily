@@ -51,6 +51,7 @@ export function Card({
           height={image.height}
           alt={image.alt}
           className={`rounded-t-lg ${marginB[size]}`}
+          unoptimized
         />
       ) : null}
       <div className="px-3">
