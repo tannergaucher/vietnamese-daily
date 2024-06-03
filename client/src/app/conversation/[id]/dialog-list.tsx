@@ -83,9 +83,8 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
       <ul>
         {dialog.map((d, index) => (
-          <>
+          <div key={d.id}>
             <li
-              key={d.id}
               ref={(li) => {
                 liRefs.current[index] = li;
               }}
@@ -133,7 +132,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
             {index === dialog.length - 1 ? null : (
               <hr className="dark:border-accent-1-dark" />
             )}
-          </>
+          </div>
         ))}
       </ul>
       <Button
