@@ -49,15 +49,21 @@ functions.cloudEvent("fetchSituationForCreatingDialog", () => __awaiter(void 0, 
 }));
 function fetchSituationForCreatingDialog(_a) {
     return __awaiter(this, arguments, void 0, function* ({ prisma, pubsub, }) {
-        const situationToCreateDialog = yield prisma.conversationSituation.findFirstOrThrow({
+        const situationToCreateDialog = yield prisma.conversationSituation.findFirst({
             where: {
                 conversationId: null,
-                needsAmendment: false,
             },
             select: {
                 id: true,
             },
         });
+        if (!situationToCreateDialog) {
+            const json = {
+                fromFetchFail: true,
+            };
+            pubsub.topic("create-conversation-situation").publishMessage({ json });
+            return;
+        }
         const json = {
             situationId: situationToCreateDialog.id,
         };
