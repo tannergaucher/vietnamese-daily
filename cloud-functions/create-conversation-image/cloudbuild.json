@@ -5,6 +5,10 @@
       "args": ["install"]
     },
     {
+      "name": "node:18",
+      "args": ["tsc"]
+    },
+    {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
       "args": [
         "gcloud",
