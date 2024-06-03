@@ -1,4 +1,5 @@
 import {
+  Topic,
   CloudEventData,
   parseCloudEventData,
   IndexContentEvent,
@@ -87,14 +88,23 @@ export async function indexContent({
 
   index
     .saveObject(contentRecord)
-    .then(({ objectID }) => {
+    .then(async ({ objectID }) => {
       console.log("Saved object", objectID);
 
       const json: FetchUsersForDailyEmailEvent = {
         conversationId,
       };
 
-      pubsub.topic("fetch-users-for-daily-email").publishMessage({
+      await prisma.conversation.update({
+        where: {
+          id: conversationId,
+        },
+        data: {
+          published: true,
+        },
+      });
+
+      pubsub.topic(Topic.FetchUsersForDailyEmail).publishMessage({
         json,
       });
     })

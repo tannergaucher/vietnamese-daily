@@ -2,9 +2,10 @@ import * as fs from "fs";
 import * as util from "util";
 
 import {
+  Topic,
   CloudEventData,
   CreateDialogAudioEvent,
-  PublishConversationEvent,
+  IndexContentEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
@@ -134,11 +135,11 @@ export async function createDialogAudio({
   });
 
   if (conversation.dialog.every((d) => d.audioSrc !== null)) {
-    const json: PublishConversationEvent = {
+    const json: IndexContentEvent = {
       conversationId: dialog.conversationId,
     };
 
-    pubsub.topic("publish-conversation").publishMessage({
+    pubsub.topic(Topic.IndexContent).publishMessage({
       json,
     });
   }

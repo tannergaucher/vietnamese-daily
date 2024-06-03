@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import {
+  Topic,
   CloudEventData,
   FetchConversationDialogsForCreatingAudioEvent,
   FetchDialogWordsForCreatingEvent,
@@ -107,7 +108,7 @@ export async function createDialog({
     };
 
     pubsub
-      .topic("fetch-conversation-dialogs-for-creating-audio")
+      .topic(Topic.FetchConversationDialogsForCreatingAudio)
       .publishMessage({
         json,
       });
@@ -116,7 +117,7 @@ export async function createDialog({
       conversationSituationId: situationId,
     };
 
-    pubsub.topic("create-conversation-image").publishMessage({
+    pubsub.topic(Topic.CreateConversationImage).publishMessage({
       json: conversationImageJson,
     });
 
@@ -126,7 +127,7 @@ export async function createDialog({
       };
 
       {
-        pubsub.topic("fetch-dialog-words-for-creating").publishMessage({
+        pubsub.topic(Topic.FetchDialogWordsForCreating).publishMessage({
           json,
         });
       }
@@ -144,11 +145,11 @@ export async function createDialog({
     },
   });
 
-  pubsub.topic("create-conversation-situation").publishMessage({
+  pubsub.topic(Topic.CreateConversationSituation).publishMessage({
     json: {},
   });
 
-  pubsub.topic("fetch-situation-for-creating-dialog").publishMessage({
+  pubsub.topic(Topic.FetchSituationForCreatingDialog).publishMessage({
     json: {},
   });
 
