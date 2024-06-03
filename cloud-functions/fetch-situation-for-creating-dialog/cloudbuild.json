@@ -2,6 +2,7 @@
   "steps": [
     {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "dir": "cloud-functions/fetch-situation-for-creating-dialog",
       "args": [
         "gcloud",
         "functions",
