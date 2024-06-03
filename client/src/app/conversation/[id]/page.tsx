@@ -3,12 +3,7 @@ import React from "react";
 import { Card } from "@/app/components/card";
 import { Container } from "@/app/components/container";
 import { prisma } from "@/prisma";
-import {
-  dialogAudioBucket,
-  wordAudioBucket,
-  getSignedUrl,
-  conversationImageBucket,
-} from "@/storage";
+import { dialogAudioBucket, wordAudioBucket, getSignedUrl } from "@/storage";
 
 import DialogList from "./dialog-list";
 
@@ -33,13 +28,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   if (!conversation) {
     return <div>Conversation not found</div>;
-  }
-
-  if (conversation.situation) {
-    conversation.situation.imageSrc = await getSignedUrl({
-      filePath: `${conversation.situation.id}.webp`,
-      bucket: conversationImageBucket,
-    });
   }
 
   const sortedDialogPromises = conversation.dialog
@@ -72,9 +60,9 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Card
         size="large"
         image={
-          conversation.situation?.imageSrc
+          conversation.situation
             ? {
-                src: conversation.situation.imageSrc,
+                src: `https://storage.googleapis.com/conversation-dalee-images/${conversation.situation.id}.webp`,
                 width: 2000,
                 height: 2000,
                 alt: "Conversation Image",

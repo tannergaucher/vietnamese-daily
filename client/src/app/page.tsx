@@ -8,9 +8,8 @@ import { Pagination } from "@/app/components/pagination";
 import { RemoveFilterButtons } from "@/app/components/remove-filter-buttons";
 
 import { contentIndex } from "../algolia";
-import { conversationImageBucket, getSignedUrl } from "../storage";
 
-type ContentHitWithSignedUrl = ContentHit & { signedUrl: string };
+type ContentHitWithSignedUrl = ContentHit & { imageSrc: string };
 
 export default async function Home({
   searchParams,
@@ -29,26 +28,13 @@ export default async function Home({
       ? searchParams.type.map((type) => `type:${`'${type}'`}`).join(" OR ")
       : undefined;
 
-  let { hits, nbHits } = await contentIndex.search<ContentHitWithSignedUrl>(
+  const { hits, nbHits } = await contentIndex.search<ContentHitWithSignedUrl>(
     "",
     {
       hitsPerPage,
       page: parseInt(searchParams.page || "0"),
       filters: typeFilters ? `${typeFilters}` : undefined,
     }
-  );
-
-  hits = await Promise.all(
-    hits.map(async (hit) => {
-      const signedUrl = await getSignedUrl({
-        filePath: `${hit.situationId}.webp`,
-        bucket: conversationImageBucket,
-      });
-      return {
-        ...hit,
-        signedUrl,
-      };
-    })
   );
 
   return (
@@ -60,16 +46,12 @@ export default async function Home({
             <Link href={`conversation/${hit.objectID}`} key={hit.objectID}>
               <Card
                 size="medium"
-                image={
-                  hit.signedUrl
-                    ? {
-                        src: hit.signedUrl,
-                        width: 1000,
-                        height: 1000,
-                        alt: `Vibrant Vietnamese folk painting of ${hit.situation}`,
-                      }
-                    : undefined
-                }
+                image={{
+                  src: `https://storage.googleapis.com/conversation-dalee-images/${hit.situationId}.webp`,
+                  width: 1000,
+                  height: 1000,
+                  alt: `Vibrant Vietnamese folk painting of ${hit.situation}`,
+                }}
                 small={new Date(hit.date).toDateString()}
                 heading={hit.title}
                 subHeading={hit.situation}
