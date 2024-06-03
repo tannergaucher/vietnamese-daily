@@ -89,29 +89,27 @@ function createConversationImage(_a) {
         if (!completion.data[0].url) {
             throw new Error("No image returned from OpenAI");
         }
-        if (completion.data[0].url) {
-            const response = yield fetch(completion.data[0].url);
-            const blob = yield response.blob();
-            const writeFile = util.promisify(fs.writeFile);
-            const imageFile = `${conversationSituationId}.webp`;
-            const buffer = yield blob.arrayBuffer();
-            const uint8Array = new Uint8Array(buffer);
-            writeFile(imageFile, uint8Array, "binary");
-            const bucketName = `conversation-dalee-images`;
-            const bucket = storage.bucket(bucketName);
-            yield bucket.upload(imageFile, {
-                destination: `${conversationSituationId}.webp`,
-            });
-            const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.webp`;
-            yield prisma.conversationSituation.update({
-                where: {
-                    id: conversationSituationId,
-                },
-                data: {
-                    imageSrc: gcsUri,
-                },
-            });
-        }
+        const response = yield fetch(completion.data[0].url);
+        const blob = yield response.blob();
+        const writeFile = util.promisify(fs.writeFile);
+        const imageFile = `${conversationSituationId}.webp`;
+        const buffer = yield blob.arrayBuffer();
+        const uint8Array = new Uint8Array(buffer);
+        writeFile(imageFile, uint8Array, "binary");
+        const bucketName = `conversation-dalee-images`;
+        const bucket = storage.bucket(bucketName);
+        yield bucket.upload(imageFile, {
+            destination: `${conversationSituationId}.webp`,
+        });
+        const gcsUri = `https://storage.googleapis.com/${bucketName}/${conversationSituationId}.webp`;
+        yield prisma.conversationSituation.update({
+            where: {
+                id: conversationSituationId,
+            },
+            data: {
+                imageSrc: gcsUri,
+            },
+        });
     });
 }
 exports.createConversationImage = createConversationImage;

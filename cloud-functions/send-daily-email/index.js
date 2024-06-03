@@ -82,7 +82,9 @@ function sendDailyEmail(_a) {
                 .join("\n"),
             html: `
       <h1>${conversation.title}</h1>
-      <a href={https://vietnamesedaily.vercel.app/conversation/${conversation.id}}>
+      <a 
+      href="https://vietnamesedaily.vercel.app/conversation/${conversation.id}"
+      >
       <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px;">
         Open Conversation
       </button>

@@ -2,6 +2,7 @@
   "steps": [
     {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "dir": "cloud-functions/fetch-situation-for-creating-dialog",
       "args": [
         "gcloud",
         "functions",
@@ -12,7 +13,8 @@
         "--source=.",
         "--runtime=nodejs18",
         "--entry-point=fetchSituationForCreatingDialog",
-        "--trigger-topic=fetch-situation-for-creating-dialog"
+        "--trigger-topic=fetch-situation-for-creating-dialog",
+        "--retry"
       ],
       "secretEnv": ["DATABASE_URL"]
     }
