@@ -6,7 +6,7 @@
     },
     {
       "name": "node:18",
-      "args": ["tsc"]
+      "args": ["npx", "tsc"]
     },
     {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
