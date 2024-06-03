@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "deploy": "npm run build && gcloud builds submit --config cloudbuild.json"
+    "deploy": "npm run build && gcloud builds submit --config cloudbuild.json",
+    "postinstall": "tsc"
   },
   "author": "",
   "license": "ISC",
