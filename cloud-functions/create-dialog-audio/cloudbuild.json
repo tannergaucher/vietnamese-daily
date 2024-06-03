@@ -2,6 +2,7 @@
   "steps": [
     {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "dir": "cloud-functions/create-dialog-audio",
       "args": [
         "gcloud",
         "functions",

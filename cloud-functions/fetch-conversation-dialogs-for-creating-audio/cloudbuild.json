@@ -2,6 +2,7 @@
   "steps": [
     {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "dir": "cloud-functions/fetch-conversation-dialogs-for-creating-audio",
       "args": [
         "gcloud",
         "functions",
