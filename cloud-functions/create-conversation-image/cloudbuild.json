@@ -1,6 +1,15 @@
 {
   "steps": [
     {
+      "name": "gcr.io/cloud-builders/npm",
+      "args": ["install"]
+    },
+    {
+      "name": "node:16",
+      "entrypoint": "tsc",
+      "args": ["--outDir", "out"]
+    },
+    {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
       "args": [
         "gcloud",
@@ -9,7 +18,7 @@
         "createConversationImage",
         "--gen2",
         "--region=us-east1",
-        "--source=cloud-functions/create-conversation-image",
+        "--source=out",
         "--runtime=nodejs18",
         "--entry-point=index.js",
         "--trigger-topic=create-conversation-image"
@@ -17,18 +26,16 @@
       "secretEnv": ["DATABASE_URL", "OPENAI_API_KEY"]
     }
   ],
-  "availableSecrets": {
-    "secretManager": [
-      {
-        "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
-        "env": "DATABASE_URL"
-      },
-      {
-        "versionName": "projects/625494448696/secrets/OPENAI_API_KEY/versions/1",
-        "env": "OPENAI_API_KEY"
-      }
-    ]
-  },
+  "availableSecrets": [
+    {
+      "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
+      "env": "DATABASE_URL"
+    },
+    {
+      "versionName": "projects/625494448696/secrets/OPENAI_API_KEY/versions/1",
+      "env": "OPENAI_API_KEY"
+    }
+  ],
   "options": {
     "logging": "CLOUD_LOGGING_ONLY"
   }
