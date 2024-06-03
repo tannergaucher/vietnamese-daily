@@ -1,16 +1,6 @@
 {
   "steps": [
     {
-      "name": "gcr.io/cloud-builders/npm",
-      "dir": "cloud-functions/create-conversation-image",
-      "args": ["install"]
-    },
-    {
-      "name": "node:18",
-      "dir": "cloud-functions/create-conversation-image",
-      "args": ["npx", "tsc"]
-    },
-    {
       "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
       "dir": "cloud-functions/create-conversation-image",
       "args": [
