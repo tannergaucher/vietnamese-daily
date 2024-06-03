@@ -9,9 +9,9 @@
         "createConversationImage",
         "--gen2",
         "--region=us-east1",
-        "--source=.",
+        "--source=cloud-functions/create-conversation-image",
         "--runtime=nodejs18",
-        "--entry-point=createConversationImage",
+        "--entry-point=index.js",
         "--trigger-topic=create-conversation-image"
       ],
       "secretEnv": ["DATABASE_URL", "OPENAI_API_KEY"]
