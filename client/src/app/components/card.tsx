@@ -65,7 +65,7 @@ export function Card({
             </small>
           ) : null}
           {badge ? (
-            <span className="inline-flex items-center w-fit px-2.5 py-1 rounded-full text-xs text-right font-medium bg-gray-300 text-text-light dark:bg-bg-2-dark dark:text-text-dark">
+            <span className="inline-flex items-center w-fit px-2.5 py-1 rounded-full text-xs text-right font-medium bg-gray-300 text-text-light dark:bg-bg-2-dark dark:text-text-dark capitalize">
               {badge}
             </span>
           ) : null}
