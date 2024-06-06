@@ -1,5 +1,4 @@
 import {
-  Topic,
   CloudEventData,
   FetchUsersForDailyEmailEvent,
   SendDailyEmailEvent,
@@ -55,7 +54,7 @@ export async function fetchUsersForDailyEmail({
       email: user.email,
     };
 
-    pubsub.topic(Topic.SendDailyEmail).publishMessage({
+    pubsub.topic("send-daily-email").publishMessage({
       json,
     });
   }
