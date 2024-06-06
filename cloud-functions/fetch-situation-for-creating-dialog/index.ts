@@ -68,7 +68,9 @@ export async function fetchSituationForCreatingDialog({
       fromFetchFail: true,
     };
 
-    pubsub.topic("create-conversation-situation").publishMessage({ json });
+    pubsub
+      .topic(pubsub.Topic.CreateConversationSituation)
+      .publishMessage({ json });
 
     return;
   }
