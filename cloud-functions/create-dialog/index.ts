@@ -116,7 +116,7 @@ export async function createDialog({
       conversationSituationId: situationId,
     };
 
-    pubsub.topic("fetch-conversation-image").publishMessage({
+    pubsub.topic("create-conversation-image").publishMessage({
       json: conversationImageJson,
     });
 
