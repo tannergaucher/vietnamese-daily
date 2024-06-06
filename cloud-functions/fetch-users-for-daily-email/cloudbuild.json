@@ -15,7 +15,7 @@
         "--entry-point=fetchUsersForDailyEmail",
         "--trigger-topic=fetch-users-for-daily-email"
       ],
-      "secretEnv": ["DATABASE_URL"]
+      "secretEnv": ["DATABASE_URL", "SERVICE_ACCOUNT"]
     }
   ],
   "availableSecrets": {

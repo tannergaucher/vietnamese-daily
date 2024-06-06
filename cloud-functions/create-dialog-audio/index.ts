@@ -31,7 +31,7 @@ functions.cloudEvent(
 
     const storage = new Storage({
       projectId: "daily-vietnamese",
-      keyFilename: "./service-account.json",
+      keyFile: process.env.SERVICE_ACCOUNT,
     });
 
     const pubsub = new PubSub({

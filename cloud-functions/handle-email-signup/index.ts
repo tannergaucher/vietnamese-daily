@@ -1,5 +1,4 @@
 import {
-  Topic,
   SendConfirmationEmailEvent,
   HandleEmailSignupRequestBody,
 } from "@functional-vietnamese/cloud-function-events";
@@ -31,7 +30,7 @@ functions.http("handleEmailSignup", async (req, res) => {
 
   const pubsub = new PubSub({
     projectId: "daily-vietnamese",
-    keyFilename: "./service-account.json",
+    keyFile: process.env.SERVICE_ACCOUNT,
   });
 
   await handleEmailSignup({
@@ -63,7 +62,7 @@ export async function handleEmailSignup({
     email,
   };
 
-  pubsub.topic(Topic.SendConfirmationEmail).publishMessage({
+  pubsub.topic("send-confirmation-email").publishMessage({
     json,
   });
 }
