@@ -9,6 +9,9 @@ import { PubSub } from "@google-cloud/pubsub";
 import { PrismaClient } from "./generated";
 
 functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
+  let retryCount = 0;
+  const maxRetries = 3;
+
   const prisma = new PrismaClient();
 
   const pubsub = new PubSub({
@@ -16,15 +19,25 @@ functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
     keyFilename: "./service-account.json",
   });
 
-  await fetchSituationForCreatingDialog({
-    prisma,
-    pubsub,
-  });
+  while (retryCount < maxRetries) {
+    try {
+      await fetchSituationForCreatingDialog({
+        prisma,
+        pubsub,
+      });
+
+      break;
+    } catch (error) {
+      retryCount++;
+      console.log(`Attempt ${retryCount} failed, retrying...`);
+    }
+  }
+
+  if (retryCount === maxRetries) {
+    console.error("Max retries exceeded");
+    // Handle the error
+  }
 });
-
-let retryCount = 0;
-const maxRetries = 5;
-
 export async function fetchSituationForCreatingDialog({
   prisma,
   pubsub,
@@ -32,42 +45,30 @@ export async function fetchSituationForCreatingDialog({
   prisma: PrismaClient;
   pubsub: PubSub;
 }) {
-  try {
-    const situationToCreateDialog =
-      await prisma.conversationSituation.findFirst({
-        where: {
-          conversationId: null,
-        },
-        select: {
-          id: true,
-        },
-      });
+  const situationToCreateDialog = await prisma.conversationSituation.findFirst({
+    where: {
+      conversationId: null,
+    },
+    select: {
+      id: true,
+    },
+  });
 
-    if (!situationToCreateDialog) {
-      const json: CreateConversationSituationEvent = {
-        fromFetchFail: true,
-      };
-
-      pubsub.topic(Topic.CreateConversationSituation).publishMessage({ json });
-
-      return;
-    }
-
-    const json: CreateDialogEvent = {
-      situationId: situationToCreateDialog.id,
+  if (!situationToCreateDialog) {
+    const json: CreateConversationSituationEvent = {
+      fromFetchFail: true,
     };
 
-    pubsub.topic(Topic.CreateDialog).publishMessage({
-      json,
-    });
-  } catch (error) {
-    retryCount++;
-    if (retryCount <= maxRetries) {
-      console.log(`Attempt ${retryCount} failed, retrying...`);
+    pubsub.topic(Topic.CreateConversationSituation).publishMessage({ json });
 
-      await fetchSituationForCreatingDialog({ prisma, pubsub });
-    } else {
-      console.error(`Max retries exceeded: ${error}`);
-    }
+    return;
   }
+
+  const json: CreateDialogEvent = {
+    situationId: situationToCreateDialog.id,
+  };
+
+  pubsub.topic(Topic.CreateDialog).publishMessage({
+    json,
+  });
 }
