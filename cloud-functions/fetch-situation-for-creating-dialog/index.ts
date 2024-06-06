@@ -37,7 +37,7 @@ functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
       );
 
       if (retryCount === maxRetries) {
-        throw new Error("Max retries exceeded");
+        throw new Error("Max retries exceeded" + error);
       }
     }
   }
