@@ -1,5 +1,5 @@
 import {
-  Topic,
+  // Topic,
   CreateDialogEvent,
   CreateConversationSituationEvent,
 } from "@functional-vietnamese/cloud-function-events";
@@ -64,7 +64,7 @@ export async function fetchSituationForCreatingDialog({
       fromFetchFail: true,
     };
 
-    pubsub.topic(Topic.CreateConversationSituation).publishMessage({ json });
+    pubsub.topic("create-conversation-situation").publishMessage({ json });
 
     return;
   }
@@ -73,7 +73,7 @@ export async function fetchSituationForCreatingDialog({
     situationId: situationToCreateDialog.id,
   };
 
-  pubsub.topic(Topic.CreateDialog).publishMessage({
+  pubsub.topic("create-dialog").publishMessage({
     json,
   });
 }
