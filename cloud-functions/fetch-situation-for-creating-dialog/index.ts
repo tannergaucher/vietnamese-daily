@@ -29,15 +29,15 @@ functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
       break;
     } catch (error) {
       retryCount++;
-      console.log(`Attempt ${retryCount} failed, retrying...`);
+      console.log(`Attempt ${retryCount} failed, retrying...`, error);
     }
   }
 
   if (retryCount === maxRetries) {
-    console.error("Max retries exceeded");
-    // Handle the error
+    throw new Error("Max retries exceeded");
   }
 });
+
 export async function fetchSituationForCreatingDialog({
   prisma,
   pubsub,
