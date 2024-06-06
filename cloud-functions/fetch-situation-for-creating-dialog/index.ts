@@ -15,7 +15,7 @@ functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
 
   const pubsub = new PubSub({
     projectId: "daily-vietnamese",
-    keyFilename: "./service-account.json",
+    keyFilename: process.env.SERVICE_ACCOUNT,
   });
 
   while (retryCount < maxRetries) {
