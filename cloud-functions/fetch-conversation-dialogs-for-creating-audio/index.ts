@@ -1,5 +1,4 @@
 import {
-  Topic,
   CloudEventData,
   CreateDialogAudioEvent,
   FetchConversationDialogsForCreatingAudioEvent,
@@ -58,7 +57,7 @@ export async function fetchConversationDialogsForCreatingAudio({
       dialogId: dialog.id,
     };
 
-    pubsub.topic(Topic.CreateDialogAudio).publishMessage({
+    pubsub.topic("create-dialog-audio").publishMessage({
       json,
     });
   }

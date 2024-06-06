@@ -1,5 +1,4 @@
 import {
-  Topic,
   CloudEventData,
   FetchDialogWordsForCreatingEvent,
   CreateWordEvent,
@@ -56,7 +55,7 @@ export async function fetchDialogWordsForCreating({
       dialogId: dialog.id,
     };
 
-    pubsub.topic(Topic.CreateWord).publishMessage({
+    pubsub.topic("create-word").publishMessage({
       json,
     });
   }

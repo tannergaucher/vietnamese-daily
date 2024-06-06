@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as util from "util";
 
 import {
-  Topic,
   CloudEventData,
   CreateDialogAudioEvent,
   IndexContentEvent,
@@ -139,7 +138,7 @@ export async function createDialogAudio({
       conversationId: dialog.conversationId,
     };
 
-    pubsub.topic(Topic.IndexContent).publishMessage({
+    pubsub.topic("index-content").publishMessage({
       json,
     });
   }
