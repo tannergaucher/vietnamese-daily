@@ -13,8 +13,7 @@
         "--source=.",
         "--runtime=nodejs18",
         "--entry-point=fetchSituationForCreatingDialog",
-        "--trigger-topic=fetch-situation-for-creating-dialog",
-        "--retry"
+        "--trigger-topic=fetch-situation-for-creating-dialog"
       ],
       "secretEnv": ["DATABASE_URL"]
     }

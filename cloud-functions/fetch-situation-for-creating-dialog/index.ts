@@ -22,6 +22,9 @@ functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
   });
 });
 
+let retryCount = 0;
+const maxRetries = 5;
+
 export async function fetchSituationForCreatingDialog({
   prisma,
   pubsub,
@@ -29,30 +32,42 @@ export async function fetchSituationForCreatingDialog({
   prisma: PrismaClient;
   pubsub: PubSub;
 }) {
-  const situationToCreateDialog = await prisma.conversationSituation.findFirst({
-    where: {
-      conversationId: null,
-    },
-    select: {
-      id: true,
-    },
-  });
+  try {
+    const situationToCreateDialog =
+      await prisma.conversationSituation.findFirst({
+        where: {
+          conversationId: null,
+        },
+        select: {
+          id: true,
+        },
+      });
 
-  if (!situationToCreateDialog) {
-    const json: CreateConversationSituationEvent = {
-      fromFetchFail: true,
+    if (!situationToCreateDialog) {
+      const json: CreateConversationSituationEvent = {
+        fromFetchFail: true,
+      };
+
+      pubsub.topic(Topic.CreateConversationSituation).publishMessage({ json });
+
+      return;
+    }
+
+    const json: CreateDialogEvent = {
+      situationId: situationToCreateDialog.id,
     };
 
-    pubsub.topic(Topic.CreateConversationSituation).publishMessage({ json });
+    pubsub.topic(Topic.CreateDialog).publishMessage({
+      json,
+    });
+  } catch (error) {
+    retryCount++;
+    if (retryCount <= maxRetries) {
+      console.log(`Attempt ${retryCount} failed, retrying...`);
 
-    return;
+      await fetchSituationForCreatingDialog({ prisma, pubsub });
+    } else {
+      console.error(`Max retries exceeded: ${error}`);
+    }
   }
-
-  const json: CreateDialogEvent = {
-    situationId: situationToCreateDialog.id,
-  };
-
-  pubsub.topic(Topic.CreateDialog).publishMessage({
-    json,
-  });
 }
