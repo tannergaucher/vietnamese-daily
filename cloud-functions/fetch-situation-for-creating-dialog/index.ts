@@ -4,9 +4,13 @@ import {
   CreateConversationSituationEvent,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
-import { PubSub } from "@google-cloud/pubsub";
+import { PubSub as GooglePubSub } from "@google-cloud/pubsub";
 
 import { PrismaClient } from "./generated";
+
+class PubSub extends GooglePubSub {
+  Topic = Topic;
+}
 
 functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
   let retryCount = 0;
@@ -64,7 +68,9 @@ export async function fetchSituationForCreatingDialog({
       fromFetchFail: true,
     };
 
-    pubsub.topic(Topic.CreateConversationSituation).publishMessage({ json });
+    pubsub
+      .topic(pubsub.Topic.CreateConversationSituation)
+      .publishMessage({ json });
 
     return;
   }
@@ -73,7 +79,7 @@ export async function fetchSituationForCreatingDialog({
     situationId: situationToCreateDialog.id,
   };
 
-  pubsub.topic(Topic.CreateDialog).publishMessage({
+  pubsub.topic(pubsub.Topic.CreateDialog).publishMessage({
     json,
   });
 }
