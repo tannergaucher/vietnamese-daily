@@ -15,7 +15,7 @@ functions.cloudEvent("createConversationSituation", async () => {
 
   const pubsub = new PubSub({
     projectId: "daily-vietnamese",
-    keyFilename: "./service-account.json",
+    keyFile: process.env.SERVICE_ACCOUNT,
   });
 
   const openai = new OpenAi({

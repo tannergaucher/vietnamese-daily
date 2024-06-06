@@ -15,7 +15,12 @@
         "--entry-point=createConversationSituation",
         "--trigger-topic=create-conversation-situation"
       ],
-      "secretEnv": ["DATABASE_URL", "OPENAI_API_KEY", "OPENAI_MODEL"]
+      "secretEnv": [
+        "DATABASE_URL",
+        "SERVICE_ACCOUNT",
+        "OPENAI_API_KEY",
+        "OPENAI_MODEL"
+      ]
     }
   ],
   "availableSecrets": {
@@ -23,6 +28,10 @@
       {
         "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
         "env": "DATABASE_URL"
+      },
+      {
+        "versionName": "projects/625494448696/secrets/SERVICE_ACCOUNT/versions/1",
+        "env": "SERVICE_ACCOUNT"
       },
       {
         "versionName": "projects/625494448696/secrets/OPENAI_API_KEY/versions/1",

@@ -20,7 +20,7 @@ functions.cloudEvent(
 
     const pubsub = new PubSub({
       projectId: "daily-vietnamese",
-      keyFilename: "./service-account.json",
+      keyFile: process.env.SERVICE_ACCOUNT,
     });
 
     await createWord({
