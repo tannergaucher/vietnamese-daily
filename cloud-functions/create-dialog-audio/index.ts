@@ -24,7 +24,7 @@ functions.cloudEvent(
 
     const textToSpeech = new TextToSpeechClient({
       projectId: "daily-vietnamese",
-      keyFilename: "./service-account.json",
+      keyFilename: process.env.SERVICE_ACCOUNT,
     });
 
     const prisma = new PrismaClient();
@@ -36,7 +36,7 @@ functions.cloudEvent(
 
     const pubsub = new PubSub({
       projectId: "daily-vietnamese",
-      keyFilename: "./service-account.json",
+      keyFilename: process.env.SERVICE_ACCOUNT,
     });
 
     await createDialogAudio({
