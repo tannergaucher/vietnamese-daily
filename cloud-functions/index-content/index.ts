@@ -2,12 +2,10 @@ import {
   CloudEventData,
   parseCloudEventData,
   IndexContentEvent,
-  FetchUsersForDailyEmailEvent,
   getConversationTypeFromEnum,
   ConversationSituationType,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
-import { PubSub } from "@google-cloud/pubsub";
 import algoliasearch, { SearchClient } from "algoliasearch";
 
 import { PrismaClient } from "./generated";
@@ -19,9 +17,10 @@ functions.cloudEvent(
       throw new Error("Algolia credentials are missing");
     }
 
-    const { conversationId } = parseCloudEventData<IndexContentEvent>({
-      cloudEvent,
-    });
+    const { conversationId, publishedAt } =
+      parseCloudEventData<IndexContentEvent>({
+        cloudEvent,
+      });
 
     const prisma = new PrismaClient();
 
@@ -30,33 +29,28 @@ functions.cloudEvent(
       process.env.ALGOLIA_API_KEY
     );
 
-    const pubsub = new PubSub({
-      projectId: "daily-vietnamese",
-      keyFile: process.env.SERVICE_ACCOUNT,
-    });
-
     await indexContent({
       conversationId,
+      publishedAt,
       prisma,
       algolia,
-      pubsub,
     });
 
     return { conversationId };
   }
 );
 
-export async function indexContent({
-  conversationId,
-  prisma,
-  algolia,
-  pubsub,
-}: {
-  conversationId: string;
+type IndexContentParams = IndexContentEvent & {
   prisma: PrismaClient;
   algolia: SearchClient;
-  pubsub: PubSub;
-}) {
+};
+
+export async function indexContent({
+  conversationId,
+  publishedAt,
+  prisma,
+  algolia,
+}: IndexContentParams) {
   const conversation = await prisma.conversation.findUniqueOrThrow({
     where: {
       id: conversationId,
@@ -70,7 +64,7 @@ export async function indexContent({
   const contentRecord = {
     objectID: conversation.id,
     title: conversation.title,
-    date: conversation.createdAt,
+    date: publishedAt ?? new Date(),
     epochDate: conversation.createdAt.getTime(),
     situation: conversation.situation?.text,
     situationId: conversation.situation?.id,
@@ -90,21 +84,14 @@ export async function indexContent({
     .then(async ({ objectID }) => {
       console.log("Saved object", objectID);
 
-      const json: FetchUsersForDailyEmailEvent = {
-        conversationId,
-      };
-
       await prisma.conversation.update({
         where: {
           id: conversationId,
         },
         data: {
           published: true,
+          date: publishedAt ?? new Date(),
         },
-      });
-
-      pubsub.topic("fetch-users-for-daily-email").publishMessage({
-        json,
       });
     })
     .catch((error) => {
