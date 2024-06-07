@@ -6189,7 +6189,6 @@ export namespace Prisma {
 
   export type ConversationWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    date?: Date | string
     AND?: ConversationWhereInput | ConversationWhereInput[]
     OR?: ConversationWhereInput[]
     NOT?: ConversationWhereInput | ConversationWhereInput[]
@@ -6197,9 +6196,10 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     published?: BoolFilter<"Conversation"> | boolean
+    date?: DateTimeFilter<"Conversation"> | Date | string
     dialog?: DialogListRelationFilter
     situation?: XOR<ConversationSituationNullableRelationFilter, ConversationSituationWhereInput> | null
-  }, "id" | "date">
+  }, "id">
 
   export type ConversationOrderByWithAggregationInput = {
     id?: SortOrder
