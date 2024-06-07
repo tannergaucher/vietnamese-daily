@@ -46,7 +46,7 @@ export async function sendDailyEmail({
   sgMail,
   conversationDate,
 }: SendDailyEmailParams) {
-  const conversation = await prisma.conversation.findUniqueOrThrow({
+  const conversation = await prisma.conversation.findFirstOrThrow({
     where: {
       date: conversationDate,
     },
