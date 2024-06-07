@@ -88,6 +88,7 @@ export async function indexContent({
         },
         data: {
           published: true,
+          date: publishedAt ?? new Date(),
         },
       });
     })
