@@ -42,10 +42,12 @@ export async function indexContent({
   conversationId,
   prisma,
   algolia,
+  publishedAt,
 }: {
   conversationId: string;
   prisma: PrismaClient;
   algolia: SearchClient;
+  publishedAt?: Date;
 }) {
   const conversation = await prisma.conversation.findUniqueOrThrow({
     where: {
@@ -60,7 +62,7 @@ export async function indexContent({
   const contentRecord = {
     objectID: conversation.id,
     title: conversation.title,
-    date: conversation.createdAt,
+    date: publishedAt ?? new Date(),
     epochDate: conversation.createdAt.getTime(),
     situation: conversation.situation?.text,
     situationId: conversation.situation?.id,
