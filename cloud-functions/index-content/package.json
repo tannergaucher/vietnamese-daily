@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@functional-vietnamese/cloud-function-events": "0.0.22",
+    "@functional-vietnamese/cloud-function-events": "0.0.23",
     "@google-cloud/functions-framework": "^3.3.0",
     "algoliasearch": "^4.23.3"
   },

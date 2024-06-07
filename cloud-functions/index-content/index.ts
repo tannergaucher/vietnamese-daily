@@ -46,13 +46,14 @@ type IndexContentParams = IndexContentEvent & {
 };
 
 export async function indexContent({
-  conversationId,
   publishedAt,
+  conversationId,
   prisma,
   algolia,
 }: IndexContentParams) {
-  const conversation = await prisma.conversation.findUniqueOrThrow({
+  const conversation = await prisma.conversation.findFirstOrThrow({
     where: {
+      published: false,
       id: conversationId,
     },
     include: {
@@ -86,7 +87,7 @@ export async function indexContent({
 
       await prisma.conversation.update({
         where: {
-          id: conversationId,
+          id: conversation.id,
         },
         data: {
           published: true,
