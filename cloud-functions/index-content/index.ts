@@ -2,12 +2,10 @@ import {
   CloudEventData,
   parseCloudEventData,
   IndexContentEvent,
-  FetchUsersForDailyEmailEvent,
   getConversationTypeFromEnum,
   ConversationSituationType,
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
-import { PubSub } from "@google-cloud/pubsub";
 import algoliasearch, { SearchClient } from "algoliasearch";
 
 import { PrismaClient } from "./generated";
@@ -30,16 +28,10 @@ functions.cloudEvent(
       process.env.ALGOLIA_API_KEY
     );
 
-    const pubsub = new PubSub({
-      projectId: "daily-vietnamese",
-      keyFile: process.env.SERVICE_ACCOUNT,
-    });
-
     await indexContent({
       conversationId,
       prisma,
       algolia,
-      pubsub,
     });
 
     return { conversationId };
@@ -50,12 +42,10 @@ export async function indexContent({
   conversationId,
   prisma,
   algolia,
-  pubsub,
 }: {
   conversationId: string;
   prisma: PrismaClient;
   algolia: SearchClient;
-  pubsub: PubSub;
 }) {
   const conversation = await prisma.conversation.findUniqueOrThrow({
     where: {
@@ -90,10 +80,6 @@ export async function indexContent({
     .then(async ({ objectID }) => {
       console.log("Saved object", objectID);
 
-      const json: FetchUsersForDailyEmailEvent = {
-        conversationId,
-      };
-
       await prisma.conversation.update({
         where: {
           id: conversationId,
@@ -101,10 +87,6 @@ export async function indexContent({
         data: {
           published: true,
         },
-      });
-
-      pubsub.topic("fetch-users-for-daily-email").publishMessage({
-        json,
       });
     })
     .catch((error) => {
