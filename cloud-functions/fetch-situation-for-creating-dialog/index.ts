@@ -8,9 +8,6 @@ import { PubSub } from "@google-cloud/pubsub";
 import { PrismaClient } from "./generated";
 
 functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
-  let retryCount = 0;
-  const maxRetries = 3;
-
   const prisma = new PrismaClient();
 
   const pubsub = new PubSub({
@@ -18,27 +15,13 @@ functions.cloudEvent("fetchSituationForCreatingDialog", async () => {
     keyFilename: process.env.SERVICE_ACCOUNT,
   });
 
-  while (retryCount < maxRetries) {
-    try {
-      await fetchSituationForCreatingDialog({
-        prisma,
-        pubsub,
-      });
-
-      break;
-    } catch (error) {
-      retryCount++;
-
-      console.log(
-        `Attempt ${retryCount} failed, ${
-          retryCount !== maxRetries ? "retrying" : "aborting"
-        }`
-      );
-
-      if (retryCount === maxRetries) {
-        throw new Error("Max retries exceeded" + error);
-      }
-    }
+  try {
+    await fetchSituationForCreatingDialog({
+      prisma,
+      pubsub,
+    });
+  } catch (error) {
+    throw new Error("Error fetching situation:" + error);
   }
 });
 
