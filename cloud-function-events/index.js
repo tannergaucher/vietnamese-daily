@@ -23,9 +23,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getConversationTypeFromEnum = exports.CONVERSATION_SITUATION_TYPES = exports.parseCloudEventData = exports.functions = void 0;
+exports.getConversationTypeFromEnum = exports.CONVERSATION_SITUATION_TYPES = exports.parseCloudEventData = exports.Topic = exports.functions = void 0;
 const functions = __importStar(require("@google-cloud/functions-framework"));
 exports.functions = functions;
+var Topic;
+(function (Topic) {
+    Topic["CreateConversationImage"] = "create-conversation-image";
+    Topic["CreateConversationSituation"] = "create-conversation-situation";
+    Topic["CreateDialog"] = "create-dialog";
+    Topic["CreateDialogAudio"] = "create-dialog-audio";
+    Topic["CreateWord"] = "create-word";
+    Topic["CreateWordAudio"] = "create-word-audio";
+    Topic["FetchConversationDialogsForCreatingAudio"] = "fetch-conversation-dialogs-for-creating-audio";
+    Topic["FetchSituationForCreatingDialog"] = "fetch-situation-for-creating-dialog";
+    Topic["FetchDialogWordsForCreating"] = "fetch-dialog-words-for-creating";
+    Topic["FetchUsersForDailyEmail"] = "fetch-users-for-daily-email";
+    Topic["IndexContent"] = "index-content";
+    Topic["SendDailyEmail"] = "send-daily-email";
+    Topic["SendConfirmationEmail"] = "send-confirmation-email";
+})(Topic || (exports.Topic = Topic = {}));
 function parseCloudEventData({ cloudEvent, }) {
     var _a, _b;
     if (!((_b = (_a = cloudEvent.data) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.data)) {

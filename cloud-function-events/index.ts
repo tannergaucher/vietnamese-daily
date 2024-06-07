@@ -50,17 +50,13 @@ export interface FetchDialogWordsForCreatingEvent {
   dialogId: string;
 }
 
-export interface FetchUsersForDailyEmailEvent {
-  conversationId: string;
-}
-
 export interface SendConfirmationEmailEvent {
   email: string;
 }
 
 export interface SendDailyEmailEvent {
   email: string;
-  conversationId: string;
+  conversationDate: Date;
 }
 
 export interface FetchConversationDialogsForCreatingAudioEvent {
@@ -91,7 +87,7 @@ export interface FetchUsersForDailyEmailEvent {
 
 export interface SendDailyEmailEvent {
   email: string;
-  conversationId: string;
+  conversationDate: Date;
 }
 
 export interface CreateDialogEvent {

@@ -11,9 +11,10 @@ import { PrismaClient } from "./generated";
 functions.cloudEvent(
   "sendDailyEmail",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    const { email, conversationId } = parseCloudEventData<SendDailyEmailEvent>({
-      cloudEvent,
-    });
+    const { email, conversationDate } =
+      parseCloudEventData<SendDailyEmailEvent>({
+        cloudEvent,
+      });
 
     if (!process.env.SENDGRID_API_KEY) {
       throw new Error("SENDGRID_API_KEY is required");
@@ -27,7 +28,7 @@ functions.cloudEvent(
 
     sendDailyEmail({
       email,
-      conversationId,
+      conversationDate,
       prisma,
       sgMail,
     });
@@ -40,14 +41,14 @@ type SendDailyEmailParams = SendDailyEmailEvent & {
 };
 
 export async function sendDailyEmail({
-  conversationId,
   email,
   prisma,
   sgMail,
+  conversationDate,
 }: SendDailyEmailParams) {
   const conversation = await prisma.conversation.findUniqueOrThrow({
     where: {
-      id: conversationId,
+      date: conversationDate,
     },
     select: {
       id: true,
