@@ -116,6 +116,7 @@ export interface CreateConversationImageEvent {
 
 export interface IndexContentEvent {
   conversationId: string;
+  publishedAt?: Date;
 }
 
 export interface ContentHit {
