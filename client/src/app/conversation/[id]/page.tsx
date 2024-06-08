@@ -69,7 +69,11 @@ export default async function Page({ params }: { params: { id: string } }) {
               }
             : undefined
         }
-        small={new Date(conversation.createdAt).toDateString()}
+        small={
+          conversation.date
+            ? new Date(conversation.date).toDateString()
+            : undefined
+        }
         heading={conversation.title}
         subHeading={conversation.situation?.text}
       >
