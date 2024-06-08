@@ -9,9 +9,9 @@ import { RemoveFilterButtons } from "@/app/components/remove-filter-buttons";
 
 import { contentIndex } from "../algolia";
 
-type ContentHitWithSignedUrl = ContentHit & { imageSrc: string };
+type ContentWithSrc = ContentHit & { imageSrc: string };
 
-export default async function Home({
+export default async function Page({
   searchParams,
 }: {
   searchParams: {
@@ -28,14 +28,11 @@ export default async function Home({
       ? searchParams.type.map((type) => `type:${`'${type}'`}`).join(" OR ")
       : undefined;
 
-  const { hits, nbHits } = await contentIndex.search<ContentHitWithSignedUrl>(
-    "",
-    {
-      hitsPerPage,
-      page: parseInt(searchParams.page || "0"),
-      filters: typeFilters ? `${typeFilters}` : undefined,
-    }
-  );
+  const { hits, nbHits } = await contentIndex.search<ContentWithSrc>("", {
+    hitsPerPage,
+    page: parseInt(searchParams.page || "0"),
+    filters: typeFilters ? `${typeFilters}` : undefined,
+  });
 
   return (
     <div>
