@@ -62,11 +62,13 @@ export async function indexContent({
     },
   });
 
+  const contentDate = publishedAt ?? new Date();
+
   const contentRecord = {
     objectID: conversation.id,
     title: conversation.title,
-    date: publishedAt ?? new Date(),
-    epochDate: publishedAt ? publishedAt.getTime() : new Date().getTime(),
+    date: contentDate,
+    epochDate: contentDate.getTime(),
     situation: conversation.situation?.text,
     situationId: conversation.situation?.id,
     type: conversation.situation?.type
