@@ -7,6 +7,7 @@ import {
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import algoliasearch, { SearchClient } from "algoliasearch";
+import moment from "moment-timezone";
 
 import { PrismaClient } from "./generated";
 
@@ -31,7 +32,7 @@ functions.cloudEvent(
 
     await indexContent({
       conversationId,
-      publishedAt,
+      publishedAt: moment(publishedAt).tz("Asia/Ho_Chi_Minh").toDate(),
       prisma,
       algolia,
     });
@@ -62,13 +63,13 @@ export async function indexContent({
     },
   });
 
-  const contentDate = publishedAt ?? new Date();
+  const contentPublishedDate = publishedAt ?? new Date();
 
   const contentRecord = {
     objectID: conversation.id,
     title: conversation.title,
-    date: contentDate,
-    epochDate: contentDate.getTime(),
+    date: contentPublishedDate,
+    epochDate: contentPublishedDate.getTime(),
     situation: conversation.situation?.text,
     situationId: conversation.situation?.id,
     type: conversation.situation?.type
@@ -93,7 +94,7 @@ export async function indexContent({
         },
         data: {
           published: true,
-          date: publishedAt ?? new Date(),
+          date: contentPublishedDate,
         },
       });
     })
