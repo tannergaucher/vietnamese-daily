@@ -7,7 +7,6 @@ import {
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import algoliasearch, { SearchClient } from "algoliasearch";
-import moment from "moment-timezone";
 
 import { PrismaClient } from "./generated";
 
@@ -18,9 +17,10 @@ functions.cloudEvent(
       throw new Error("Algolia credentials are missing");
     }
 
-    const { conversationId } = parseCloudEventData<IndexContentEvent>({
-      cloudEvent,
-    });
+    const { conversationId, publishedAt } =
+      parseCloudEventData<IndexContentEvent>({
+        cloudEvent,
+      });
 
     const prisma = new PrismaClient();
 
@@ -31,7 +31,7 @@ functions.cloudEvent(
 
     await indexContent({
       conversationId,
-      publishedAt: moment().tz("Asia/Ho_Chi_Minh").toDate(),
+      publishedAt,
       prisma,
       algolia,
     });
@@ -63,6 +63,8 @@ export async function indexContent({
   });
 
   const contentPublishedDate = publishedAt ?? new Date();
+
+  console.log("content published date", contentPublishedDate);
 
   const contentRecord = {
     objectID: conversation.id,
