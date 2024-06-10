@@ -62,7 +62,7 @@ export async function indexContent({
     },
   });
 
-  const contentPublishedDate = publishedAt ?? new Date();
+  const contentPublishedDate = publishedAt ? new Date(publishedAt) : new Date();
 
   console.log("content published date", contentPublishedDate);
 
