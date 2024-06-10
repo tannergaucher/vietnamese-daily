@@ -18,10 +18,9 @@ functions.cloudEvent(
       throw new Error("Algolia credentials are missing");
     }
 
-    const { conversationId, publishedAt } =
-      parseCloudEventData<IndexContentEvent>({
-        cloudEvent,
-      });
+    const { conversationId } = parseCloudEventData<IndexContentEvent>({
+      cloudEvent,
+    });
 
     const prisma = new PrismaClient();
 
@@ -32,7 +31,7 @@ functions.cloudEvent(
 
     await indexContent({
       conversationId,
-      publishedAt: moment(publishedAt).tz("Asia/Ho_Chi_Minh").toDate(),
+      publishedAt: moment().tz("Asia/Ho_Chi_Minh").toDate(),
       prisma,
       algolia,
     });
