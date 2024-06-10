@@ -13,8 +13,7 @@
   "dependencies": {
     "@functional-vietnamese/cloud-function-events": "0.0.23",
     "@google-cloud/functions-framework": "^3.3.0",
-    "algoliasearch": "^4.23.3",
-    "moment-timezone": "^0.5.45"
+    "algoliasearch": "^4.23.3"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
