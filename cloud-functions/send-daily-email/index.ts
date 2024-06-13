@@ -55,8 +55,14 @@ export async function sendDailyEmail({
 
   try {
     await sgMail.send(msg);
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to send email");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("Failed to send email:", error.message);
+
+    if (error.body && Array.isArray(error.body.errors)) {
+      console.error("SendGrid errors:", error.body.errors);
+    }
+
+    throw error;
   }
 }
