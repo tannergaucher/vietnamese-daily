@@ -82,6 +82,8 @@ ${conversation.dialog.map((dialog) => `<p>${dialog.vietnamese}</p>`).join("\n")}
       html,
     };
 
+    console.log(json, "json");
+
     pubsub.topic("send-daily-email").publishMessage({
       json,
     });
