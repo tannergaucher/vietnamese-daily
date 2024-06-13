@@ -15,11 +15,10 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@functional-vietnamese/cloud-function-events": "0.0.21",
+    "@functional-vietnamese/cloud-function-events": "0.0.29",
     "@google-cloud/functions-framework": "^3.3.0",
     "@google-cloud/pubsub": "^4.3.3",
     "@sendgrid/mail": "^8.1.1",
-    "cloud-function-events": "^0.0.2",
-    "moment-timezone": "^0.5.45"
+    "cloud-function-events": "^0.0.2"
   }
 }
