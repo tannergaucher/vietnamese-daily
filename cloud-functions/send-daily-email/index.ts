@@ -5,17 +5,15 @@ import {
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import sgMail from "@sendgrid/mail";
-import moment from "moment-timezone";
 
 import { PrismaClient } from "./generated";
 
 functions.cloudEvent(
   "sendDailyEmail",
   async (cloudEvent: functions.CloudEvent<CloudEventData>) => {
-    const { email, conversationDate } =
-      parseCloudEventData<SendDailyEmailEvent>({
-        cloudEvent,
-      });
+    const { email, subject, html } = parseCloudEventData<SendDailyEmailEvent>({
+      cloudEvent,
+    });
 
     if (!process.env.SENDGRID_API_KEY) {
       throw new Error("SENDGRID_API_KEY is required");
@@ -29,7 +27,8 @@ functions.cloudEvent(
 
     sendDailyEmail({
       email,
-      conversationDate,
+      subject,
+      html,
       prisma,
       sgMail,
     });
@@ -43,64 +42,15 @@ type SendDailyEmailParams = SendDailyEmailEvent & {
 
 export async function sendDailyEmail({
   email,
-  prisma,
+  html,
+  subject,
   sgMail,
-  conversationDate,
 }: SendDailyEmailParams) {
-  const startOfDay = moment(conversationDate)
-    .tz("Asia/Ho_Chi_Minh")
-    .startOf("day")
-    .toDate();
-
-  const endOfDay = moment(conversationDate)
-    .tz("Asia/Ho_Chi_Minh")
-    .endOf("day")
-    .toDate();
-
-  const conversation = await prisma.conversation.findFirstOrThrow({
-    where: {
-      AND: [
-        {
-          date: {
-            gte: startOfDay,
-          },
-        },
-        {
-          date: {
-            lte: endOfDay,
-          },
-        },
-      ],
-    },
-    select: {
-      id: true,
-      dialog: true,
-      title: true,
-      situation: true,
-    },
-  });
-
   const msg = {
     to: email,
     from: "tannermichaelgaucher@gmail.com",
-    subject: conversation.situation?.text || "Daily Vietnamese Conversation",
-    text: conversation.dialog
-      .sort((a, b) => a.index - b.index)
-      .map((dialog) => dialog.vietnamese)
-      .join("\n"),
-    html: `
-      <h1>${conversation.title}</h1>
-      <a 
-      href="https://vietnamesedaily.vercel.app/conversation/${conversation.id}"
-      >
-      <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px;">
-        Open Conversation
-      </button>
-    </a>
-    ${conversation.dialog
-      .map((dialog) => `<p>${dialog.vietnamese}</p>`)
-      .join("\n")}
-    `,
+    subject,
+    html,
   };
 
   try {

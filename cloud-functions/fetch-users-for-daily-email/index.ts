@@ -34,12 +34,50 @@ export async function fetchUsersForDailyEmail({
     },
   });
 
-  const conversationDate = moment().tz("Asia/Ho_Chi_Minh").toDate();
+  const startOfDay = moment().tz("Asia/Ho_Chi_Minh").startOf("day").toDate();
+
+  const endOfDay = moment().tz("Asia/Ho_Chi_Minh").endOf("day").toDate();
+
+  const conversation = await prisma.conversation.findFirstOrThrow({
+    where: {
+      AND: [
+        {
+          date: {
+            gte: startOfDay,
+          },
+        },
+        {
+          date: {
+            lte: endOfDay,
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      dialog: true,
+      title: true,
+      situation: true,
+    },
+  });
+
+  const html = `
+  <h1>${conversation.title}</h1>
+  <a 
+  href="https://vietnamesedaily.vercel.app/conversation/${conversation.id}"
+  >
+  <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px;">
+    Open Conversation
+  </button>
+</a>
+${conversation.dialog.map((dialog) => `<p>${dialog.vietnamese}</p>`).join("\n")}
+`;
 
   for (const user of users) {
     const json: SendDailyEmailEvent = {
-      conversationDate,
       email: user.email,
+      subject: conversation.situation?.text || "Daily Vietnamese Conversation",
+      html,
     };
 
     pubsub.topic("send-daily-email").publishMessage({

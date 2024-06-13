@@ -56,7 +56,8 @@ export interface SendConfirmationEmailEvent {
 
 export interface SendDailyEmailEvent {
   email: string;
-  conversationDate: Date;
+  subject: string;
+  html: string;
 }
 
 export interface FetchConversationDialogsForCreatingAudioEvent {
@@ -83,11 +84,6 @@ export interface PublishConversationEvent {
 
 export interface FetchUsersForDailyEmailEvent {
   conversationId: string;
-}
-
-export interface SendDailyEmailEvent {
-  email: string;
-  conversationDate: Date;
 }
 
 export interface CreateDialogEvent {
