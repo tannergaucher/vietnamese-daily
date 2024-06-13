@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Card } from "@/app/components/card";
 import { Container } from "@/app/components/container";
 
