@@ -67,8 +67,6 @@ export async function fetchUsersForDailyEmail({
 ${conversation.dialog.map((dialog) => `<p>${dialog.vietnamese}</p>`).join("\n")}
 `;
 
-  console.log(html, "html");
-
   const users = await prisma.user.findMany({
     select: {
       email: true,
@@ -81,8 +79,6 @@ ${conversation.dialog.map((dialog) => `<p>${dialog.vietnamese}</p>`).join("\n")}
       subject: conversation.situation?.text || "Daily Vietnamese Conversation",
       html,
     };
-
-    console.log(json, "json");
 
     pubsub.topic("send-daily-email").publishMessage({
       json,
