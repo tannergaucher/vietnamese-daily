@@ -10,10 +10,12 @@ export function Input({
   name,
   placeholder,
   onChange,
+  className,
 }: {
   id?: string;
   value: string;
   name: string;
+  className?: string;
   placeholder?: string;
   type: React.HTMLInputTypeAttribute;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,7 +26,7 @@ export function Input({
       id={id}
       name={name}
       placeholder={placeholder}
-      className={INPUT_CLASSES}
+      className={INPUT_CLASSES + (className ? ` ${className}` : "")}
       value={value}
       onChange={onChange}
     />
