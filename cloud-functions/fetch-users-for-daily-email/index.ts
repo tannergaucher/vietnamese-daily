@@ -1,6 +1,7 @@
 import { SendDailyEmailEvent } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import { PubSub } from "@google-cloud/pubsub";
+import moment from "moment-timezone";
 
 import { PrismaClient } from "./generated";
 
@@ -33,7 +34,7 @@ export async function fetchUsersForDailyEmail({
     },
   });
 
-  const conversationDate = new Date();
+  const conversationDate = moment().tz("Asia/Ho_Chi_Minh").toDate();
 
   for (const user of users) {
     const json: SendDailyEmailEvent = {
