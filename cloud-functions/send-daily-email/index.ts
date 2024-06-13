@@ -5,6 +5,7 @@ import {
 } from "@functional-vietnamese/cloud-function-events";
 import * as functions from "@google-cloud/functions-framework";
 import sgMail from "@sendgrid/mail";
+import moment from "moment-timezone";
 
 import { PrismaClient } from "./generated";
 
@@ -46,9 +47,30 @@ export async function sendDailyEmail({
   sgMail,
   conversationDate,
 }: SendDailyEmailParams) {
+  const startOfDay = moment(conversationDate)
+    .tz("Asia/Ho_Chi_Minh")
+    .startOf("day")
+    .toDate();
+
+  const endOfDay = moment(conversationDate)
+    .tz("Asia/Ho_Chi_Minh")
+    .endOf("day")
+    .toDate();
+
   const conversation = await prisma.conversation.findFirstOrThrow({
     where: {
-      date: conversationDate,
+      AND: [
+        {
+          date: {
+            gte: startOfDay,
+          },
+        },
+        {
+          date: {
+            lte: endOfDay,
+          },
+        },
+      ],
     },
     select: {
       id: true,

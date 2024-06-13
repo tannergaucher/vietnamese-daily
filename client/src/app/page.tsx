@@ -9,6 +9,8 @@ import { RemoveFilterButtons } from "@/app/components/remove-filter-buttons";
 
 import { contentIndex } from "../algolia";
 
+import { formatDate } from "./utils/format-date";
+
 type ContentWithSrc = ContentHit & { imageSrc: string };
 
 export default async function Page({
@@ -49,7 +51,7 @@ export default async function Page({
                   height: 1000,
                   alt: `Vibrant Vietnamese folk painting of ${hit.situation}`,
                 }}
-                small={new Date(hit.date).toDateString()}
+                small={formatDate(hit.date)}
                 heading={hit.title}
                 subHeading={hit.situation}
                 badge={hit.type}

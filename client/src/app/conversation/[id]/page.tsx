@@ -2,6 +2,7 @@ import React from "react";
 
 import { Card } from "@/app/components/card";
 import { Container } from "@/app/components/container";
+import { formatDate } from "@/app/utils/format-date";
 import { prisma } from "@/prisma";
 import { dialogAudioBucket, wordAudioBucket, getSignedUrl } from "@/storage";
 
@@ -71,7 +72,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         }
         small={
           conversation.date
-            ? new Date(conversation.date).toDateString()
+            ? formatDate(conversation.date.toISOString())
             : undefined
         }
         heading={conversation.title}

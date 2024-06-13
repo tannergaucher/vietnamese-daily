@@ -13,7 +13,8 @@
   "dependencies": {
     "@functional-vietnamese/cloud-function-events": "0.0.21",
     "@google-cloud/functions-framework": "^3.3.0",
-    "@google-cloud/pubsub": "^4.3.3"
+    "@google-cloud/pubsub": "^4.3.3",
+    "moment-timezone": "^0.5.45"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
