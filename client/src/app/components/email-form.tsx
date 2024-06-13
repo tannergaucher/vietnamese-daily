@@ -40,12 +40,13 @@ export function EmailForm() {
       <div className="flex justify-evenly items-center">
         <Input
           value={email}
+          className="rounded-r-none"
           type="email"
           name="email"
           placeholder="Your email address"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Button>Subscribe</Button>
+        <Button className="rounded-l-none"> Subscribe</Button>
       </div>
     </form>
   );
