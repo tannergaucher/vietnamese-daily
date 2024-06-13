@@ -1,4 +1,5 @@
 import { ContentHit } from "@functional-vietnamese/cloud-function-events";
+import moment from "moment-timezone";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
@@ -49,7 +50,7 @@ export default async function Page({
                   height: 1000,
                   alt: `Vibrant Vietnamese folk painting of ${hit.situation}`,
                 }}
-                small={new Date(hit.date).toDateString()}
+                small={moment.tz(hit.date, "Asia/Ho_Chi_Minh").format("LL")}
                 heading={hit.title}
                 subHeading={hit.situation}
                 badge={hit.type}
