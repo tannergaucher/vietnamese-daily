@@ -46,6 +46,10 @@ export async function sendDailyEmail({
   subject,
   sgMail,
 }: SendDailyEmailParams) {
+  console.log(email, "email");
+  console.log(html, "html");
+  console.log(subject, "subject");
+
   const msg = {
     to: email,
     from: "tannermichaelgaucher@gmail.com",
