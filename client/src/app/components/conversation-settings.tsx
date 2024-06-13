@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Select } from "../components/select";
+import { Switch } from "../components/switch";
 
 type ConversationType = "conversation" | "listenAndSpeak";
 
@@ -14,6 +15,16 @@ export function ConversationSettings() {
         conversationType={conversationType}
         setConversationType={setConversationType}
       />
+      {conversationType === "listenAndSpeak" ? (
+        <div>
+          <ListenAndSpeakPlaySettings />
+        </div>
+      ) : null}
+      {conversationType === "conversation" ? (
+        <div>
+          <ConversationPlaySettings />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -32,7 +43,7 @@ function ConversationType({
       aria-label="Project status"
       selected={conversationType}
       setSelected={(selected) => {
-        setConversationType(selected.value as ConversationType);
+        setConversationType(selected as ConversationType);
       }}
       options={[
         { value: "conversation", label: "Conversation" },
@@ -42,36 +53,33 @@ function ConversationType({
   );
 }
 
-// function Loop({
-//   enabled,
-//   setEnabled,
-// }: {
-//   enabled: boolean;
-//   setEnabled: (enabled: boolean) => void;
-// }) {
-//   return (
-//     <fieldset className="flex">
-//       <label className={`${enabled ? "text-black" : "text-gray-300"}`}>
-//         <span className="text-lg font-semibold">Loop</span>
-//       </label>
-//       <Switch
-//         checked={enabled}
-//         setChecked={() => {
-//           setEnabled(!enabled);
-//         }}
-//       />
-//     </fieldset>
-//   );
-// }
+function ConversationPlaySettings() {
+  const [loop, setLoop] = useState(false);
+  return (
+    <div className="flex">
+      <label htmlFor="">Loop</label>
+      <Switch checked={loop} setChecked={setLoop} />
+    </div>
+  );
+}
 
-// function ListenAndSpeakSettings() {
-//   return (
-//     <div className="flex">
-//       {/* Repeats */}
-//       <label htmlFor="">Repeats</label>
-//       {/* Speed */}
+function ListenAndSpeakPlaySettings() {
+  const [selected, setSelected] = useState(3);
 
-//       <label htmlFor="">Speed</label>
-//     </div>
-//   );
-// }
+  return (
+    <div className="flex">
+      <Select
+        name="repeats"
+        label="repeats"
+        selected={selected}
+        setSelected={(selected) => {
+          setSelected(selected as number);
+        }}
+        options={[
+          { value: "2", label: "Two" },
+          { value: "3", label: "Three" },
+        ]}
+      />
+    </div>
+  );
+}

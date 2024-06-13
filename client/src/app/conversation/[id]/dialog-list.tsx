@@ -9,7 +9,13 @@ type Word = WordModel & { signedUrl: string };
 
 type Dialog = DialogModel & { audioSrc: string; words: Word[] };
 
-export default function DialogList({ dialog }: { dialog: Dialog[] }) {
+export default function DialogList({
+  dialog,
+}: {
+  dialog: Dialog[];
+  playType: "single" | "loop" | "loop sentence" | "loop word";
+  playerQueue: Dialog[] | Word[];
+}) {
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
     null
   );

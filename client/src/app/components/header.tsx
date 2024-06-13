@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { Suspense } from "react";
 
+import { ConversationSettings } from "./conversation-settings";
 import { Filters } from "./filters";
 import { Search } from "./search";
 
@@ -73,14 +74,17 @@ function MobileHeader({
             >
               <Disclosure.Panel>
                 <div className="py-6">
-                  <h2>Search Content</h2>
-                  <Search />
                   {pathname === "/" ? (
                     <>
+                      <h2>Search Content</h2>
+                      <Search />
                       <h2>Filter Content</h2>
                       <br />
                       <Filters mobile />
                     </>
+                  ) : null}
+                  {pathname.includes("/conversation/") ? (
+                    <ConversationSettings />
                   ) : null}
                 </div>
               </Disclosure.Panel>
@@ -101,13 +105,19 @@ function FullHeader({ title, pathname }: { title: string; pathname: string }) {
       >
         <h1>{title}</h1>
       </Link>
-      <Search />
       {pathname === "/" ? (
         <Suspense>
+          <Search />
           <div className="hidden sm:block">
             <Filters />
           </div>
         </Suspense>
+      ) : null}
+
+      {pathname.includes("/conversation/") ? (
+        <div>
+          <ConversationSettings />
+        </div>
       ) : null}
     </div>
   );
