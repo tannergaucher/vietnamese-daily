@@ -28,12 +28,6 @@ export async function fetchUsersForDailyEmail({
   prisma,
   pubsub,
 }: FetchUsersForDailyEmailParams) {
-  const users = await prisma.user.findMany({
-    select: {
-      email: true,
-    },
-  });
-
   const startOfDay = moment().tz("Asia/Ho_Chi_Minh").startOf("day").toDate();
 
   const endOfDay = moment().tz("Asia/Ho_Chi_Minh").endOf("day").toDate();
@@ -73,12 +67,22 @@ export async function fetchUsersForDailyEmail({
 ${conversation.dialog.map((dialog) => `<p>${dialog.vietnamese}</p>`).join("\n")}
 `;
 
+  console.log(html, "html");
+
+  const users = await prisma.user.findMany({
+    select: {
+      email: true,
+    },
+  });
+
   for (const user of users) {
     const json: SendDailyEmailEvent = {
       email: user.email,
       subject: conversation.situation?.text || "Daily Vietnamese Conversation",
       html,
     };
+
+    console.log(json, "json");
 
     pubsub.topic("send-daily-email").publishMessage({
       json,
