@@ -9,13 +9,7 @@ type Word = WordModel & { signedUrl: string };
 
 type Dialog = DialogModel & { audioSrc: string; words: Word[] };
 
-export default function DialogList({
-  dialog,
-}: {
-  dialog: Dialog[];
-  playType: "single" | "loop" | "loop sentence" | "loop word";
-  playerQueue: Dialog[] | Word[];
-}) {
+export default function DialogList({ dialog }: { dialog: Dialog[] }) {
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
     null
   );
@@ -87,6 +81,9 @@ export default function DialogList({
   return (
     <section>
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
+      <Button onClick={toggleConversation} className="w-full h-20 rounded-none">
+        {isPlaying ? "Pause Conversation" : "Start Conversation"}
+      </Button>
       <ul>
         {dialog.map((d, index) => (
           <div key={d.id}>
@@ -141,12 +138,6 @@ export default function DialogList({
           </div>
         ))}
       </ul>
-      <Button
-        onClick={toggleConversation}
-        className="w-full h-20 rounded-lg rounded-tl-none rounded-tr-none"
-      >
-        {isPlaying ? "Pause Conversation" : "Start Conversation"}
-      </Button>
     </section>
   );
 }
