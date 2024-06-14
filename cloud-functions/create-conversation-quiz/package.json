@@ -11,8 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@functional-vietnamese/cloud-function-events": "0.0.32",
-    "@google-cloud/functions-framework": "^3.4.0"
+    "@functional-vietnamese/cloud-function-events": "0.0.33",
+    "@google-cloud/functions-framework": "^3.4.0",
+    "openai": "^4.51.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",

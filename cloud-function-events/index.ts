@@ -112,6 +112,7 @@ export interface CreateConversationImageEvent {
 
 export interface CreateConversationQuizEvent {
   conversationId: string;
+  assistantId: string;
 }
 
 export interface IndexContentEvent {
