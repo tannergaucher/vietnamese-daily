@@ -113,6 +113,9 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -131,6 +134,12 @@ exports.Prisma.ConversationSituationScalarFieldEnum = {
   type: 'type',
   conversationId: 'conversationId',
   imageSrc: 'imageSrc'
+};
+
+exports.Prisma.ConversationQuizScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  comprehensionSection: 'comprehensionSection'
 };
 
 exports.Prisma.DialogScalarFieldEnum = {
@@ -160,6 +169,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -169,6 +182,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.Gender = exports.$Enums.Gender = {
   male: 'male',
   female: 'female'
@@ -177,6 +196,7 @@ exports.Gender = exports.$Enums.Gender = {
 exports.Prisma.ModelName = {
   Conversation: 'Conversation',
   ConversationSituation: 'ConversationSituation',
+  ConversationQuiz: 'ConversationQuiz',
   Dialog: 'Dialog',
   Word: 'Word',
   User: 'User'

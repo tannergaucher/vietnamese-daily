@@ -80,15 +80,20 @@ export async function createConversationQuiz({
     `We are creating content for a Vietnamese language learning application. Create a quiz for the following Vietnamese conversation in order to test comprehension of the material. The title is "${conversation.title}". The situation is "${conversation.situation}". The conversation dialog is:\n\n${conversationDialog} Ask four questions to test the comprehension of the conversation dialog. The questions should be in English language. The options should be in English language. The answer should be the option that represents the correct choice according to the question.`
   );
 
-  console.log(response);
-
   if (response.success) {
-    console.log(
-      JSON.stringify(
-        response.data.conversationQuiz.comprehensionQuestions,
-        null,
-        2
-      )
-    );
+    await prisma.conversationQuiz.upsert({
+      where: {
+        conversationId,
+      },
+      create: {
+        conversationId,
+        comprehensionSection:
+          response.data.conversationQuiz.comprehensionQuestions,
+      },
+      update: {
+        comprehensionSection:
+          response.data.conversationQuiz.comprehensionQuestions,
+      },
+    });
   }
 }
