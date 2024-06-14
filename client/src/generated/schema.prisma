@@ -99,6 +99,12 @@ generator createConversationImage {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+generator createConversationQuiz {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-conversation-quiz/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 generator indexContent {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/index-content/generated"
