@@ -110,7 +110,7 @@ export interface CreateConversationImageEvent {
   conversationSituationId: string;
 }
 
-export interface CreateConversationQuiz {
+export interface CreateConversationQuizEvent {
   conversationId: string;
 }
 
