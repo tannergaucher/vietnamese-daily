@@ -1,0 +1,82 @@
+{
+  "title": "Đi mua thuốc tây cho cảm lạnh ở Sài Gòn",
+  "situation": {
+    "id": "6c49dcfe-bcbb-4fee-bd6a-e9209c9b5b51",
+    "text": "Visiting a pharmacy to pick up cold medicine in Ho Chi Minh City.",
+    "type": "A_HEALTH_RELATED_SITUATION",
+    "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f",
+    "imageSrc": "https://storage.googleapis.com/conversation-dalee-images/6c49dcfe-bcbb-4fee-bd6a-e9209c9b5b51.webp"
+  },
+  "dialog": [
+    {
+      "id": "059de091-0352-420f-98e9-170a39d428fa",
+      "index": 7,
+      "speaker": "Bạn",
+      "gender": "male",
+      "scene": "Nhận thuốc và cảm ơn nhân viên",
+      "vietnamese": "Cảm ơn chị!",
+      "audioSrc": "https://storage.googleapis.com/dialog-audio/796b8754-b033-4b32-b51b-342b6f5b630f/059de091-0352-420f-98e9-170a39d428fa.wav",
+      "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f"
+    },
+    {
+      "id": "795136d4-fb6e-4a16-aba2-b82b1b2b77fd",
+      "index": 4,
+      "speaker": "Nhân viên nhà thuốc",
+      "gender": "female",
+      "scene": "Lấy ra thuốc và hỏi bạn",
+      "vietnamese": "Anh cần mua mấy viên và loại nào ạ?",
+      "audioSrc": "https://storage.googleapis.com/dialog-audio/796b8754-b033-4b32-b51b-342b6f5b630f/795136d4-fb6e-4a16-aba2-b82b1b2b77fd.wav",
+      "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f"
+    },
+    {
+      "id": "92fa9ab9-7911-4590-892c-1d6b5ad169c1",
+      "index": 3,
+      "speaker": "Bạn",
+      "gender": "male",
+      "scene": "Nhìn vào danh sách thuốc trên bảng",
+      "vietnamese": "Em cần thuốc giảm đau và hạ sốt ạ.",
+      "audioSrc": "https://storage.googleapis.com/dialog-audio/796b8754-b033-4b32-b51b-342b6f5b630f/92fa9ab9-7911-4590-892c-1d6b5ad169c1.wav",
+      "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f"
+    },
+    {
+      "id": "95fdca7f-5dc4-484b-b6e1-45f72d24d40e",
+      "index": 6,
+      "speaker": "Nhân viên nhà thuốc",
+      "gender": "female",
+      "scene": "Tính tiền và đưa thuốc cho bạn",
+      "vietnamese": "Tổng cộng là 50,000 đồng ạ. Đây là thuốc của anh.",
+      "audioSrc": "https://storage.googleapis.com/dialog-audio/796b8754-b033-4b32-b51b-342b6f5b630f/95fdca7f-5dc4-484b-b6e1-45f72d24d40e.wav",
+      "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f"
+    },
+    {
+      "id": "ad1ab258-7055-46b6-af98-fdf4b7b501ce",
+      "index": 1,
+      "speaker": "Bạn",
+      "gender": "male",
+      "scene": "Đứng trước quầy thuốc tây trong một nhà thuốc ở Sài Gòn",
+      "vietnamese": "Xin chào, cho em mua thuốc cho cảm lạnh với.",
+      "audioSrc": "https://storage.googleapis.com/dialog-audio/796b8754-b033-4b32-b51b-342b6f5b630f/ad1ab258-7055-46b6-af98-fdf4b7b501ce.wav",
+      "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f"
+    },
+    {
+      "id": "c0aa841f-f1cb-4d89-ad97-6b365b0e5612",
+      "index": 2,
+      "speaker": "Nhân viên nhà thuốc",
+      "gender": "female",
+      "scene": "Nhân viên nhà thuốc đến phục vụ bạn",
+      "vietnamese": "Chào anh! Anh cần loại thuốc nào ạ?",
+      "audioSrc": "https://storage.googleapis.com/dialog-audio/796b8754-b033-4b32-b51b-342b6f5b630f/c0aa841f-f1cb-4d89-ad97-6b365b0e5612.wav",
+      "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f"
+    },
+    {
+      "id": "c6e73f3e-d7a6-4899-88b0-c029badbd359",
+      "index": 5,
+      "speaker": "Bạn",
+      "gender": "male",
+      "scene": "Đếm số viên thuốc cần mua",
+      "vietnamese": "Em cần mua 10 viên paracetamol 500mg ạ.",
+      "audioSrc": "https://storage.googleapis.com/dialog-audio/796b8754-b033-4b32-b51b-342b6f5b630f/c6e73f3e-d7a6-4899-88b0-c029badbd359.wav",
+      "conversationId": "796b8754-b033-4b32-b51b-342b6f5b630f"
+    }
+  ]
+}
