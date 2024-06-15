@@ -2,9 +2,12 @@ import React from "react";
 
 import { Card } from "@/app/components/card";
 import { Container } from "@/app/components/container";
+import { ConversationQuizModal } from "@/app/components/conversation-quiz-modal";
 import { formatDate } from "@/app/utils/format-date";
 import { prisma } from "@/prisma";
 import { dialogAudioBucket, wordAudioBucket, getSignedUrl } from "@/storage";
+
+import { CreateConversationQuizResponse } from "../../../../../cloud-functions/create-conversation-quiz/conversationQuizSchema";
 
 import DialogList from "./dialog-list";
 
@@ -12,6 +15,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const conversation = await prisma.conversation.findUnique({
     where: { id: params.id },
     include: {
+      conversationQuiz: true,
       situation: {
         select: {
           id: true,
@@ -81,6 +85,12 @@ export default async function Page({ params }: { params: { id: string } }) {
         <hr className="dark:border-accent-1-dark" />
         <DialogList dialog={sortedDialog} />
       </Card>
+      <ConversationQuizModal
+        comprensionQuestions={
+          conversation.conversationQuiz
+            ?.comprehensionSection as unknown as CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"]
+        }
+      />
     </Container>
   );
 }

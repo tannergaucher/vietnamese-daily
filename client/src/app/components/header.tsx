@@ -101,7 +101,6 @@ function FullHeader({ title, pathname }: { title: string; pathname: string }) {
       >
         <h1>{title}</h1>
       </Link>
-      <Search />
       {pathname === "/" ? (
         <Suspense>
           <div className="hidden sm:block">
@@ -109,6 +108,11 @@ function FullHeader({ title, pathname }: { title: string; pathname: string }) {
           </div>
         </Suspense>
       ) : null}
+      {/* {pathname.includes("/conversation") ? (
+        <>
+          <ConversationQuiz />
+        </>
+      ) : null} */}
     </div>
   );
 }
