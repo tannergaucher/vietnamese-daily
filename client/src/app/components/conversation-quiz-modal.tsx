@@ -1,6 +1,6 @@
 "use client";
 
-import { Transition } from "@headlessui/react";
+import { Field, Label, Radio, RadioGroup, Transition } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 
 import { CreateConversationQuizResponse } from "../../../../cloud-functions/create-conversation-quiz/conversationQuizSchema";
@@ -55,51 +55,20 @@ function Modal({
           <Button secondary onClick={() => setOpen(false)}>
             Close
           </Button>
-          <div>
-            <p>{currentQuestion.question}</p>
-            <ul>
-              <li>
-                <label htmlFor="">
-                  {currentQuestion.choices.a}
-                  <input
-                    type="radio"
-                    name="answer"
-                    value={currentQuestion.choices.a}
-                  />
-                </label>
-              </li>
-              <li>
-                <label htmlFor="">
-                  {currentQuestion.choices.b}
-                  <input
-                    type="radio"
-                    name="answer"
-                    value={currentQuestion.choices.b}
-                  />
-                </label>
-              </li>
-              <li>
-                <label htmlFor="">
-                  {currentQuestion.choices.c}
-                  <input
-                    type="radio"
-                    name="answer"
-                    value={currentQuestion.choices.c}
-                  />
-                </label>
-              </li>
-              <li>
-                <label htmlFor="">
-                  {currentQuestion.choices.d}
-                  <input
-                    type="radio"
-                    name="answer"
-                    value={currentQuestion.choices.d}
-                  />
-                </label>
-              </li>
-            </ul>
-          </div>
+          <RadioGroup>
+            <h2>{currentQuestion.question}</h2>
+            {Object.entries(currentQuestion.choices).map(([key, value]) => (
+              <Field key={key} className="flex items-center gap-2">
+                <Radio
+                  value={value}
+                  className="group flex size-5 items-center justify-center rounded-full border bg-white data-[checked]:bg-blue-400"
+                >
+                  <span className="invisible size-2 rounded-full bg-white group-data-[checked]:visible" />
+                </Radio>
+                <Label>{value}</Label>
+              </Field>
+            ))}
+          </RadioGroup>
           <div>
             <Button onClick={() => setCurrentIndex(currentIndex + 1)}>
               Next
