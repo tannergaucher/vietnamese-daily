@@ -1,0 +1,49 @@
+{
+  "steps": [
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "dir": "cloud-functions/create-conversation-quiz",
+      "args": [
+        "gcloud",
+        "functions",
+        "deploy",
+        "createConversationQuiz",
+        "--gen2",
+        "--region=us-east1",
+        "--source=.",
+        "--runtime=nodejs18",
+        "--entry-point=createConversationQuiz",
+        "--trigger-topic=create-conversation-quiz"
+      ],
+      "secretEnv": [
+        "DATABASE_URL",
+        "SERVICE_ACCOUNT",
+        "OPENAI_API_KEY",
+        "OPENAI_MODEL"
+      ]
+    }
+  ],
+  "availableSecrets": {
+    "secretManager": [
+      {
+        "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
+        "env": "DATABASE_URL"
+      },
+      {
+        "versionName": "projects/625494448696/secrets/SERVICE_ACCOUNT/versions/1",
+        "env": "SERVICE_ACCOUNT"
+      },
+      {
+        "versionName": "projects/625494448696/secrets/OPENAI_API_KEY/versions/1",
+        "env": "OPENAI_API_KEY"
+      },
+      {
+        "versionName": "projects/625494448696/secrets/OPENAI_MODEL/versions/1",
+        "env": "OPENAI_MODEL"
+      }
+    ]
+  },
+  "options": {
+    "logging": "CLOUD_LOGGING_ONLY"
+  }
+}
