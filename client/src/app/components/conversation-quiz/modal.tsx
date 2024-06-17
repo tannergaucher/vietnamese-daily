@@ -29,6 +29,16 @@ export function Modal({
     setCurrentQuestion(comprehensionQuestions[currentIndex]);
   }, [currentIndex, comprehensionQuestions]);
 
+  useEffect(() => {
+    if (showConfetti) {
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showConfetti]);
+
   const { width, height } = useWindowSize();
 
   return (
