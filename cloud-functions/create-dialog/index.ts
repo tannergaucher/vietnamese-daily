@@ -6,6 +6,7 @@ import {
   FetchConversationDialogsForCreatingAudioEvent,
   FetchDialogWordsForCreatingEvent,
   CreateConversationImageEvent,
+  CreateConversationQuizEvent,
   CreateDialogEvent,
   parseCloudEventData,
 } from "@functional-vietnamese/cloud-function-events";
@@ -102,14 +103,15 @@ export async function createDialog({
       },
     });
 
-    const json: FetchConversationDialogsForCreatingAudioEvent = {
-      conversationId: conversation.id,
-    };
+    const fetchConversationDialogsForCreatingAudioEventJson: FetchConversationDialogsForCreatingAudioEvent =
+      {
+        conversationId: conversation.id,
+      };
 
     pubsub
       .topic("fetch-conversation-dialogs-for-creating-audio")
       .publishMessage({
-        json,
+        json: fetchConversationDialogsForCreatingAudioEventJson,
       });
 
     const conversationImageJson: CreateConversationImageEvent = {
@@ -118,6 +120,14 @@ export async function createDialog({
 
     pubsub.topic("create-conversation-image").publishMessage({
       json: conversationImageJson,
+    });
+
+    const CreateConversationQuizJson: CreateConversationQuizEvent = {
+      conversationId: conversation.id,
+    };
+
+    pubsub.topic("create-conversation-quiz").publishMessage({
+      json: CreateConversationQuizJson,
     });
 
     for (const dialog of conversation.dialog) {
