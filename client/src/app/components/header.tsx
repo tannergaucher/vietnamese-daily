@@ -101,6 +101,7 @@ function FullHeader({ title, pathname }: { title: string; pathname: string }) {
       >
         <h1>{title}</h1>
       </Link>
+      {pathname === "/" ? <Search /> : null}
       {pathname === "/" ? (
         <Suspense>
           <div className="hidden sm:block">
