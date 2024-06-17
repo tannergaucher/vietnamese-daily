@@ -103,7 +103,7 @@ export async function createDialog({
       },
     });
 
-    const fetchConversationDialogsForCreatingAudioEventJson: FetchConversationDialogsForCreatingAudioEvent =
+    const fetchConversationDialogsForCreatingAudioJson: FetchConversationDialogsForCreatingAudioEvent =
       {
         conversationId: conversation.id,
       };
@@ -111,7 +111,7 @@ export async function createDialog({
     pubsub
       .topic("fetch-conversation-dialogs-for-creating-audio")
       .publishMessage({
-        json: fetchConversationDialogsForCreatingAudioEventJson,
+        json: fetchConversationDialogsForCreatingAudioJson,
       });
 
     const conversationImageJson: CreateConversationImageEvent = {
