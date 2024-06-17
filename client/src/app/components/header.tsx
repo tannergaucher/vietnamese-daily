@@ -108,11 +108,6 @@ function FullHeader({ title, pathname }: { title: string; pathname: string }) {
           </div>
         </Suspense>
       ) : null}
-      {/* {pathname.includes("/conversation") ? (
-        <>
-          <ConversationQuiz />
-        </>
-      ) : null} */}
     </div>
   );
 }
