@@ -19,6 +19,8 @@ export function Modal({
     comprehensionQuestions[currentIndex]
   );
 
+  const [answer, setCurrentAnswer] = useState<string | null>(null);
+
   useEffect(() => {
     setCurrentQuestion(comprehensionQuestions[currentIndex]);
   }, [currentIndex, comprehensionQuestions]);
@@ -36,7 +38,14 @@ export function Modal({
             <h2 className="text-2xl font-semibold my-6">
               {currentQuestion.question}
             </h2>
-            <RadioGroup className="grid grid-cols-2 gap-4">
+            <RadioGroup
+              className="grid grid-cols-2 gap-4"
+              value={answer}
+              onChange={(value) => {
+                console.log(value);
+                setCurrentAnswer(value as string);
+              }}
+            >
               {Object.entries(currentQuestion.choices).map(([key, value]) => (
                 <Field
                   key={key}
@@ -44,7 +53,7 @@ export function Modal({
                 >
                   <Label className="flex items-center gap-2 w-full p-4 hover:cursor-pointer">
                     <Radio
-                      value={value}
+                      value={key}
                       className="group flex size-5 items-center justify-center rounded-full border bg-white data-[checked]:bg-accent-2-light"
                     >
                       <span className="invisible size-2 rounded-full bg-white group-data-[checked]:visible" />
@@ -55,6 +64,7 @@ export function Modal({
               ))}
             </RadioGroup>
             <Button
+              disabled={answer !== currentQuestion.answer}
               onClick={() => setCurrentIndex(currentIndex + 1)}
               className="w-full my-6 flex justify-center items-center"
             >
