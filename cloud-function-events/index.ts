@@ -110,6 +110,10 @@ export interface CreateConversationImageEvent {
   conversationSituationId: string;
 }
 
+export interface CreateConversationQuizEvent {
+  conversationId: string;
+}
+
 export interface IndexContentEvent {
   conversationId?: string;
   publishedAt?: Date;

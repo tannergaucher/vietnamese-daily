@@ -1,0 +1,23 @@
+{
+  "name": "create-conversation-quiz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node -r dotenv/config node_modules/.bin/functions-framework --target=createConversationQuiz --signature-type=event --port=8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@functional-vietnamese/cloud-function-events": "0.0.34",
+    "@google-cloud/functions-framework": "^3.4.0",
+    "openai": "^4.51.0",
+    "typechat": "^0.0.10"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.5"
+  }
+}

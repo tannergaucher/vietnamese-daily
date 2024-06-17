@@ -99,6 +99,12 @@ generator createConversationImage {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+generator createConversationQuiz {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-conversation-quiz/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
 generator indexContent {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/index-content/generated"
@@ -111,14 +117,15 @@ enum Gender {
 }
 
 model Conversation {
-  id        String                 @id @default(uuid())
-  title     String
-  createdAt DateTime               @default(now())
-  updatedAt DateTime               @updatedAt
-  published Boolean                @default(false)
-  date      DateTime?
-  dialog    Dialog[]
-  situation ConversationSituation?
+  id               String                 @id @default(uuid())
+  title            String
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  published        Boolean                @default(false)
+  date             DateTime?
+  dialog           Dialog[]
+  situation        ConversationSituation?
+  conversationQuiz ConversationQuiz?
 }
 
 model ConversationSituation {
@@ -128,6 +135,13 @@ model ConversationSituation {
   conversationId String?       @unique
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   imageSrc       String?
+}
+
+model ConversationQuiz {
+  id                   String       @id @default(uuid())
+  conversationId       String       @unique
+  conversation         Conversation @relation(fields: [conversationId], references: [id])
+  comprehensionSection Json
 }
 
 model Dialog {
