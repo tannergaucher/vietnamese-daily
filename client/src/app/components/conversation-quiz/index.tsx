@@ -1,28 +1,29 @@
-import { useParams } from "next/navigation";
+"use client";
 
-import { prisma } from "../../../prisma";
+import React, { useState } from "react";
 
-import { ConversationQuizModal } from "./conversation-quiz-modal";
+import { CreateConversationQuizResponse } from "../../../../../cloud-functions/create-conversation-quiz/conversationQuizSchema";
+import { Button } from "../button";
 
-export function ConversationQuiz() {
-  // get conversation id from params
-  const { id } = useParams();
+import { Modal } from "./modal";
 
-  if (!id) {
-    return null;
-  }
+interface ConversationQuizModalProps {
+  comprehensionQuestions: CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"];
+}
 
-  const conversationQuiz = prisma.conversationQuiz.findUniqueOrThrow({
-    where: {
-      id: "sdfsdf",
-    },
-  });
-
-  console.log(conversationQuiz);
+export function ConversationQuizModal({
+  comprehensionQuestions,
+}: ConversationQuizModalProps) {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div>
-      <ConversationQuizModal />
-    </div>
+    <>
+      <Button onClick={() => setOpen(true)}>Quiz</Button>
+      <Modal
+        open={open}
+        setOpen={setOpen}
+        comprehensionQuestions={comprehensionQuestions}
+      />
+    </>
   );
 }

@@ -1,53 +1,27 @@
-"use client";
-
 import { Field, Label, Radio, RadioGroup, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 
-import { CreateConversationQuizResponse } from "../../../../cloud-functions/create-conversation-quiz/conversationQuizSchema";
+import { CreateConversationQuizResponse } from "../../../../../cloud-functions/create-conversation-quiz/conversationQuizSchema";
+import { Button } from "../button";
 
-import { Button } from "./button";
-
-interface ConversationQuizModalProps {
-  comprensionQuestions: CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"];
-}
-
-export function ConversationQuizModal({
-  comprensionQuestions,
-}: ConversationQuizModalProps) {
-  const [open, setOpen] = useState(false);
-
-  console.log(comprensionQuestions);
-
-  return (
-    <>
-      <Button onClick={() => setOpen(true)}>Quiz</Button>
-      <Modal
-        open={open}
-        setOpen={setOpen}
-        comprensionQuestions={comprensionQuestions}
-      />
-    </>
-  );
-}
-
-function Modal({
+export function Modal({
   open,
   setOpen,
-  comprensionQuestions,
+  comprehensionQuestions,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  comprensionQuestions: CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"];
+  comprehensionQuestions: CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"];
 }) {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(
-    comprensionQuestions[currentIndex]
+    comprehensionQuestions[currentIndex]
   );
 
   useEffect(() => {
-    setCurrentQuestion(comprensionQuestions[currentIndex]);
-  }, [currentIndex, comprensionQuestions]);
+    setCurrentQuestion(comprehensionQuestions[currentIndex]);
+  }, [currentIndex, comprehensionQuestions]);
 
   return (
     <Transition show={open}>
