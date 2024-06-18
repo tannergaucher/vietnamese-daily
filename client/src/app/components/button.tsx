@@ -13,7 +13,7 @@ export function Button({
   secondary,
   className,
   selected,
-  name,
+  label,
 }: {
   onClick?: () => void;
   disabled?: boolean;
@@ -21,11 +21,12 @@ export function Button({
   secondary?: boolean;
   className?: string;
   selected?: boolean;
-  name?: string;
+  label?: string;
 }) {
   return (
     <button
-      name={name}
+      aria-label={label}
+      role="button"
       onClick={onClick}
       disabled={disabled}
       type="submit"
