@@ -13,6 +13,7 @@ export function Button({
   secondary,
   className,
   selected,
+  name,
 }: {
   onClick?: () => void;
   disabled?: boolean;
@@ -20,9 +21,11 @@ export function Button({
   secondary?: boolean;
   className?: string;
   selected?: boolean;
+  name?: string;
 }) {
   return (
     <button
+      name={name}
       onClick={onClick}
       disabled={disabled}
       type="submit"
