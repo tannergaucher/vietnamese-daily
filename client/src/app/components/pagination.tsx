@@ -41,7 +41,7 @@ export function Pagination({
     <>
       <div className="flex justify-center mt-6">
         <Button
-          name="Previous page"
+          label="Previous page"
           secondary
           disabled={page === 0}
           onClick={() => goToPage(page - 1)}
@@ -50,7 +50,7 @@ export function Pagination({
           <ChevronLeftIcon className="h-5 w-10 mr-1" />
         </Button>
         <Button
-          name="Next page"
+          label="Next page"
           secondary
           disabled={nbHits <= hitsPerPage * (page + 1)}
           onClick={() => goToPage(page + 1)}
