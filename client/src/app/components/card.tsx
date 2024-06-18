@@ -11,7 +11,13 @@ export function Card({
   children,
 }: {
   size: "small" | "medium" | "large";
-  image?: { src: string; alt: string; width: number; height: number };
+  image?: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+    priority?: boolean;
+  };
   small?: string;
   heading: string;
   subHeading?: string;
@@ -51,6 +57,7 @@ export function Card({
           height={image.height}
           alt={image.alt}
           className={`rounded-t-lg ${marginB[size]}`}
+          priority={image.priority || false}
         />
       ) : null}
       <div className="px-3">
