@@ -9,7 +9,13 @@ type Word = WordModel & { signedUrl: string };
 
 type Dialog = DialogModel & { audioSrc: string; words: Word[] };
 
-export default function DialogList({ dialog }: { dialog: Dialog[] }) {
+export function DialogList({
+  dialog,
+  loading,
+}: {
+  dialog: Dialog[];
+  loading?: boolean;
+}) {
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
     null
   );
@@ -135,6 +141,7 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
         ))}
       </ul>
       <Button
+        disabled={loading}
         onClick={toggleConversation}
         className="w-full h-20 rounded-lg rounded-tl-none rounded-tr-none"
       >
