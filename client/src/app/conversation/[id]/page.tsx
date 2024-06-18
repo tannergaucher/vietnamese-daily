@@ -71,6 +71,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 width: 2000,
                 height: 2000,
                 alt: "Conversation Image",
+                priority: true,
               }
             : undefined
         }
