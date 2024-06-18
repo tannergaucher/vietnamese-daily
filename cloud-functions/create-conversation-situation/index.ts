@@ -22,13 +22,11 @@ functions.cloudEvent("createConversationSituation", async () => {
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  const response = await createConversationSituation({
+  return await createConversationSituation({
     prisma,
     openai,
     pubsub,
   });
-
-  return response;
 });
 
 type CreateConversationSituationParams = CreateConversationSituationEvent & {
@@ -87,5 +85,10 @@ export async function createConversationSituation({
         json,
       });
     }
+
+    return {
+      message: "Conversation situation created",
+      conversationSituationId: conversationSituation.id,
+    };
   }
 }

@@ -37,14 +37,12 @@ functions.cloudEvent(
       keyFile: process.env.SERVICE_ACCOUNT,
     });
 
-    const response = await createDialog({
+    return await createDialog({
       situationId,
       model,
       prisma,
       pubsub,
     });
-
-    return response;
   }
 );
 

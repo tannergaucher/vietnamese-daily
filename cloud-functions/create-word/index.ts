@@ -23,7 +23,7 @@ functions.cloudEvent(
       keyFile: process.env.SERVICE_ACCOUNT,
     });
 
-    await createWord({
+    return await createWord({
       vietnamese,
       dialogId,
       prisma,
@@ -90,4 +90,9 @@ export async function createWord({
   pubsub.topic("create-word-audio").publishMessage({
     json,
   });
+
+  return {
+    message: "Word created",
+    vietnamese: sanitizedVietnamese,
+  };
 }

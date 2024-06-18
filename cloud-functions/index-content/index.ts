@@ -29,14 +29,12 @@ functions.cloudEvent(
       process.env.ALGOLIA_API_KEY
     );
 
-    await indexContent({
+    return await indexContent({
       conversationId,
       publishedAt,
       prisma,
       algolia,
     });
-
-    return { conversationId };
   }
 );
 
@@ -102,4 +100,8 @@ export async function indexContent({
     .catch((error) => {
       console.error("Error saving object", error);
     });
+
+  return {
+    message: `Conversation ${conversation.id} has been indexed`,
+  };
 }

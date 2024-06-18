@@ -35,7 +35,7 @@ functions.cloudEvent(
       keyFile: process.env.SERVICE_ACCOUNT,
     });
 
-    await createWordAudio({
+    return await createWordAudio({
       vietnamese,
       dialogId,
       prisma,
@@ -138,4 +138,10 @@ export async function createWordAudio({
       femaleSrc: femaleGcsUri,
     },
   });
+
+  return {
+    message: `Word audio created for vietnamese: ${vietnamese}`,
+    maleGcsUri,
+    femaleGcsUri,
+  };
 }

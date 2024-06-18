@@ -33,7 +33,7 @@ functions.http("handleEmailSignup", async (req, res) => {
     keyFile: process.env.SERVICE_ACCOUNT,
   });
 
-  await handleEmailSignup({
+  return await handleEmailSignup({
     prisma,
     email,
     pubsub,
@@ -65,4 +65,8 @@ export async function handleEmailSignup({
   pubsub.topic("send-confirmation-email").publishMessage({
     json,
   });
+
+  return {
+    message: `Email signup for ${email} successful`,
+  };
 }

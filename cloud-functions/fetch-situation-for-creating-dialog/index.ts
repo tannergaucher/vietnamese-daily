@@ -58,4 +58,8 @@ export async function fetchSituationForCreatingDialog({
   pubsub.topic("create-dialog").publishMessage({
     json,
   });
+
+  return {
+    message: `Creating dialog for situation ${situationToCreateDialog.id}`,
+  };
 }

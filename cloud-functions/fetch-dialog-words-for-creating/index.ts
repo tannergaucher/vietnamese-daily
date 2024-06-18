@@ -23,7 +23,7 @@ functions.cloudEvent(
       keyFile: process.env.SERVICE_ACCOUNT,
     });
 
-    await fetchDialogWordsForCreating({
+    return await fetchDialogWordsForCreating({
       dialogId,
       prisma,
       pubsub,
@@ -59,4 +59,8 @@ export async function fetchDialogWordsForCreating({
       json,
     });
   }
+
+  return {
+    message: `Fetched ${words.length} words for dialog ${dialog.id}`,
+  };
 }

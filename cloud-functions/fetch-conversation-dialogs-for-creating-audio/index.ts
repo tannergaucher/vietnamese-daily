@@ -24,7 +24,7 @@ functions.cloudEvent(
       keyFile: process.env.SERVICE_ACCOUNT,
     });
 
-    await fetchConversationDialogsForCreatingAudio({
+    return await fetchConversationDialogsForCreatingAudio({
       conversationId,
       prisma,
       pubsub,
@@ -61,4 +61,8 @@ export async function fetchConversationDialogsForCreatingAudio({
       json,
     });
   }
+
+  return {
+    message: `Dialogs are being created for audio in conversation ${conversationId}`,
+  };
 }
