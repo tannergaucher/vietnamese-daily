@@ -13,7 +13,7 @@ functions.cloudEvent("fetchUsersForDailyEmail", async () => {
     keyFile: process.env.SERVICE_ACCOUNT,
   });
 
-  await fetchUsersForDailyEmail({
+  return await fetchUsersForDailyEmail({
     prisma,
     pubsub,
   });
@@ -84,4 +84,8 @@ ${conversation.dialog.map((dialog) => `<p>${dialog.vietnamese}</p>`).join("\n")}
       json,
     });
   }
+
+  return {
+    message: `Emails are being sent to ${users.length} users`,
+  };
 }

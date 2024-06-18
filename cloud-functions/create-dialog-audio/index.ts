@@ -32,7 +32,7 @@ functions.cloudEvent(
       keyFile: process.env.SERVICE_ACCOUNT,
     });
 
-    await createDialogAudio({
+    return await createDialogAudio({
       dialogId,
       textToSpeech,
       prisma,
@@ -109,4 +109,9 @@ export async function createDialogAudio({
       audioSrc: gcsUri,
     },
   });
+
+  return {
+    message: "Dialog audio created",
+    audioSrc: gcsUri,
+  };
 }

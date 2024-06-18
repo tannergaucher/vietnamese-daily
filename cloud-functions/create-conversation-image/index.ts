@@ -31,7 +31,7 @@ functions.cloudEvent(
       keyFile: process.env.SERVICE_ACCOUNT,
     });
 
-    await createConversationImage({
+    return await createConversationImage({
       conversationSituationId,
       prisma,
       openai,
@@ -114,4 +114,9 @@ export async function createConversationImage({
       imageSrc: gcsUri,
     },
   });
+
+  return {
+    message: `Image created for conversationSituationId: ${conversationSituationId}`,
+    imageSrc: gcsUri,
+  };
 }

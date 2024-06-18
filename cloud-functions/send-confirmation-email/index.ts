@@ -19,7 +19,7 @@ functions.cloudEvent(
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    sendConfirmationEmail({
+    return await sendConfirmationEmail({
       email,
       sgMail,
     });
@@ -48,4 +48,8 @@ export async function sendConfirmationEmail({
     console.error(error);
     throw new Error("Failed to send email");
   }
+
+  return {
+    message: `Email sent successfully to ${email}`,
+  };
 }

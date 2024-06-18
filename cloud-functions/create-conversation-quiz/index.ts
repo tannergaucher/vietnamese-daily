@@ -34,13 +34,11 @@ functions.cloudEvent(
 
     const model = createLanguageModel(process.env);
 
-    const response = await createConversationQuiz({
+    return await createConversationQuiz({
       conversationId,
       prisma,
       model,
     });
-
-    return response;
   }
 );
 
@@ -95,5 +93,10 @@ export async function createConversationQuiz({
           response.data.conversationQuiz.comprehensionQuestions,
       },
     });
+
+    return {
+      message: "Conversation quiz created successfully.",
+      quiz: response.data.conversationQuiz,
+    };
   }
 }

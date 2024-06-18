@@ -25,7 +25,7 @@ functions.cloudEvent(
       log: ["info"],
     });
 
-    sendDailyEmail({
+    return await sendDailyEmail({
       email,
       subject,
       html,
@@ -65,4 +65,8 @@ export async function sendDailyEmail({
 
     throw error;
   }
+
+  return {
+    message: `Email sent successfully to ${email}`,
+  };
 }
