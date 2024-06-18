@@ -83,56 +83,55 @@ export default function DialogList({ dialog }: { dialog: Dialog[] }) {
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
       <ul>
         {dialog.map((d, index) => (
-          <div key={d.id}>
-            <li
-              ref={(li) => {
-                liRefs.current[index] = li;
-              }}
-              className={`transition-colors duration-200 py-4 px-3
+          <li
+            key={d.id}
+            ref={(li) => {
+              liRefs.current[index] = li;
+            }}
+            className={`transition-colors duration-200 py-4 px-3
           ${
             currentPlayingIndex === index
               ? "bg-bg-2-light text-white dark:bg-bg-2-dark dark:text-text-color-dark"
               : ""
           }`}
-            >
-              <small className="dark:text-slate-200">
-                <em>{d.speaker}</em>
-              </small>{" "}
-              <p className="text-2xl">
-                {d.vietnamese.split(" ").map((word, index) => {
-                  const currentDialogWord = d.words.find(
-                    (dialogWord) =>
-                      dialogWord.vietnamese ===
-                      word.trim().toLowerCase().replace(/[.,]/g, "")
-                  );
-                  return (
-                    <span
-                      className="hover:underline cursor-pointer"
-                      key={index}
-                      onClick={() => {
-                        if (currentDialogWord && !isPlaying) {
-                          setCurrentDialogWordSrc(currentDialogWord.signedUrl);
-                        }
-                      }}
-                    >
-                      {word}{" "}
-                    </span>
-                  );
-                })}
-              </p>
-              <audio
-                ref={(audio) => {
-                  audioRefs.current[index] = audio;
-                }}
-                src={d.audioSrc}
-                preload="auto"
-                onEnded={() => playNext(index)}
-              ></audio>
-            </li>
+          >
+            <small className="dark:text-slate-200">
+              <em>{d.speaker}</em>
+            </small>{" "}
+            <p className="text-2xl">
+              {d.vietnamese.split(" ").map((word, index) => {
+                const currentDialogWord = d.words.find(
+                  (dialogWord) =>
+                    dialogWord.vietnamese ===
+                    word.trim().toLowerCase().replace(/[.,]/g, "")
+                );
+                return (
+                  <span
+                    className="hover:underline cursor-pointer"
+                    key={index}
+                    onClick={() => {
+                      if (currentDialogWord && !isPlaying) {
+                        setCurrentDialogWordSrc(currentDialogWord.signedUrl);
+                      }
+                    }}
+                  >
+                    {word}{" "}
+                  </span>
+                );
+              })}
+            </p>
+            <audio
+              ref={(audio) => {
+                audioRefs.current[index] = audio;
+              }}
+              src={d.audioSrc}
+              preload="auto"
+              onEnded={() => playNext(index)}
+            ></audio>
             {index === dialog.length - 1 ? null : (
               <hr className="dark:border-accent-1-dark" />
             )}
-          </div>
+          </li>
         ))}
       </ul>
       <Button
