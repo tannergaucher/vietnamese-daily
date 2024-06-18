@@ -9,7 +9,7 @@ import { dialogAudioBucket, wordAudioBucket, getSignedUrl } from "@/storage";
 
 import { CreateConversationQuizResponse } from "../../../../../cloud-functions/create-conversation-quiz/conversationQuizSchema";
 
-import DialogList from "./dialog-list";
+import { DialogList } from "./dialog-list";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const conversation = await prisma.conversation.findUnique({
