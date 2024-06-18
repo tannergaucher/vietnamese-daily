@@ -6,6 +6,8 @@ import { Listbox } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
+import { PRIMARY } from "./button";
+
 const options = CONVERSATION_SITUATION_TYPES.map((type) =>
   getConversationTypeFromEnum(type)
 );
@@ -67,7 +69,9 @@ export function Filters({ mobile }: { mobile?: boolean }) {
     <div className="relative w-full">
       <Listbox onChange={(value) => handleFilterClick(value)}>
         <div className="relative mt-1">
-          <Listbox.Button className="absolute top-1/2 transform -translate-y-1/2 right-0 h-12 py-2 pl-3 pr-10 text-left text-lg font-bold dark:bg-accent-2-dark rounded-lg ring-2 ring-gray-300 dark:ring-bg-2-dark cursor-default focus:outline-none focus:ring-2 focus:ring-accent-1-light hover:cursor-pointer">
+          <Listbox.Button
+            className={`absolute top-1/2 transform -translate-y-1/2 right-0 h-12 py-2 pl-3 pr-10 ${PRIMARY}`}
+          >
             <span className="block truncate">Situations</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <svg
