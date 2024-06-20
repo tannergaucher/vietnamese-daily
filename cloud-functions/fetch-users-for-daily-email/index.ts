@@ -60,7 +60,7 @@ export async function fetchUsersForDailyEmail({
   <a 
   href="https://vietnamesedaily.vercel.app/conversation/${conversation.id}"
   >
-  <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px width: ;">
+  <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px width: 100%;">
     Open Conversation
   </button>
 </a>
