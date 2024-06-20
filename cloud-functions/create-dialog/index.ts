@@ -80,7 +80,8 @@ export async function createDialog({
     });
 
   const response = await translator.translate(
-    `Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text} Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting.`
+    `Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text} Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting. Do not output a dialog with "anh/chị". If the dialog.speaker is make, use "chị" because they are speaking to a female. And if the dialog.speaker is female, use "anh" because they are speaking to a male.
+    `
   );
 
   if (response.success && response.data.conversation.dialog.length > 0) {
