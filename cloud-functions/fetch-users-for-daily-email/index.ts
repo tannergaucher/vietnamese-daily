@@ -60,11 +60,14 @@ export async function fetchUsersForDailyEmail({
   <a 
   href="https://vietnamesedaily.vercel.app/conversation/${conversation.id}"
   >
-  <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px;">
+  <button style="background-color: #3490dc; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 5px width: ;">
     Open Conversation
   </button>
 </a>
-${conversation.dialog.map((dialog) => `<p>${dialog.vietnamese}</p>`).join("\n")}
+${conversation.dialog
+  .sort((a, b) => a.index - b.index)
+  .map((dialog) => `<p>${dialog.vietnamese}</p>`)
+  .join("\n")}
 `;
 
   const users = await prisma.user.findMany({
