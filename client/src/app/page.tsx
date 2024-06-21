@@ -19,6 +19,7 @@ export default async function Page({
   searchParams: {
     page?: string;
     type?: string | string[];
+    query?: string;
   };
 }) {
   const hitsPerPage = 9;
@@ -34,6 +35,7 @@ export default async function Page({
     hitsPerPage,
     page: parseInt(searchParams.page || "0"),
     filters: typeFilters ? `${typeFilters}` : undefined,
+    query: searchParams.query,
   });
 
   return (
