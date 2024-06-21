@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/app/components/button";
 import { Dialog as DialogModel, Word as WordModel } from "@/generated";
@@ -18,137 +18,58 @@ export function DialogList({
   loading?: boolean;
   conversationQuiz: React.ReactNode;
 }) {
-  const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
-    null
-  );
+  const [index, setIndex] = useState<null | number>(null);
 
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const [currentDialogWordSrc, setCurrentDialogWordSrc] = useState<
-    string | null
-  >(null);
+  const [currentDialog, setCurrentDialog] = useState<null | Dialog>(null);
 
   useEffect(() => {
-    if (currentDialogWordSrc) {
-      const audio = new Audio(currentDialogWordSrc);
-      audio.load();
+    if (index !== null) {
+      setCurrentDialog(dialog[index]);
+    }
+  }, [index, dialog]);
+
+  useEffect(() => {
+    if (currentDialog) {
+      const audio = new Audio(currentDialog.audioSrc);
       audio.play();
-      audio.addEventListener("ended", () => {
-        setCurrentDialogWordSrc(null);
-      });
+
+      audio.onended = () => {
+        setIndex((prevIndex) => {
+          if (prevIndex === null) {
+            return 0;
+          }
+
+          return prevIndex + 1;
+        });
+      };
     }
-  }, [currentDialogWordSrc]);
-
-  const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
-
-  const liRefs = useRef<(HTMLLIElement | null)[]>([]);
-
-  useEffect(() => {
-    audioRefs.current = audioRefs.current.slice(0, dialog.length);
-  }, [dialog]);
-
-  const toggleConversation = () => {
-    const audio = audioRefs.current[currentPlayingIndex ?? 0];
-
-    if (currentPlayingIndex === null) {
-      setCurrentPlayingIndex(0);
-    }
-
-    if (audio) {
-      if (isPlaying) {
-        audio.pause();
-      } else {
-        audio.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const playNext = (index: number) => {
-    const nextAudio = audioRefs.current[index + 1];
-
-    if (nextAudio) {
-      setCurrentPlayingIndex(index + 1);
-      nextAudio.play();
-    } else {
-      setIsPlaying(false);
-      setCurrentPlayingIndex(null);
-    }
-
-    const nextLi = liRefs.current[index + 1];
-
-    if (nextLi) {
-      nextLi.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
-    }
-  };
+  }, [currentDialog]);
 
   return (
     <section>
-      {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
       <Button
         disabled={loading}
-        onClick={toggleConversation}
+        onClick={() => {
+          setIndex((prevIndex) => {
+            if (prevIndex === null) {
+              return 0;
+            }
+
+            return prevIndex + 1;
+          });
+        }}
         className="w-full h-20 rounded-none sticky top-0 z-10"
       >
-        {isPlaying ? "Pause Conversation" : "Start Conversation"}
+        {currentDialog ? "Pause Conversation" : "Start Conversation"}
       </Button>
-      <ul>
-        {dialog.map((d, index) => (
-          <li
-            key={d.id}
-            ref={(li) => {
-              liRefs.current[index] = li;
-            }}
-            className={`transition-colors duration-200 pt-4 px-3
-          ${
-            currentPlayingIndex === index
-              ? "bg-bg-2-light text-white dark:bg-bg-2-dark dark:text-text-color-dark"
-              : ""
-          }`}
-          >
-            <small className="dark:text-slate-200">
-              <em>{d.speaker}</em>
-            </small>{" "}
-            <p className="text-2xl">
-              {d.vietnamese.split(" ").map((word, index) => {
-                const currentDialogWord = d.words.find(
-                  (dialogWord) =>
-                    dialogWord.vietnamese ===
-                    word.trim().toLowerCase().replace(/[.,]/g, "")
-                );
-                return (
-                  <span
-                    className="hover:underline cursor-pointer"
-                    key={index}
-                    onClick={() => {
-                      if (currentDialogWord && !isPlaying) {
-                        setCurrentDialogWordSrc(currentDialogWord.signedUrl);
-                      }
-                    }}
-                  >
-                    {word}{" "}
-                  </span>
-                );
-              })}
-            </p>
-            <audio
-              ref={(audio) => {
-                audioRefs.current[index] = audio;
-              }}
-              src={d.audioSrc}
-              preload="auto"
-              onEnded={() => playNext(index)}
-            ></audio>
-            {index === dialog.length - 1 ? null : (
-              <hr className="dark:border-accent-1-dark mt-4 mb-0" />
-            )}
-          </li>
-        ))}
-      </ul>
+      {currentDialog ? (
+        <>
+          <p className="text-2xl font-semibold mt-10">
+            {currentDialog.vietnamese}
+          </p>
+        </>
+      ) : null}
+
       {conversationQuiz}
     </section>
   );

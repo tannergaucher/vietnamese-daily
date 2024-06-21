@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 import { Card } from "@/app/components/card";
@@ -62,7 +63,17 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <Container>
-      <Card
+      {conversation.situation?.imageSrc ? (
+        <Image
+          src={conversation.situation?.imageSrc}
+          width={2000}
+          height={2000}
+          alt="Conversation Image"
+        />
+      ) : null}
+      <h1>{conversation.title}</h1>
+      <p>{conversation.situation?.text}</p>
+      {/* <Card
         size="large"
         image={
           conversation.situation
@@ -95,7 +106,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             />
           }
         />
-      </Card>
+      </Card> */}
     </Container>
   );
 }
