@@ -11,7 +11,7 @@ interface ConversationQuizModalProps {
   comprehensionQuestions?: CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"];
 }
 
-export function ConversationQuizModal({
+export function ConversationQuiz({
   comprehensionQuestions,
 }: ConversationQuizModalProps) {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export function ConversationQuizModal({
       <Button
         onClick={() => setOpen(true)}
         secondary
-        className="w-full h-20 mt-8"
+        className="w-full h-20 mt-8 rounded-lg rounded-t-none"
       >
         Quiz
       </Button>

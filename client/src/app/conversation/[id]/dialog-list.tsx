@@ -12,9 +12,11 @@ type Dialog = DialogModel & { audioSrc: string; words: Word[] };
 export function DialogList({
   dialog,
   loading,
+  conversationQuiz,
 }: {
   dialog: Dialog[];
   loading?: boolean;
+  conversationQuiz: React.ReactNode;
 }) {
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(
     null
@@ -87,6 +89,13 @@ export function DialogList({
   return (
     <section>
       {currentDialogWordSrc ? <audio src={currentDialogWordSrc}></audio> : null}
+      <Button
+        disabled={loading}
+        onClick={toggleConversation}
+        className="w-full h-20 rounded-none sticky top-0 z-10"
+      >
+        {isPlaying ? "Pause Conversation" : "Start Conversation"}
+      </Button>
       <ul>
         {dialog.map((d, index) => (
           <li
@@ -94,7 +103,7 @@ export function DialogList({
             ref={(li) => {
               liRefs.current[index] = li;
             }}
-            className={`transition-colors duration-200 py-4 px-3
+            className={`transition-colors duration-200 pt-4 px-3
           ${
             currentPlayingIndex === index
               ? "bg-bg-2-light text-white dark:bg-bg-2-dark dark:text-text-color-dark"
@@ -135,18 +144,12 @@ export function DialogList({
               onEnded={() => playNext(index)}
             ></audio>
             {index === dialog.length - 1 ? null : (
-              <hr className="dark:border-accent-1-dark" />
+              <hr className="dark:border-accent-1-dark mt-4 mb-0" />
             )}
           </li>
         ))}
       </ul>
-      <Button
-        disabled={loading}
-        onClick={toggleConversation}
-        className="w-full h-20 rounded-lg rounded-tl-none rounded-tr-none"
-      >
-        {isPlaying ? "Pause Conversation" : "Start Conversation"}
-      </Button>
+      {conversationQuiz}
     </section>
   );
 }

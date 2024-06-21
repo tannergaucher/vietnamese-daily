@@ -2,7 +2,7 @@ import React from "react";
 
 import { Card } from "@/app/components/card";
 import { Container } from "@/app/components/container";
-import { ConversationQuizModal } from "@/app/components/conversation-quiz";
+import { ConversationQuiz } from "@/app/components/conversation-quiz";
 import { formatDate } from "@/app/utils/format-date";
 import { prisma } from "@/prisma";
 import { dialogAudioBucket, wordAudioBucket, getSignedUrl } from "@/storage";
@@ -84,14 +84,18 @@ export default async function Page({ params }: { params: { id: string } }) {
         subHeading={conversation.situation?.text}
       >
         <hr className="dark:border-accent-1-dark" />
-        <DialogList dialog={sortedDialog} />
+        <DialogList
+          dialog={sortedDialog}
+          conversationQuiz={
+            <ConversationQuiz
+              comprehensionQuestions={
+                conversation.conversationQuiz
+                  ?.comprehensionSection as unknown as CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"]
+              }
+            />
+          }
+        />
       </Card>
-      <ConversationQuizModal
-        comprehensionQuestions={
-          conversation.conversationQuiz
-            ?.comprehensionSection as unknown as CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"]
-        }
-      />
     </Container>
   );
 }
