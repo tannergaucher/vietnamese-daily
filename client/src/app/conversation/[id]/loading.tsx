@@ -4,7 +4,7 @@ import { Card } from "@/app/components/card";
 import { Container } from "@/app/components/container";
 import { Gender } from "@/generated";
 
-import { DialogList } from "./dialog-list";
+import { Dialog } from "./dialog";
 
 export default function Loading() {
   return (
@@ -20,7 +20,7 @@ export default function Loading() {
           priority: true,
         }}
       >
-        <DialogList
+        <Dialog
           loading
           dialog={[
             {

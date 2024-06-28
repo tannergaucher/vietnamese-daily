@@ -7,13 +7,11 @@ import { Button } from "../button";
 
 import { Modal } from "./modal";
 
-interface ConversationQuizModalProps {
+interface DialogQuizProps {
   comprehensionQuestions?: CreateConversationQuizResponse["conversationQuiz"]["comprehensionQuestions"];
 }
 
-export function ConversationQuizModal({
-  comprehensionQuestions,
-}: ConversationQuizModalProps) {
+export function DialogQuiz({ comprehensionQuestions }: DialogQuizProps) {
   const [open, setOpen] = useState(false);
 
   if (!comprehensionQuestions) {
