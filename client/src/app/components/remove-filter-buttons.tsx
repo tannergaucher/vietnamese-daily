@@ -12,6 +12,10 @@ export function RemoveFilterButtons() {
 
   const router = useRouter();
 
+  if (typeParams.length === 0) {
+    return null;
+  }
+
   return (
     <div className="container mx-auto px-2 mb-6 flex justify-center items-center">
       {typeParams.map((typeParam) => (
