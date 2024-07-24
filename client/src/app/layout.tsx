@@ -38,7 +38,7 @@ export default function RootLayout({
         className={`flex flex-col justify-between min-h-screen ${beVietnamePro.className} bg-bg-1-light dark:bg-bg-1-dark text-text-color-light dark:text-text-color-dark`}
       >
         <Header title={metadata.title?.toString() ?? "Daily Vietnamese"} />
-        <main className="my-6">{children}</main>
+        <main className="m-2">{children}</main>
         <footer className="p-12 bg-bg-2-light dark:bg-bg-2-dark">
           <EmailForm />
         </footer>
