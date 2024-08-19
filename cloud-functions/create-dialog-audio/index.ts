@@ -11,7 +11,7 @@ import { Storage } from "@google-cloud/storage";
 import * as TextToSpeech from "@google-cloud/text-to-speech";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 
-import { Gender, PrismaClient } from "./generated";
+import { PrismaClient } from "./generated";
 
 functions.cloudEvent(
   "createDialogAudio",
@@ -64,7 +64,7 @@ export async function createDialogAudio({
     input: { text: dialog.vietnamese },
     voice: {
       languageCode: "vi-VN",
-      ssmlGender: dialog.gender === Gender.male ? "MALE" : "FEMALE",
+      name: dialog.gender === "male" ? "vi-VN-Neural2-A" : "vi-VN-Neural2-D",
     },
     audioConfig: {
       sampleRateHertz: 24000,
