@@ -45,17 +45,16 @@ functions.cloudEvent("createConversationSituation", () => __awaiter(void 0, void
     const prisma = new generated_1.PrismaClient();
     const pubsub = new pubsub_1.PubSub({
         projectId: "daily-vietnamese",
-        keyFilename: "./service-account.json",
+        keyFile: process.env.SERVICE_ACCOUNT,
     });
     const openai = new openai_1.default({
         apiKey: process.env.OPENAI_API_KEY,
     });
-    const response = yield createConversationSituation({
+    return yield createConversationSituation({
         prisma,
         openai,
         pubsub,
     });
-    return response;
 }));
 function createConversationSituation(_a) {
     return __awaiter(this, arguments, void 0, function* ({ prisma, pubsub, openai, fromFetchFail, }) {
@@ -92,6 +91,10 @@ function createConversationSituation(_a) {
                     json,
                 });
             }
+            return {
+                message: "Conversation situation created",
+                conversationSituationId: conversationSituation.id,
+            };
         }
     });
 }
