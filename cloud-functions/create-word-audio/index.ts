@@ -63,8 +63,7 @@ export async function createWordAudio({
     input: { text: vietnamese },
     voice: {
       languageCode: "vi-VN",
-      ssmlGender:
-        TextToSpeech.protos.google.cloud.texttospeech.v1.SsmlVoiceGender.MALE,
+      ssmlGender: "MALE",
     },
     audioConfig: {
       sampleRateHertz: 24000,
@@ -106,8 +105,7 @@ export async function createWordAudio({
     input: { text: vietnamese },
     voice: {
       languageCode: "vi-VN",
-      ssmlGender:
-        TextToSpeech.protos.google.cloud.texttospeech.v1.SsmlVoiceGender.FEMALE,
+      ssmlGender: "FEMALE",
     },
     audioConfig: {
       sampleRateHertz: 24000,
