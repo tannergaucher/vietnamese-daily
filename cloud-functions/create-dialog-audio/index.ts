@@ -64,12 +64,7 @@ export async function createDialogAudio({
     input: { text: dialog.vietnamese },
     voice: {
       languageCode: "vi-VN",
-      ssmlGender:
-        dialog.gender === Gender.male
-          ? TextToSpeech.protos.google.cloud.texttospeech.v1.SsmlVoiceGender
-              .MALE
-          : TextToSpeech.protos.google.cloud.texttospeech.v1.SsmlVoiceGender
-              .FEMALE,
+      ssmlGender: dialog.gender === Gender.male ? "MALE" : "FEMALE",
     },
     audioConfig: {
       sampleRateHertz: 24000,
