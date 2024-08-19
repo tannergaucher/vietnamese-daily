@@ -69,12 +69,6 @@ generator sendConfirmationEmail {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
-generator publishConversation {
-  provider      = "prisma-client-js"
-  output        = "../cloud-functions/publish-conversation/generated"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
-}
-
 generator sendDailyEmail {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/send-daily-email/generated"
