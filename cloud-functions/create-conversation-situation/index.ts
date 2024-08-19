@@ -53,7 +53,7 @@ export async function createConversationSituation({
         role: "user",
         content: `Create a new conversation situation for an application we are building to help me practice Vietnamese language. The application will generate a conversation dialog based on the situation. The conversation situation should take place in the the the context of the following situation type: ${getConversationTypeFromEnum(
           conversationSituationType
-        )}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for situation type: "at the restaurant", the text could be something like: ordering phở chiên phồng from a street vendor in Hanoi. The conversation situation should be in English. The situation should only be one sentence long.`,
+        )}. The conversation situation should be a short description of a scenario that is likely to happen in the course of a normal day in Vietnam. For example, for situation type: "at the restaurant", the text could be something like: ordering phở chiên phồng from a street vendor in Hà Nội. The place should be a larger city or tourist destination in Vietnam, such as Hà Nội, Đà Nẵng, Huế, Sài Gòn, Hội An, Phú Quốc. The conversation situation should be in English. The situation should only be one sentence long.`,
       },
     ],
     model: "gpt-3.5-turbo",
