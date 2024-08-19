@@ -104,4 +104,6 @@ export async function createConversationSituation({
       conversationSituationId: conversationSituation.id,
     };
   }
+
+  throw new Error("Failed to create conversation situation");
 }
