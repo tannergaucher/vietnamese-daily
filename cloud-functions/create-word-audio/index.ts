@@ -63,7 +63,7 @@ export async function createWordAudio({
     input: { text: vietnamese },
     voice: {
       languageCode: "vi-VN",
-      ssmlGender: "MALE",
+      name: "vi-VN-Neural2-A",
     },
     audioConfig: {
       sampleRateHertz: 24000,
@@ -105,7 +105,7 @@ export async function createWordAudio({
     input: { text: vietnamese },
     voice: {
       languageCode: "vi-VN",
-      ssmlGender: "FEMALE",
+      name: "vi-VN-Neural2-D",
     },
     audioConfig: {
       sampleRateHertz: 24000,
