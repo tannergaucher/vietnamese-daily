@@ -23,6 +23,7 @@ functions.cloudEvent(
     const textToSpeech = new TextToSpeechClient({
       projectId: "daily-vietnamese",
       keyFilename: process.env.SERVICE_ACCOUNT,
+      libVersion: "v1",
     });
 
     const prisma = new PrismaClient();
