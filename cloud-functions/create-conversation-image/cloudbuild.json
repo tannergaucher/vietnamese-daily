@@ -21,7 +21,7 @@
   "availableSecrets": {
     "secretManager": [
       {
-        "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/1",
+        "versionName": "projects/625494448696/secrets/DATABASE_URL/versions/2",
         "env": "DATABASE_URL"
       },
       {
