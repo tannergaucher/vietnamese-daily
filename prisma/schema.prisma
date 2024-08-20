@@ -136,7 +136,6 @@ model Dialog {
   id             String       @id @default(uuid())
   index          Int
   speaker        String
-  gender         Gender
   scene          String?
   vietnamese     String
   words          Word[]
