@@ -2,7 +2,6 @@ import React from "react";
 
 import { Card } from "@/app/components/card";
 import { Container } from "@/app/components/container";
-import { Gender } from "@/generated";
 
 import { DialogList } from "./dialog-list";
 
@@ -27,7 +26,6 @@ export default function Loading() {
               id: "sdsdf0",
               index: 0,
               speaker: "Speaker 1",
-              gender: Gender.male,
               scene: "sdf",
               vietnamese: "...",
               audioSrc: "sdf",
@@ -38,7 +36,6 @@ export default function Loading() {
               id: "sdsdf1",
               index: 1,
               speaker: "Speaker 2",
-              gender: Gender.male,
               scene: "sdf",
               vietnamese: "...",
               audioSrc: "sdf",
@@ -49,7 +46,6 @@ export default function Loading() {
               id: "sdsdf2",
               index: 2,
               speaker: "Speaker 1",
-              gender: Gender.male,
               scene: "sdf",
               vietnamese: "...",
               audioSrc: "sdf",
@@ -60,7 +56,6 @@ export default function Loading() {
               id: "sdsdf3",
               index: 3,
               speaker: "Speaker 2",
-              gender: Gender.male,
               scene: "sdf",
               vietnamese: "...",
               audioSrc: "sdf",
@@ -71,7 +66,6 @@ export default function Loading() {
               id: "sdsdf4",
               index: 4,
               speaker: "Speaker 1",
-              gender: Gender.male,
               scene: "sdf",
               vietnamese: "...",
               audioSrc: "sdf",
