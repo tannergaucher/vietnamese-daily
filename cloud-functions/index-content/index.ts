@@ -62,8 +62,6 @@ export async function indexContent({
 
   const contentPublishedDate = publishedAt ? new Date(publishedAt) : new Date();
 
-  console.log("content published date", contentPublishedDate);
-
   const contentRecord = {
     objectID: conversation.id,
     title: conversation.title,
@@ -98,7 +96,8 @@ export async function indexContent({
       });
     })
     .catch((error) => {
-      console.error("Error saving object", error);
+      console.error(`Error saving object: ${conversationId}`, error);
+      throw new Error(`Error saving object: ${conversationId}`);
     });
 
   return {
