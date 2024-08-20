@@ -60,6 +60,12 @@ export async function indexContent({
     },
   });
 
+  if (!conversation.situation) {
+    throw new Error(
+      `Conversation ${conversation.id} does not have a situation`
+    );
+  }
+
   const contentPublishedDate = publishedAt ? new Date(publishedAt) : new Date();
 
   const contentRecord = {
@@ -67,9 +73,9 @@ export async function indexContent({
     title: conversation.title,
     date: contentPublishedDate,
     epochDate: contentPublishedDate.getTime(),
-    situation: conversation.situation?.text,
-    situationId: conversation.situation?.id,
-    type: conversation.situation?.type
+    situation: conversation.situation.text,
+    situationId: conversation.situation.id,
+    type: conversation.situation.type
       ? getConversationTypeFromEnum(
           conversation.situation.type as ConversationSituationType
         )
