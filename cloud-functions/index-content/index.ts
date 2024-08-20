@@ -75,11 +75,9 @@ export async function indexContent({
     epochDate: contentPublishedDate.getTime(),
     situation: conversation.situation.text,
     situationId: conversation.situation.id,
-    type: conversation.situation.type
-      ? getConversationTypeFromEnum(
-          conversation.situation.type as ConversationSituationType
-        )
-      : "General",
+    type: getConversationTypeFromEnum(
+      conversation.situation.type as ConversationSituationType
+    ),
     text: conversation.dialog.map((d) => d.vietnamese).join(" "),
     speakers: [...new Set(conversation.dialog.map((d) => d.speaker))],
   };
