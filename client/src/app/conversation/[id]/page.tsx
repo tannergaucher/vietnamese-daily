@@ -50,7 +50,9 @@ export default async function Page({ params }: { params: { id: string } }) {
               ...word,
               signedUrl: await getSignedUrl({
                 bucket: wordAudioBucket,
-                filePath: `${dialog.gender}/${word.vietnamese}.wav`,
+                filePath: `${dialog.speaker === "Anh" ? "male" : "female"}/${
+                  word.vietnamese
+                }.wav`,
               }),
             };
           })

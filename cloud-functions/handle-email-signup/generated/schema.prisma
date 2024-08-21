@@ -9,12 +9,6 @@ generator client {
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
-generator cloudFunctionEvents {
-  provider      = "prisma-client-js"
-  output        = "../cloud-function-events/generated"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
-}
-
 generator createDialog {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/create-dialog/generated"
@@ -66,12 +60,6 @@ generator handleEmailSignUp {
 generator sendConfirmationEmail {
   provider      = "prisma-client-js"
   output        = "../cloud-functions/send-confirmation-email/generated"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
-}
-
-generator publishConversation {
-  provider      = "prisma-client-js"
-  output        = "../cloud-functions/publish-conversation/generated"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -148,7 +136,6 @@ model Dialog {
   id             String       @id @default(uuid())
   index          Int
   speaker        String
-  gender         Gender
   scene          String?
   vietnamese     String
   words          Word[]

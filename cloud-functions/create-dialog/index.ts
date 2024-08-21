@@ -80,7 +80,7 @@ export async function createDialog({
     });
 
   const response = await translator.translate(
-    `Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text} Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting. The dialogue is between a male and a female. Ensure that the speaker's honorific is appropriate: use 'Chị' when a male speaks to a female, and 'anh' when a female speaks to a male.
+    `Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text}. Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting. The dialogue is between a male and a female. Ensure that the speaker's honorific is appropriate: use 'Chị' when a male speaks to a female, and 'anh' when a female speaks to a male.
     `
   );
 

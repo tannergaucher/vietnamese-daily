@@ -64,7 +64,12 @@ export async function createDialogAudio({
     input: { text: dialog.vietnamese },
     voice: {
       languageCode: "vi-VN",
-      name: dialog.gender === "male" ? "vi-VN-Neural2-A" : "vi-VN-Neural2-D",
+      name:
+        dialog.speaker === "Anh"
+          ? "vi-VN-Neural2-A"
+          : dialog.speaker === "Chị"
+          ? "vi-VN-Neural2-D"
+          : "vi-VN-Neural2-A",
     },
     audioConfig: {
       sampleRateHertz: 24000,
