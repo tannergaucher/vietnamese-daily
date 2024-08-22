@@ -34,8 +34,9 @@ export function EmailForm() {
       className="flex flex-col items-center justify-center"
       onSubmit={handleSubmit}
     >
-      <label htmlFor="email" className="my-4 text-3xl text-center">
-        Subscribe now for free daily Vietnamese conversations.
+      <label htmlFor="email" className="my-4 text-3xl text-center max-w-xl">
+        Subscribe now for daily Viatnamese conversations, delivered to your
+        inbox.
       </label>
       <div className="flex justify-evenly items-center">
         <Input
