@@ -68,7 +68,10 @@ export async function createConversationImage({
   }
 
   if (conversationSituation.imageSrc) {
-    return;
+    return {
+      message: `Image already exists for conversationSituationId: ${conversationSituationId}`,
+      imageSrc: conversationSituation.imageSrc,
+    };
   }
 
   const completion = await openai.images.generate({
