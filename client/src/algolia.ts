@@ -10,3 +10,5 @@ const client = algoliasearch(
 );
 
 export const contentIndex = client.initIndex("dev_daily_vietnamese_date_desc");
+
+export const HITS_PER_PAGE = 9;
