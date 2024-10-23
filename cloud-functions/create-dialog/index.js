@@ -48,15 +48,14 @@ functions.cloudEvent("createDialog", (cloudEvent) => __awaiter(void 0, void 0, v
     const prisma = new generated_1.PrismaClient();
     const pubsub = new pubsub_1.PubSub({
         projectId: "daily-vietnamese",
-        keyFilename: "./service-account.json",
+        keyFile: process.env.SERVICE_ACCOUNT,
     });
-    const response = yield createDialog({
+    return yield createDialog({
         situationId,
         model,
         prisma,
         pubsub,
     });
-    return response;
 }));
 function createDialog({ situationId, model, prisma, pubsub, }) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -70,37 +69,47 @@ function createDialog({ situationId, model, prisma, pubsub, }) {
                 text: true,
             },
         });
-        const response = yield translator.translate(`Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text} Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting.`);
+        const response = yield translator.translate(`Help me practice conversational Vietnamese. The context of the practice conversation is ${conversationSituation.text}. Please do include things like dates, times, and prices if it makes sense in the context of the dialog so we can practice useful phrases like numbers and counting. The dialogue is between a male and a female. Ensure that the speaker's honorific is appropriate: use 'Chị' when a male speaks to a female, and 'anh' when a female speaks to a male.
+    `);
         if (response.success && response.data.conversation.dialog.length > 0) {
-            const conversation = yield prisma.conversation.create({
-                data: {
-                    title: response.data.conversation.title,
-                    situation: {
-                        connect: {
-                            id: situationId,
-                        },
-                    },
-                    dialog: {
-                        create: response.data.conversation.dialog,
+            console.log(response.data.conversation.dialog, "response.data.conversation.dialog");
+            const conversationData = {
+                title: response.data.conversation.title,
+                situation: {
+                    connect: {
+                        id: situationId,
                     },
                 },
+                dialog: {
+                    create: response.data.conversation.dialog,
+                },
+            };
+            console.log(conversationData, "conversationData");
+            const conversation = yield prisma.conversation.create({
+                data: conversationData,
                 include: {
                     dialog: true,
                 },
             });
-            const json = {
+            const fetchConversationDialogsForCreatingAudioJson = {
                 conversationId: conversation.id,
             };
             pubsub
                 .topic("fetch-conversation-dialogs-for-creating-audio")
                 .publishMessage({
-                json,
+                json: fetchConversationDialogsForCreatingAudioJson,
             });
             const conversationImageJson = {
                 conversationSituationId: situationId,
             };
             pubsub.topic("create-conversation-image").publishMessage({
                 json: conversationImageJson,
+            });
+            const CreateConversationQuizJson = {
+                conversationId: conversation.id,
+            };
+            pubsub.topic("create-conversation-quiz").publishMessage({
+                json: CreateConversationQuizJson,
             });
             for (const dialog of conversation.dialog) {
                 const json = {
