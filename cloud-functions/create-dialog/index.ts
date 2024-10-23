@@ -97,8 +97,6 @@ export async function createDialog({
       },
     };
 
-    console.log(conversationData, "conversationData");
-
     const conversation = await prisma.conversation.create({
       data: conversationData,
       include: {
