@@ -99,11 +99,6 @@ generator indexContent {
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
-enum Gender {
-  male
-  female
-}
-
 model Conversation {
   id               String                 @id @default(uuid())
   title            String
