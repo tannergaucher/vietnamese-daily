@@ -85,20 +85,18 @@ export async function createDialog({
   );
 
   if (response.success && response.data.conversation.dialog.length > 0) {
-    const conversationData = {
-      title: response.data.conversation.title,
-      situation: {
-        connect: {
-          id: situationId,
+    const conversation = await prisma.conversation.create({
+      data: {
+        title: response.data.conversation.title,
+        situation: {
+          connect: {
+            id: situationId,
+          },
+        },
+        dialog: {
+          create: response.data.conversation.dialog,
         },
       },
-      dialog: {
-        create: response.data.conversation.dialog,
-      },
-    };
-
-    const conversation = await prisma.conversation.create({
-      data: conversationData,
       include: {
         dialog: true,
       },
