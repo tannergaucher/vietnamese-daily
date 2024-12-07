@@ -5,9 +5,3 @@ service-account.json
 
 .env.yaml
 
-# Compiled JavaScript files
-functions/**/*.js
-functions/**/*.js.map
-
-# Keep JavaScript config files
-!functions/*.config.js
