@@ -1,4 +1,4 @@
-# Daily Vietnamese
+# Vietnamese Daily
 
 ## Uses
 
