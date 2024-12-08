@@ -1,0 +1,152 @@
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../client/src/generated"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+generator createDialog {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-dialog/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createWord {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-word/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createWordAudio {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-word-audio/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator fetchDialogWordsForCreating {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/fetch-dialog-words-for-creating/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createDialogAudio {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-dialog-audio/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator fetchConversationDialogsForCreatingAudio {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/fetch-conversation-dialogs-for-creating-audio/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator fetchSituationForCreatingDialog {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/fetch-situation-for-creating-dialog/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator handleEmailSignUp {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/handle-email-signup/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator sendConfirmationEmail {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/send-confirmation-email/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator sendDailyEmail {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/send-daily-email/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator fetchUsersForDailyEmail {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/fetch-users-for-daily-email/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createConversationSituation {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-conversation-situation/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createConversationImage {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-conversation-image/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator createConversationQuiz {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/create-conversation-quiz/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+generator indexContent {
+  provider      = "prisma-client-js"
+  output        = "../cloud-functions/index-content/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+model Conversation {
+  id               String                 @id @default(uuid())
+  title            String
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  published        Boolean                @default(false)
+  date             DateTime?
+  dialog           Dialog[]
+  situation        ConversationSituation?
+  conversationQuiz ConversationQuiz?
+}
+
+model ConversationSituation {
+  id             String        @id @default(uuid())
+  text           String        @unique
+  type           String
+  conversationId String?       @unique
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  imageSrc       String?
+}
+
+model ConversationQuiz {
+  id                   String       @id @default(uuid())
+  conversationId       String       @unique
+  conversation         Conversation @relation(fields: [conversationId], references: [id])
+  comprehensionSection Json
+}
+
+model Dialog {
+  id             String       @id @default(uuid())
+  index          Int
+  speaker        String
+  scene          String?
+  vietnamese     String
+  words          Word[]
+  audioSrc       String?
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+}
+
+model Word {
+  vietnamese String   @id
+  dialog     Dialog[]
+  maleSrc    String?
+  femaleSrc  String?
+}
+
+model User {
+  id    String @id @default(uuid())
+  email String @unique
+}

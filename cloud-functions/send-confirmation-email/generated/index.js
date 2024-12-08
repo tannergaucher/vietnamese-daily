@@ -205,6 +205,7 @@ const config = {
     "db"
   ],
   "activeProvider": "cockroachdb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
