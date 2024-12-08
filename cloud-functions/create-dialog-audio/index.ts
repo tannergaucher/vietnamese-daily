@@ -66,10 +66,10 @@ export async function createDialogAudio({
       languageCode: "vi-VN",
       name:
         dialog.speaker === "Anh"
-          ? "vi-VN-Neural2-A"
-          : dialog.speaker === "Chị"
           ? "vi-VN-Neural2-D"
-          : "vi-VN-Neural2-A",
+          : dialog.speaker === "Chị"
+          ? "vi-VN-Neural2-A"
+          : undefined,
     },
     audioConfig: {
       sampleRateHertz: 24000,
